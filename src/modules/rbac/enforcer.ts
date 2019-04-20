@@ -9,9 +9,9 @@ const addPolicyToEnforcer = (enforcer: Enforcer) => async <
   resource: T,
   ...actions: U[]
 ) =>
-  Promise.all(
-    actions.map(action => enforcer.addPolicy(subject, resource, action)),
-  ).then(e => e.every(e => e === true))
+  Promise.all(actions.map(action => enforcer.addPolicy(subject, resource, action))).then(e =>
+    e.every(e => e === true),
+  )
 
 export interface APIEnforcer {
   enforce: <T extends keyof Actions, U extends Actions[T]>(
@@ -44,12 +44,9 @@ export const createEnforcer = async () => {
 
   const addPolicy = addPolicyToEnforcer(enforcer)
 
-  const results = await Promise.all([
-    addPolicy('user', 'account', 'viewOwn', 'viewAny'),
-  ])
+  const results = await Promise.all([addPolicy('user', 'account', 'viewOwn', 'viewAny')])
 
-  if (results.every(e => e !== true))
-    throw new Error('failed to load all security policies')
+  if (results.every(e => e !== true)) throw new Error('failed to load all security policies')
 
   return enforcer
 }

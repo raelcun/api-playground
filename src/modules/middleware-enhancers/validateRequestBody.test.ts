@@ -9,7 +9,7 @@ describe('validateRequestBody', () => {
   test('validate body middleware wrapper success', () => {
     expect.assertions(1)
 
-    const middleware: Middleware<number> = async (ctx, next) => {
+    const middleware: Middleware<number> = async ctx => {
       expect(typeof ctx.request.body).toEqual('number')
     }
 

@@ -1,5 +1,5 @@
-import { FullConfig } from './types'
 import { get } from 'config'
+import { FullConfig } from './types'
 
 let config: FullConfig
 export const getConfig = (): FullConfig => {
