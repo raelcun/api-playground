@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validateRequestBody validate body middleware wrapper failure 1`] = `
+Object {
+  "errors": Array [
+    "Expecting string at foo.bar but instead got: 5.",
+  ],
+}
+`;

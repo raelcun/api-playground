@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "incremental": true,
     "outDir": "dist",
     "module": "commonjs",
     "target": "es5",
@@ -17,9 +16,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "declaration": true
+    "declaration": true,
+    "esModuleInterop": true
   }
 }
