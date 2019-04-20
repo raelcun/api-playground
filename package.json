@@ -9,7 +9,7 @@
     "build": "tsc",
     "lint": "eslint src/*.ts",
     "start": "NODE_CONFIG_DIR=./src/config ts-node-dev --no-notify -P tsconfig.json src/server.ts | pino-pretty -c -l -i time,hostname,pid",
-    "test": "jest"
+    "test": "jest --no-cache"
   },
   "devDependencies": {
     "@shopify/jest-koa-mocks": "^2.1.2",

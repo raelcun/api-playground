@@ -2,9 +2,8 @@ import t from 'io-ts'
 import HttpStatus from 'http-status-codes'
 import { reporter } from 'io-ts-reporters'
 import { left } from 'fp-ts/lib/Either'
-import { Middleware } from '../koa-middleware/types'
+import { Middleware, KoaContext } from '../middleware'
 import { getSystemLogger } from '../logger'
-import { KoaContext } from './types'
 
 export const validateRequestBody = <T>(decoder: t.Decode<unknown, T>) => (
   middleware: Middleware<T>,

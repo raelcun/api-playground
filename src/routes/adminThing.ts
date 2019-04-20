@@ -1,10 +1,6 @@
 import Router from 'koa-router'
-import {
-  RateLimiterMemory,
-  RLWrapperBlackAndWhite,
-  RateLimiterRes,
-} from 'rate-limiter-flexible'
-import { enforceWithBodyRole } from '../modules/koa-middleware'
+import { RateLimiterMemory, RLWrapperBlackAndWhite, RateLimiterRes } from 'rate-limiter-flexible'
+import { enforceWithBodyRole } from '../modules/middleware'
 import { getSystemLogger } from '../modules/logger'
 
 const router = new Router()
@@ -25,10 +21,7 @@ router.post(
       const result = await limiter.consume(ctx.ip)
 
       ctx.set('X-RateLimit-Remaining', result.remainingPoints.toString())
-      ctx.set(
-        'X-RateLimit-Reset',
-        new Date(Date.now() + result.msBeforeNext).toISOString(),
-      )
+      ctx.set('X-RateLimit-Reset', new Date(Date.now() + result.msBeforeNext).toISOString())
 
       await next()
     } catch (e) {
@@ -40,10 +33,7 @@ router.post(
       console.log(error)
 
       ctx.set('X-RateLimit-Remaining', error.remainingPoints.toString())
-      ctx.set(
-        'X-RateLimit-Reset',
-        new Date(Date.now() + error.msBeforeNext).toISOString(),
-      )
+      ctx.set('X-RateLimit-Reset', new Date(Date.now() + error.msBeforeNext).toISOString())
     }
   },
   enforceWithBodyRole('account', ['editAny']),
