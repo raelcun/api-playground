@@ -1,7 +1,7 @@
 import Router from 'koa-router'
-import { RateLimiterMemory, RLWrapperBlackAndWhite, RateLimiterRes } from 'rate-limiter-flexible'
-import { enforceWithBodyRole } from '../modules/middleware'
-import { getSystemLogger } from '../modules/logger'
+import { RateLimiterMemory, RLWrapperBlackAndWhite } from 'rate-limiter-flexible'
+import { enforceWithBodyRole } from '../modules/security'
+import { rateLimiter } from '../modules/rate-limiter'
 
 const router = new Router()
 
@@ -16,26 +16,7 @@ const limiter = new RLWrapperBlackAndWhite({
 
 router.post(
   '/adminThing',
-  async (ctx, next) => {
-    try {
-      const result = await limiter.consume(ctx.ip)
-
-      ctx.set('X-RateLimit-Remaining', result.remainingPoints.toString())
-      ctx.set('X-RateLimit-Reset', new Date(Date.now() + result.msBeforeNext).toISOString())
-
-      await next()
-    } catch (e) {
-      getSystemLogger().trace(`rate limited for request to ${ctx.url}`, e)
-
-      ctx.status = 429
-
-      const error = e as RateLimiterRes
-      console.log(error)
-
-      ctx.set('X-RateLimit-Remaining', error.remainingPoints.toString())
-      ctx.set('X-RateLimit-Reset', new Date(Date.now() + error.msBeforeNext).toISOString())
-    }
-  },
+  rateLimiter(limiter, ctx => ctx.ip),
   enforceWithBodyRole('account', ['editAny']),
   ctx => {
     ctx.status = 200

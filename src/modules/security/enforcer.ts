@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import { APIEnforcer } from '../rbac/enforcer'
 import { Actions, SubjectV, getEnforcer } from '../rbac'
-import { validateRequestBody } from '../middleware-enhancers'
+import { validateRequestBody } from '../validate-request-body-middleware'
 import { getSystemLogger } from '../logger'
 
 export const enforceWithBodyRoleInternal = (enforcerProvider: () => Promise<APIEnforcer>) => <

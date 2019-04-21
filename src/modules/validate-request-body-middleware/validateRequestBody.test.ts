@@ -2,7 +2,7 @@ import * as t from 'io-ts'
 import { createMockContext } from '@shopify/jest-koa-mocks'
 import Koa from 'koa'
 import HttpStatus from 'http-status-codes'
-import { Middleware } from '../middleware'
+import { Middleware } from '../../types'
 import { validateRequestBody } from './validateRequestBody'
 
 describe('validateRequestBody', () => {
