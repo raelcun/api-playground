@@ -29,5 +29,12 @@
     100
   ],
   "editor.tabSize": 2,
-  "files.autoSave": "afterDelay"
+  "files.autoSave": "afterDelay",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true
+  }
 }

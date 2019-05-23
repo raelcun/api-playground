@@ -6,9 +6,14 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "tsc",
+    "image:build": "docker build -t gcr.io/api-playground-238304/api-playground .",
+    "image:start": "docker run -it -d -p 4443:443 api-playground",
+    "image:push": "docker push gcr.io/api-playground-238304/api-playground",
+    "image:deploy": "kubectl set image deployment/api-playground api-playground=gcr.io/api-playground-238304/api-playground",
+    "build": "tsc -p tsconfig.prod.json",
     "lint": "eslint 'src/**/*.ts'",
     "start": "NODE_CONFIG_DIR=./src/config ts-node-dev --no-notify -P tsconfig.json src/server.ts | pino-pretty -c -l -i time,hostname,pid",
+    "start:prod": "NODE_CONFIG_DIR=./dist/config node dist/server.js",
     "test": "jest --no-cache"
   },
   "devDependencies": {
@@ -34,7 +39,8 @@
     "ts-jest": "^24.0.2",
     "ts-node": "^8.1.0",
     "ts-node-dev": "^1.0.0-pre.32",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.3",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -50,7 +56,6 @@
     "koa-router": "^7.4.0",
     "pem": "^1.14.2",
     "pino": "^5.12.2",
-    "rate-limiter-flexible": "^1.0.0",
-    "supertest": "^4.0.2"
+    "rate-limiter-flexible": "^1.0.0"
   }
 }

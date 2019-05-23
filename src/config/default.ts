@@ -2,8 +2,11 @@ import { FullConfig } from './types'
 
 const config: FullConfig = {
   server: {
-    port: 4443,
+    port: 443,
   },
 }
 
-export default config
+module.exports = {
+  ...config,
+  default: config,
+}

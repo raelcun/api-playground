@@ -1,3 +1,4 @@
+export * from './types'
 import Axios from 'axios'
 import { request as defaultRequest } from './request'
 
@@ -6,3 +7,4 @@ export const request = defaultRequest(
     validateStatus: () => true,
   }),
 )
+export type IRequest = typeof request

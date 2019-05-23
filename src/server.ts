@@ -11,7 +11,12 @@ createCertificate(
     selfSigned: true,
     days: 365 * 100,
   },
-  (_, keys) => {
+  (err, keys) => {
+    if (err) {
+      getSystemLogger().fatal('failed to create ssl cert', err)
+      return
+    }
+
     const server = https.createServer(
       {
         cert: keys.certificate,

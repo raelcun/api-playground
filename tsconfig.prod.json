@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": [
+      "es2017",
+      "es6",
+      "dom"
+    ],
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.integration.ts"
+  ]
+}
