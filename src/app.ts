@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import helmet from 'koa-helmet'
-import { router } from './routes/adminThing'
+import { router } from './routes'
 import { getSystemLogger } from './modules/logger'
 
 const app = new Koa()

@@ -22,5 +22,5 @@ COPY --from=BUILD /app/node_modules/ /app/node_modules/
 COPY --from=BUILD /app/dist /app/dist/
 COPY --from=BUILD /app/package.json /app/package.json
 
-EXPOSE 443
+EXPOSE 4443
 CMD ["yarn", "start:prod"]

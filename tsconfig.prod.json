@@ -12,7 +12,8 @@
     "moduleResolution": "node",
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "**/*.test.ts",

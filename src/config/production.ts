@@ -2,7 +2,7 @@ import { FullConfig } from './types'
 
 const config: FullConfig = {
   server: {
-    port: 443,
+    port: 4443,
   },
 }
 
