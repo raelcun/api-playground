@@ -1,5 +1,5 @@
 FROM alpine AS BASE
-RUN apk --no-cache --update add nodejs-current=11.3.0-r0 yarn=1.12.3-r0 openssl
+RUN apk --no-cache --update add nodejs-current=12.4.0-r0 yarn=1.16.0-r0 openssl
 WORKDIR /app
 
 
