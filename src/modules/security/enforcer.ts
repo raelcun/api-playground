@@ -16,9 +16,7 @@ export const enforceWithBodyRoleInternal = (enforcerProvider: () => Promise<APIE
     if (enforcer.enforce(ctx.request.body.role, resource, ...actions)) return await next()
     ctx.status = 401
     getSystemLogger().trace(
-      `enforcer failed for role(${
-        ctx.request.body.role
-      }), resource(${resource}, actions(${actions}))`,
+      `enforcer failed for role(${ctx.request.body.role}), resource(${resource}, actions(${actions}))`,
     )
   })
 

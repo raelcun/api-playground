@@ -11,7 +11,7 @@
     "image:push": "docker push gcr.io/api-playground-245105/api-playground",
     "image:deploy": "kubectl set image deployment/api-playground-deployment api-playground=gcr.io/api-playground-245105/api-playground",
     "build": "tsc -p tsconfig.prod.json",
-    "lint": "eslint 'src/**/*.ts'",
+    "lint": "prettier --write 'src/**/*.ts' && eslint 'src/**/*.ts'",
     "start": "NODE_CONFIG_DIR=./src/config ts-node-dev --no-notify -P tsconfig.json src/server.ts | pino-pretty -c -l -i time,hostname,pid",
     "start:prod": "NODE_ENV=production NODE_CONFIG_DIR=./dist/src/config node dist/src/server.js",
     "test": "jest --no-cache"
