@@ -38,5 +38,6 @@
     "**/.DS_Store": true
   },
   "terraform.codelens.enabled": false,
-  "terraform.telemetry.enabled": false
+  "terraform.telemetry.enabled": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

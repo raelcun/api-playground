@@ -18,7 +18,7 @@ export const validateRequestBody = <T>(decoder: t.Decode<unknown, T>) => (
     },
     async validatedBody => {
       ctx.request.body = validatedBody
-      await middleware(ctx as KoaContext<T>, next)
+      await middleware(ctx, next)
     },
   )
 }
