@@ -8,6 +8,7 @@ describe('adminMessage', () => {
       .post('/adminMessage')
       .send({
         role: 'admin',
+        message: 'foobar',
       })
       .expect(200)
   })
@@ -16,9 +17,10 @@ describe('adminMessage', () => {
     await request(app.callback())
       .post('/adminMessage')
       .send({
-        role: 'admin',
+        role: 'user',
+        message: 'foobar',
       })
-      .expect(200)
+      .expect(401)
   })
 
   test('should validate post body', async () => {
