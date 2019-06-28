@@ -1,15 +1,15 @@
 import Router from 'koa-router'
 import { RateLimiterMemory, RLWrapperBlackAndWhite } from 'rate-limiter-flexible'
+import * as t from 'io-ts'
 import { enforceWithBodyRole } from '../modules/security'
 import { rateLimiter } from '../modules/rate-limiter'
 import { validateRequestBody } from '../modules/validate-request-body-middleware'
-import * as t from 'io-ts'
 
 const router = new Router()
 
 const limiter = new RLWrapperBlackAndWhite({
   limiter: new RateLimiterMemory({
-    keyPrefix: 'adminThing',
+    keyPrefix: 'adminMessage',
     points: 5,
     duration: 5,
   }),
@@ -17,14 +17,13 @@ const limiter = new RLWrapperBlackAndWhite({
 })
 
 router.post(
-  '/adminThing',
+  '/adminMessage',
   rateLimiter(limiter, ctx => ctx.ip),
   enforceWithBodyRole('account', ['editAny']),
-  // validateRequestBody(t.type({ role: t.string }).decode),
-  ctx => {
+  validateRequestBody(t.type({ message: t.string }).decode)(async ctx => {
     ctx.status = 200
-    ctx.body = 'here is your admin thing'
-  },
+    ctx.body = ctx.request.body.message
+  }),
 )
 
 export { router }
