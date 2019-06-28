@@ -18,7 +18,7 @@ export interface APIEnforcer {
     subject: Subject,
     resource: T,
     ...actions: U[]
-  ) => boolean
+  ) => Promise<boolean>
 }
 
 export const createEnforcer = async () => {
@@ -59,8 +59,8 @@ export const getEnforcer = async (): Promise<APIEnforcer> => {
 
   return Promise.resolve({
     enforce: (subject, resource, ...actions) =>
-      actions
-        .map(action => enforcerInstance.enforce(subject, resource, action))
-        .every(e => e === true),
+      Promise.all(actions.map(action => enforcerInstance.enforce(subject, resource, action)))
+        .then(results => results.every(e => e === true))
+        .catch(() => false),
   })
 }

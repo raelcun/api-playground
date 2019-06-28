@@ -13,7 +13,9 @@ export const enforceWithBodyRoleInternal = (enforcerProvider: () => Promise<APIE
 ) =>
   validateRequestBody(t.type({ role: SubjectV }).decode)(async (ctx, next) => {
     const enforcer = await enforcerProvider()
-    if (enforcer.enforce(ctx.request.body.role, resource, ...actions)) return await next()
+    const validationResult = await enforcer.enforce(ctx.request.body.role, resource, ...actions)
+    if (validationResult === true) return await next()
+
     ctx.status = 401
     getSystemLogger().trace(
       `enforcer failed for role(${ctx.request.body.role}), resource(${resource}, actions(${actions}))`,
