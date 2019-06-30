@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enforceWithAuthHeaderInternal should be unauthorized if enforcer throws 1`] = `"bad"`;
+
+exports[`enforceWithAuthHeaderInternal should be unauthorized if expired token 1`] = `"bad"`;
+
+exports[`enforceWithAuthHeaderInternal should be unauthorized if invalid auth header 1`] = `"bad"`;
+
+exports[`enforceWithAuthHeaderInternal should be unauthorized if invalid token 1`] = `"bad"`;
+
+exports[`enforceWithAuthHeaderInternal should be unauthorized if no auth header 1`] = `"bad"`;
+
+exports[`enforceWithAuthHeaderInternal should be unauthorized if not using bearer token 1`] = `"bad"`;
+
+exports[`enforceWithAuthHeaderInternal should be unauthorized if not using bearer token 2`] = `"bad"`;
+
+exports[`enforceWithAuthHeaderInternal should set status to 401 and set body when unauthorized (via enforcer) 1`] = `"bad"`;
