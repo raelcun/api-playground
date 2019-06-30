@@ -4,7 +4,7 @@ import { app } from '../app'
 describe('healthcheck', () => {
   test('should return correct body', async () => {
     await request(app.callback())
-      .get('/healthcheck')
+      .get('/v1/healthcheck')
       .expect(200)
   })
 })

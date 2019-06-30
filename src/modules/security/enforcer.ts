@@ -1,10 +1,10 @@
 import * as t from 'io-ts'
-import { APIEnforcer } from '../rbac/enforcer'
-import { Actions, SubjectV, getEnforcer } from '../rbac'
+import { getEnforcer } from '../rbac'
 import { validateRequestBody } from '../validate-request-body-middleware'
 import { getSystemLogger } from '../logger'
+import { Actions, SubjectV, Enforce } from '../rbac/types'
 
-export const enforceWithBodyRoleInternal = (enforcerProvider: () => Promise<APIEnforcer>) => <
+export const enforceWithBodyRoleInternal = (enforcerProvider: () => Promise<Enforce>) => <
   T extends keyof Actions,
   U extends Actions[T]
 >(
@@ -13,7 +13,7 @@ export const enforceWithBodyRoleInternal = (enforcerProvider: () => Promise<APIE
 ) =>
   validateRequestBody(t.type({ role: SubjectV }).decode)(async (ctx, next) => {
     const enforcer = await enforcerProvider()
-    const validationResult = await enforcer.enforce(ctx.request.body.role, resource, ...actions)
+    const validationResult = await enforcer(ctx.request.body.role, resource, ...actions)
     if (validationResult === true) return await next()
 
     ctx.status = 401

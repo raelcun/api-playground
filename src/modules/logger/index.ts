@@ -1,9 +1,5 @@
-import pino, { Logger as PinoLogger } from 'pino'
-
-export type Logger = Pick<
-  PinoLogger,
-  'fatal' | 'trace' | 'error' | 'info' | 'debug' | 'warn' | 'child'
->
+import pino from 'pino'
+import { Logger } from './types'
 
 export const getLogger = (name: string) => pino({ name })
 

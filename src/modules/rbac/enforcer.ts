@@ -1,5 +1,5 @@
 import { newEnforcer, newModel, Enforcer } from 'casbin'
-import { Actions, Subject } from './types'
+import { Actions, Subject, Enforce } from './types'
 
 const addPolicyToEnforcer = (enforcer: Enforcer) => async <
   T extends keyof Actions,
@@ -12,14 +12,6 @@ const addPolicyToEnforcer = (enforcer: Enforcer) => async <
   Promise.all(actions.map(action => enforcer.addPolicy(subject, resource, action))).then(e =>
     e.every(e => e === true),
   )
-
-export interface APIEnforcer {
-  enforce: <T extends keyof Actions, U extends Actions[T]>(
-    subject: Subject,
-    resource: T,
-    ...actions: U[]
-  ) => Promise<boolean>
-}
 
 export const createEnforcer = async () => {
   const enforcer = await newEnforcer()
@@ -52,15 +44,13 @@ export const createEnforcer = async () => {
 }
 
 let enforcerInstance: Enforcer
-export const getEnforcer = async (): Promise<APIEnforcer> => {
+export const getEnforcer = async (): Promise<Enforce> => {
   if (enforcerInstance === undefined) {
     enforcerInstance = await createEnforcer()
   }
 
-  return Promise.resolve({
-    enforce: (subject, resource, ...actions) =>
-      Promise.all(actions.map(action => enforcerInstance.enforce(subject, resource, action)))
-        .then(results => results.every(e => e === true))
-        .catch(() => false),
-  })
+  return (subject, resource, ...actions) =>
+    Promise.all(actions.map(action => enforcerInstance.enforce(subject, resource, action)))
+      .then(results => results.every(e => e === true))
+      .catch(() => false)
 }

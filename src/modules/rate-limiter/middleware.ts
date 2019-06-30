@@ -2,7 +2,7 @@ import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
 import { getSystemLogger } from '../logger'
 import { KoaContext, Middleware } from '../../types'
 
-export const rateLimiter = <T>(
+export const rateLimitMiddleware = <T>(
   limiter: RateLimiterAbstract,
   f: (ctx: KoaContext<T>) => string,
 ): Middleware<T> => async (ctx, next) => {

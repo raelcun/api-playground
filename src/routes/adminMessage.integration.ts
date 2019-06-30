@@ -5,7 +5,7 @@ import { app } from '../app'
 describe('adminMessage', () => {
   test('should return correct body', async () => {
     await request(app.callback())
-      .post('/adminMessage')
+      .post('/v1/adminMessage')
       .send({
         role: 'admin',
         message: 'foobar',
@@ -15,7 +15,7 @@ describe('adminMessage', () => {
 
   test('should enforce ', async () => {
     await request(app.callback())
-      .post('/adminMessage')
+      .post('/v1/adminMessage')
       .send({
         role: 'user',
         message: 'foobar',
@@ -25,7 +25,7 @@ describe('adminMessage', () => {
 
   test('should validate post body', async () => {
     await request(app.callback())
-      .post('/adminMessage')
+      .post('/v1/adminMessage')
       .send({})
       .expect(HttpStatus.BAD_REQUEST)
   })
