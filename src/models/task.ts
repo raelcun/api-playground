@@ -1,11 +1,11 @@
 import * as t from 'io-ts'
 import { DateFromString } from '../utils'
-import { ResourceV, ResourceIdV } from './resource'
+import { ResourceV, ResourceIdV, ResourceType } from './resource'
 
 export const TaskV = t.intersection([
   ResourceV,
   t.type({
-    resourceType: t.literal('task'),
+    resourceType: t.literal(ResourceType.Task),
     name: t.string,
     completed: t.boolean,
     dependencies: t.array(ResourceIdV),
