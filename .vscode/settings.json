@@ -1,4 +1,5 @@
 {
+  "jest.pathToJest": "npm run test --",
   "eslint.autoFixOnSave": true,
   "eslint.validate": [
     "javascript",

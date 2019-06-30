@@ -6,6 +6,7 @@ export const getConfig = (): FullConfig => {
   if (config === undefined) {
     config = {
       server: get('server'),
+      logging: get('logging'),
     }
   }
   return config

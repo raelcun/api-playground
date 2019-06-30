@@ -5,6 +5,23 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest Current File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--config",
+        "jest.config.js"
+      ],
+      "env": {
+        "NODE_CONFIG_DIR": "./src/config"
+      },
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true,
+      "outputCapture": "std"
+    },
+    {
       "name": "Launch Program",
       "type": "node",
       "request": "launch",

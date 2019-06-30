@@ -4,6 +4,9 @@ const config: PartialConfig = {
   server: {
     port: 4443,
   },
+  logging: {
+    level: 'error',
+  },
 }
 
 module.exports = {

@@ -36,7 +36,7 @@ export const createEnforcer = async () => {
 
   const addPolicy = addPolicyToEnforcer(enforcer)
 
-  const results = await Promise.all([addPolicy('user', 'account', 'viewOwn', 'viewAny')])
+  const results = await Promise.all([addPolicy(Roles.User, 'account', 'viewOwn', 'viewAny')])
 
   if (results.every(e => e !== true)) throw new Error('failed to load all security policies')
 

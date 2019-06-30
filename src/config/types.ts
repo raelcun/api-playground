@@ -5,5 +5,8 @@ export interface FullConfig {
     jwtSecret: string
     port: number
   }
+  logging: {
+    level: string
+  }
 }
 export type PartialConfig = DeepPartial<FullConfig>
