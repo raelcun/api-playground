@@ -1,11 +1,11 @@
 import { newEnforcer, newModel, Enforcer } from 'casbin'
-import { Actions, Subject, Enforce } from './types'
+import { Actions, Roles, Enforce } from './types'
 
 const addPolicyToEnforcer = (enforcer: Enforcer) => async <
   T extends keyof Actions,
   U extends Actions[T]
 >(
-  subject: Subject,
+  subject: Roles,
   resource: T,
   ...actions: U[]
 ) =>

@@ -1,6 +1,6 @@
-import { FullConfig } from './types'
+import { PartialConfig } from './types'
 
-const config: FullConfig = {
+const config: PartialConfig = {
   server: {
     port: 4443,
   },
