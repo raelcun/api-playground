@@ -20,5 +20,5 @@ export interface TaskService {
 }
 
 export interface MockTaskService extends TaskService {
-  resetMock: () => void
+  resetMocks: () => void
 }

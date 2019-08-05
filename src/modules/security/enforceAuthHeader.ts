@@ -42,10 +42,10 @@ const verifyAndParseToken = (token: string): Either<Error, Token> => {
   return tryCatch2v(
     () => verify(token, getConfig().server.jwtSecret),
     () => ({ code: 'INVALID_TOKEN', message: 'failed to decode token' }),
-  ).chain(unparsedToken =>
+  ).chain(tokenPayload =>
     tokenV
-      .decode(unparsedToken)
-      .mapLeft(() => ({ code: 'INVALID_TOKEN', message: 'token schema invalid' })),
+      .decode(tokenPayload)
+      .mapLeft(() => ({ code: 'INVALID_TOKEN', message: 'token payload format invalid' })),
   )
 }
 

@@ -32,11 +32,15 @@ const getAllTasks: MockTaskService['getAllTasks'] = () => {
   return right(task.of(tasks))
 }
 
+const resetMocks = () => {
+  tasks = mockData.tasks
+}
+
 export const service: MockTaskService = {
   addTask,
   removeTask,
   editTask,
   getTask,
   getAllTasks,
-  resetMock: () => (tasks = mockData.tasks),
+  resetMocks,
 }

@@ -1,3 +1,4 @@
+import { Level } from 'pino'
 import { DeepPartial } from '../types'
 
 export interface FullConfig {
@@ -6,7 +7,7 @@ export interface FullConfig {
     port: number
   }
   logging: {
-    level: string
+    level: Level
   }
 }
 export type PartialConfig = DeepPartial<FullConfig>
