@@ -4,7 +4,9 @@ import { DeepPartial } from '../types'
 export interface FullConfig {
   server: {
     jwtSecret: string
-    port: number
+    securePort: number
+    insecurePort: number
+    enableSSL: boolean
   }
   logging: {
     level: Level
