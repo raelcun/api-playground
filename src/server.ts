@@ -37,10 +37,8 @@ if (enableSSL === true) {
   )
 } else {
   getSystemLogger().trace('creating insecure server')
-  const server = http.createServer(
-    app.callback(),
-  )
-  
+  const server = http.createServer(app.callback())
+
   getSystemLogger().trace('starting insecure server')
   server.listen(insecurePort, () => {
     getSystemLogger().info(`server started at http://localhost:${insecurePort}`)

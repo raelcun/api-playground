@@ -2,6 +2,8 @@ import { Level } from 'pino'
 import { DeepPartial } from '../types'
 
 export interface FullConfig {
+  isProduction: boolean
+  env: string
   server: {
     jwtSecret: string
     securePort: number

@@ -3,6 +3,7 @@ import * as t from 'io-ts'
 import { enforceWithBodyRole } from '../modules/middleware/security'
 import { rateLimitMiddleware, createLimiter } from '../modules/middleware/rate-limiter'
 import { withValidatedBody } from '../modules/with-validated-body'
+import { validateResponse } from '../modules/middleware/validate-response'
 
 const router = new Router()
 
@@ -14,6 +15,7 @@ router.post(
     ctx.status = 200
     ctx.body = ctx.request.body.message
   }),
+  validateResponse(t.string),
 )
 
 export { router }

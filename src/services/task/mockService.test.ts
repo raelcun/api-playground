@@ -16,10 +16,17 @@ describe('mock task service', () => {
 
   test('editing task works', async () => {
     const modifiedTask = { ...mockData.tasks[0], name: 'new name' }
-    service.editTask(modifiedTask.id, modifiedTask)
+    const editedTask = await service.editTask(modifiedTask.id, modifiedTask).run()
     const foundTask = await service.getTask(modifiedTask.id).run()
+    expect(editedTask.isRight()).toBeTruthy()
     expect(foundTask.isRight()).toBeTruthy()
     expect(foundTask.value).toEqual(modifiedTask)
+  })
+
+  test('editing nonexistent task returns error', async () => {
+    const editedTask = await service.editTask('notarealid', mockData.tasks[0]).run()
+    expect(editedTask.isLeft()).toBeTruthy()
+    expect(editedTask.value).toEqual({ code: 'TASK_NOT_FOUND' })
   })
 
   test('removing task works', async () => {

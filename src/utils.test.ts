@@ -1,5 +1,5 @@
-import { DateFromString } from "./utils";
-import { isRight, isLeft } from "fp-ts/lib/Either";
+import { isRight, isLeft } from 'fp-ts/lib/Either'
+import { DateFromString } from './utils'
 
 describe('DateFromString', () => {
   test.each<string | number>([
@@ -13,12 +13,15 @@ describe('DateFromString', () => {
     expect(isRight(DateFromString.decode(date))).toBe(true)
   })
 
-  test.each<unknown>([
-    'foo-bar',
-    '23/25/2014',
-    null,
-    undefined,
-  ])('should fail to validate %s', date => {
-    expect(isLeft(DateFromString.decode(date))).toBe(true)
+  test.each<unknown>(['foo-bar', '23/25/2014', null, undefined])(
+    'should fail to validate %s',
+    date => {
+      expect(DateFromString.is(date)).toBe(false)
+      expect(isLeft(DateFromString.decode(date))).toBe(true)
+    },
+  )
+
+  test('should successfully encode', () => {
+    expect(DateFromString.encode(new Date('2019/1/1'))).toBe('2019-01-01T05:00:00.000Z')
   })
 })
