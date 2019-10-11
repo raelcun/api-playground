@@ -1,0 +1,1 @@
+export { withValidatedBody } from './withValidatedBody'

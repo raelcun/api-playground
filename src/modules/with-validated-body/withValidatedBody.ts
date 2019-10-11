@@ -5,10 +5,10 @@ import { left } from 'fp-ts/lib/Either'
 import { getSystemLogger } from '../logger'
 import { Middleware } from '../../types'
 
-export const validateRequestBody = <T>(decoder: t.Decode<unknown, T>) => (
+export const withValidatedBody = <T>(type: t.Type<T, unknown>) => (
   middleware: Middleware<T>,
 ): Middleware<T> => async (ctx, next) => {
-  await decoder(ctx.request.body).fold(
+  await type.decode(ctx.request.body).fold(
     async errors => {
       ctx.status = HttpStatus.BAD_REQUEST
       ctx.body = {

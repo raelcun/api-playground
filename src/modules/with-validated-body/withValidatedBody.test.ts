@@ -3,7 +3,7 @@ import { createMockContext } from '@shopify/jest-koa-mocks'
 import Koa from 'koa'
 import HttpStatus from 'http-status-codes'
 import { Middleware } from '../../types'
-import { validateRequestBody } from './validateRequestBody'
+import { withValidatedBody } from './withValidatedBody'
 
 describe('validateRequestBody', () => {
   test('validate body middleware wrapper success', () => {
@@ -13,7 +13,7 @@ describe('validateRequestBody', () => {
       expect(typeof ctx.request.body).toEqual('number')
     }
 
-    const wrappedMiddleware = validateRequestBody(t.number.decode)(middleware)
+    const wrappedMiddleware = withValidatedBody(t.number)(middleware)
 
     const ctx = createMockContext({ requestBody: 5 })
     wrappedMiddleware(ctx, jest.fn())
@@ -25,9 +25,9 @@ describe('validateRequestBody', () => {
     const middleware: Middleware<{
       foo: { bar: string }
     }> = jest.fn()
-    const wrappedMiddleware = validateRequestBody(
-      t.type({ foo: t.type({ bar: t.string }) }).decode,
-    )(middleware)
+    const wrappedMiddleware = withValidatedBody(t.type({ foo: t.type({ bar: t.string }) }))(
+      middleware,
+    )
 
     const ctx: Koa.Context = createMockContext({
       requestBody: { foo: { bar: 5 } },

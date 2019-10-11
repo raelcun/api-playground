@@ -4,8 +4,8 @@
   "description": "",
   "license": "ISC",
   "engines": {
-    "node": "12.4.0",
-    "yarn": "1.16.0"
+    "node": ">=12.4.0",
+    "yarn": ">=1.16.0"
   },
   "author": "",
   "main": "src/server.ts",
