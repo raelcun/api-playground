@@ -4,12 +4,12 @@ import * as t from 'io-ts'
 import { Task } from 'fp-ts/lib/Task'
 import { TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
 import { IO } from 'fp-ts/lib/IO'
-import { getConfig } from '../../config'
-import { Actions, RolesV, Roles, Enforce } from '../rbac/types'
-import { Error } from '../error/types'
-import { Middleware } from '../../types'
-import { getEnforcer } from '../rbac'
-import { getSystemLogger } from '../logger'
+import { getConfig } from '../../../config'
+import { Actions, RolesV, Roles, Enforce } from '../../rbac/types'
+import { Error } from '../../error/types'
+import { Middleware } from '../../../types'
+import { getEnforcer } from '../../rbac'
+import { getSystemLogger } from '../../logger'
 
 const resolveAuthHeader = (headers: unknown): Either<Error, [string, string]> => {
   const getAuthHeader = (headers: unknown): Either<Error, string> =>

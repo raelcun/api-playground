@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import { rateLimitMiddleware, createLimiter } from '../modules/rate-limiter'
+import { rateLimitMiddleware, createLimiter } from '../modules/middleware/rate-limiter'
 import packageJson from '../../package.json'
 
 const router = new Router()

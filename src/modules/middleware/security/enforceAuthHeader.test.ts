@@ -1,8 +1,8 @@
 import { createMockContext } from '@shopify/jest-koa-mocks'
 import { sign } from 'jsonwebtoken'
 import { Context } from 'koa'
-import { Enforce, Roles } from '../rbac/types'
-import { getConfig } from '../../config'
+import { Enforce, Roles } from '../../rbac/types'
+import { getConfig } from '../../../config'
 import { enforceWithAuthHeaderInternal, Token } from './enforceAuthHeader'
 
 const createToken = (token: Token = { userId: 'foo', role: Roles.User }) =>

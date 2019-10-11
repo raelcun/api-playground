@@ -1,8 +1,8 @@
 import * as t from 'io-ts'
-import { getEnforcer } from '../rbac'
-import { withValidatedBody } from '../with-validated-body'
-import { getSystemLogger } from '../logger'
-import { Actions, RolesV, Enforce } from '../rbac/types'
+import { getEnforcer } from '../../rbac'
+import { withValidatedBody } from '../../with-validated-body'
+import { getSystemLogger } from '../../logger'
+import { Actions, RolesV, Enforce } from '../../rbac/types'
 
 export const enforceWithBodyRoleInternal = (enforcerProvider: () => Promise<Enforce>) => <
   T extends keyof Actions,

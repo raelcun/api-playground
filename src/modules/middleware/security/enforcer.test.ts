@@ -1,5 +1,5 @@
 import { createMockContext } from '@shopify/jest-koa-mocks'
-import { Enforce } from '../rbac/types'
+import { Enforce } from '../../rbac/types'
 import { enforceWithBodyRoleInternal } from './enforcer'
 
 describe('enforcer', () => {

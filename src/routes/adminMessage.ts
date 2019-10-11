@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import * as t from 'io-ts'
-import { enforceWithBodyRole } from '../modules/security'
-import { rateLimitMiddleware, createLimiter } from '../modules/rate-limiter'
+import { enforceWithBodyRole } from '../modules/middleware/security'
+import { rateLimitMiddleware, createLimiter } from '../modules/middleware/rate-limiter'
 import { withValidatedBody } from '../modules/with-validated-body'
 
 const router = new Router()
