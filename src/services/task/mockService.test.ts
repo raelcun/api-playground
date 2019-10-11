@@ -3,7 +3,7 @@ import { service } from './mockService'
 
 describe('mock task service', () => {
   beforeEach(() => {
-    service.resetMock()
+    service.resetMocks()
   })
 
   test('adding/getting task works', async () => {

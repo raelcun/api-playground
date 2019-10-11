@@ -18,7 +18,8 @@
     "lint": "prettier --write 'src/**/*.ts' && eslint 'src/**/*.ts'",
     "start": "NODE_CONFIG_DIR=./src/config ts-node-dev --no-notify -P tsconfig.json src/server.ts | pino-pretty -c -l -i time,hostname,pid",
     "start:prod": "NODE_ENV=production NODE_CONFIG_DIR=./dist/src/config node dist/src/server.js",
-    "test": "NODE_CONFIG_DIR=./src/config jest --no-cache",
+    "test": "NODE_ENV=test NODE_CONFIG_DIR=./src/config jest --no-cache",
+    "test:coverage": "yarn test -- --collect-coverage",
     "prepipeline": "yarn lint && yarn test"
   },
   "dependencies": {

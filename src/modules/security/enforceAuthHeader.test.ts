@@ -68,19 +68,6 @@ describe('enforceWithAuthHeaderInternal', () => {
     expectUnauthorized(mockContext, next)
   })
 
-  test('should be unauthorized if not using bearer token', async () => {
-    const mockEnforcer = () =>
-      Promise.resolve<Enforce>(async () => {
-        throw 'bad error'
-      })
-    const mockContext = createMockContext({
-      headers: { authorization: `NotBearer ${createToken()}` },
-    })
-    const next = jest.fn()
-    await enforceWithAuthHeaderInternal(mockEnforcer)('account', ['viewAny'])(mockContext, next)
-    expectUnauthorized(mockContext, next)
-  })
-
   test('should be unauthorized if invalid auth header', async () => {
     const mockEnforcer = () =>
       Promise.resolve<Enforce>(async () => {
@@ -102,6 +89,14 @@ describe('enforceWithAuthHeaderInternal', () => {
     const mockContext = createMockContext({
       headers: { authorization: 'Bearer totallynotvalid' },
     })
+    const next = jest.fn()
+    await enforceWithAuthHeaderInternal(mockEnforcer)('account', ['viewAny'])(mockContext, next)
+    expectUnauthorized(mockContext, next)
+  })
+
+  test('should be unauthorized if invalid token payload', async () => {
+    const mockEnforcer = () => Promise.resolve<Enforce>(async () => true)
+    const mockContext = createDefaultMockContext({ foo: 'bar' } as any)
     const next = jest.fn()
     await enforceWithAuthHeaderInternal(mockEnforcer)('account', ['viewAny'])(mockContext, next)
     expectUnauthorized(mockContext, next)

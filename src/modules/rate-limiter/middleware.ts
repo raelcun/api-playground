@@ -4,10 +4,10 @@ import { KoaContext, Middleware } from '../../types'
 
 export const rateLimitMiddleware = <T>(
   limiter: RateLimiterAbstract,
-  f: (ctx: KoaContext<T>) => string,
+  getKey: (ctx: KoaContext<T>) => string,
 ): Middleware<T> => async (ctx, next) => {
   try {
-    const result = await limiter.consume(f(ctx))
+    const result = await limiter.consume(getKey(ctx))
 
     ctx.set('X-RateLimit-Remaining', result.remainingPoints.toString())
     ctx.set('X-RateLimit-Reset', new Date(Date.now() + result.msBeforeNext).toISOString())
@@ -18,9 +18,11 @@ export const rateLimitMiddleware = <T>(
 
     ctx.status = 429
 
-    const error = e as RateLimiterRes
+    if (e.remainingPoints !== undefined && e.msBeforeNext !== undefined) {
+      const error = e as RateLimiterRes
 
-    ctx.set('X-RateLimit-Remaining', error.remainingPoints.toString())
-    ctx.set('X-RateLimit-Reset', new Date(Date.now() + error.msBeforeNext).toISOString())
+      ctx.set('X-RateLimit-Remaining', error.remainingPoints.toString())
+      ctx.set('X-RateLimit-Reset', new Date(Date.now() + error.msBeforeNext).toISOString())
+    }
   }
 }
