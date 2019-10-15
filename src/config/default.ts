@@ -14,6 +14,13 @@ const config: FullConfig = {
   logging: {
     level: 'info',
   },
+  aws: {
+    region: 'UNSET',
+    credentials: {
+      accessKeyId: 'UNSET',
+      secretAccessKey: 'UNSET',
+    },
+  },
 }
 
 module.exports = {

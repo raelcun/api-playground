@@ -13,5 +13,12 @@ export interface FullConfig {
   logging: {
     level: Level
   }
+  aws: {
+    region: string
+    credentials: {
+      accessKeyId: string
+      secretAccessKey: string
+    }
+  }
 }
 export type PartialConfig = DeepPartial<FullConfig>
