@@ -27,4 +27,4 @@ export const validateResponseInner = (shouldError: boolean) => <T>(
   )
 }
 
-export const validateResponse = validateResponseInner(getConfig().isProduction)
+export const validateResponse = validateResponseInner(!getConfig().isProduction)
