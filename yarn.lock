@@ -875,10 +875,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@shopify/jest-koa-mocks@^2.1.2":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@shopify/jest-koa-mocks/-/jest-koa-mocks-2.1.3.tgz#111111022323dd2370669b4d8b8636a49bdc8f32"
-  integrity sha512-2K19WvcSQkAHVWvZss915Qy/pvt+TWeC8Ph2Oy/r1nGc2b/YjZoL0XeTN+MMzpaFj4TnMCP/+muNMETflnxKxA==
+"@shopify/jest-koa-mocks@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@shopify/jest-koa-mocks/-/jest-koa-mocks-2.1.5.tgz#49ea3c92ba030a831ac2e53ee1b52335abbb4235"
+  integrity sha512-JGfKGUM00JQ+ULCkARJQwOdYXQZalSHi8BHusR+RItwNm8J9GB2fzFjN66l+4xwZxgwiFM2ieGIX9iUeadGUEw==
   dependencies:
     koa "^2.5.0"
     node-mocks-http "^1.5.8"
