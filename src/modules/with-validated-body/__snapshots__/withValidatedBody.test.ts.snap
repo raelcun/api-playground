@@ -1,9 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validateRequestBody validate body middleware wrapper failure 1`] = `
+exports[`validateRequestBody when validation is unsuccessful should have a body with error message 1`] = `
 Object {
   "errors": Array [
-    "Expecting string at foo.bar but instead got: 5.",
+    "Expecting number but instead got: \\"5\\".",
   ],
 }
 `;
+
+exports[`validateRequestBody when validation is unsuccessful should have logged validation error 1`] = `
+Object {
+  "requestBody": "5",
+  "validationError": Array [
+    "Expecting number but instead got: \\"5\\".",
+  ],
+}
+`;
+
+exports[`validateRequestBody when validation is unsuccessful should have logged validation error 2`] = `"body validation failed for http://test.com/"`;

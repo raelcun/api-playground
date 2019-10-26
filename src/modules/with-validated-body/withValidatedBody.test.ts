@@ -1,41 +1,53 @@
 import * as t from 'io-ts'
 import { createMockContext } from '@shopify/jest-koa-mocks'
-import Koa from 'koa'
 import HttpStatus from 'http-status-codes'
 import { Middleware } from '../../types'
-import { withValidatedBody } from './withValidatedBody'
+import { createMockLogger } from '../logger'
+import { withValidatedBodyInner } from './withValidatedBody'
 
 describe('validateRequestBody', () => {
-  test('validate body middleware wrapper success', () => {
-    expect.assertions(1)
+  describe('when validation is successful', () => {
+    test('should invoke wrapped middleware', async () => {
+      expect.assertions(1)
 
-    const middleware: Middleware<number> = async ctx => {
-      expect(typeof ctx.request.body).toEqual('number')
-    }
+      const wrappedMiddleware: Middleware<number> = async ctx => {
+        expect(typeof ctx.request.body).toEqual('number')
+      }
 
-    const wrappedMiddleware = withValidatedBody(t.number)(middleware)
+      const middleware = withValidatedBodyInner(createMockLogger())(t.number)(wrappedMiddleware)
 
-    const ctx = createMockContext({ requestBody: 5 })
-    wrappedMiddleware(ctx, jest.fn())
+      await middleware(createMockContext({ requestBody: 5 }), jest.fn())
+    })
   })
 
-  test('validate body middleware wrapper failure', () => {
-    expect.assertions(3)
+  describe('when validation is unsuccessful', () => {
+    const wrappedMiddleware = jest.fn()
+    const context = createMockContext({ requestBody: '5' })
+    const loggerOverrides = { trace: jest.fn() }
 
-    const middleware: Middleware<{
-      foo: { bar: string }
-    }> = jest.fn()
-    const wrappedMiddleware = withValidatedBody(t.type({ foo: t.type({ bar: t.string }) }))(
-      middleware,
-    )
+    beforeAll(async () => {
+      const middleware = withValidatedBodyInner(createMockLogger(loggerOverrides))(t.number)(
+        wrappedMiddleware,
+      )
 
-    const ctx: Koa.Context = createMockContext({
-      requestBody: { foo: { bar: 5 } },
+      await middleware(context, jest.fn())
     })
-    wrappedMiddleware(ctx, jest.fn())
 
-    expect(middleware).not.toHaveBeenCalled()
-    expect(ctx.status).toEqual(HttpStatus.BAD_REQUEST)
-    expect(ctx.body).toMatchSnapshot()
+    test('should not invoke wrapped middleware', () => {
+      expect(wrappedMiddleware).not.toHaveBeenCalled()
+    })
+
+    test('should have a status code of 400', () => {
+      expect(context.status).toEqual(HttpStatus.BAD_REQUEST)
+    })
+
+    test('should have a body with error message', () => {
+      expect(context.body).toMatchSnapshot()
+    })
+
+    test('should have logged validation error', () => {
+      expect(loggerOverrides.trace.mock.calls[0][0]).toMatchSnapshot()
+      expect(loggerOverrides.trace.mock.calls[0][1]).toMatchSnapshot()
+    })
   })
 })

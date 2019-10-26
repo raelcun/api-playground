@@ -1,3 +1,5 @@
+process.env.NODE_CONFIG_DIR = './src/config'
+
 module.exports = {
   roots: ['<rootDir>/src'],
   transform: {
