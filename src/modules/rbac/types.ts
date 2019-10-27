@@ -1,4 +1,6 @@
 import * as t from 'io-ts'
+import * as TE from 'fp-ts/lib/TaskEither'
+import { Error } from '../error/types'
 
 export const enum Roles {
   User = 'user',
@@ -11,7 +13,7 @@ export interface Actions {
 }
 
 export type Enforce = <T extends keyof Actions, U extends Actions[T]>(
-  subject: Roles,
-  resource: T,
-  ...actions: U[]
-) => Promise<boolean>
+  subject: string,
+  resource: string,
+  ...actions: string[]
+) => TE.TaskEither<Error, boolean>

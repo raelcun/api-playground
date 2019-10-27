@@ -1,26 +1,100 @@
+import { pipe } from 'fp-ts/lib/pipeable'
+import * as TE from 'fp-ts/lib/TaskEither'
 import { createEnforcer, getEnforcer } from './enforcer'
 import { Roles } from './types'
 
 describe('enforcer', () => {
-  test('security model matches snapshot', async () => {
-    const enforcer = await createEnforcer()
-    expect(enforcer.getModel().model).toMatchSnapshot()
-  })
-
   test('security policies match snapshot', async () => {
-    const enforcer = await createEnforcer()
-    expect(enforcer.getPolicy()).toMatchSnapshot()
+    expect.assertions(1)
+
+    await pipe(
+      createEnforcer,
+      TE.map(enforcer => {
+        expect(enforcer.getPolicy()).toMatchSnapshot()
+      }),
+    )()
   })
 
-  test('admin works', async () => {
-    const enforcer = await getEnforcer()
-    const result = await enforcer(Roles.Admin, 'account', 'viewOwn')
-    expect(result).toBe(true)
+  test('security model matches snapshot', async () => {
+    expect.assertions(1)
+
+    await pipe(
+      createEnforcer,
+      TE.map(enforcer => {
+        expect(enforcer.getModel().model).toMatchSnapshot()
+      }),
+    )()
   })
 
-  test('enforcer fails', async () => {
-    const enforcer = await getEnforcer()
-    const result = await enforcer(Roles.User, 'account', 'doAnything' as any)
-    expect(result).toEqual(false)
+  test('validation passes for admin with real resource and action', async () => {
+    expect.assertions(1)
+
+    await pipe(
+      getEnforcer,
+      TE.chain(enforce => enforce(Roles.Admin, 'account', 'viewOwn')),
+      TE.map(result => {
+        expect(result).toBe(true)
+      }),
+    )()
+  })
+
+  test('validation passes for admin with fake resource', async () => {
+    expect.assertions(1)
+
+    await pipe(
+      getEnforcer,
+      TE.chain(enforce => enforce(Roles.Admin, 'fakeResource', 'viewAny')),
+      TE.map(result => {
+        expect(result).toBe(true)
+      }),
+    )()
+  })
+
+  test('validation passes for admin with fake action', async () => {
+    expect.assertions(1)
+
+    await pipe(
+      getEnforcer,
+      TE.chain(enforce => enforce(Roles.Admin, 'account', 'fakeAction')),
+      TE.map(result => {
+        expect(result).toBe(true)
+      }),
+    )()
+  })
+
+  test('validation fails for user with insuffient priviledges', async () => {
+    expect.assertions(1)
+
+    await pipe(
+      getEnforcer,
+      TE.chain(enforce => enforce(Roles.User, 'account', 'editAny')),
+      TE.map(result => {
+        expect(result).toBe(false)
+      }),
+    )()
+  })
+
+  test('validation fails for user with fake resource', async () => {
+    expect.assertions(1)
+
+    await pipe(
+      getEnforcer,
+      TE.chain(enforce => enforce(Roles.User, 'fakeResource', 'editAny')),
+      TE.map(result => {
+        expect(result).toBe(false)
+      }),
+    )()
+  })
+
+  test('validation fails for user with fake action', async () => {
+    expect.assertions(1)
+
+    await pipe(
+      getEnforcer,
+      TE.chain(enforce => enforce(Roles.User, 'account', 'fakeAction')),
+      TE.map(result => {
+        expect(result).toBe(false)
+      }),
+    )()
   })
 })

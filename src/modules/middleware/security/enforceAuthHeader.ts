@@ -1,9 +1,10 @@
-import { tryCatch2v, Either, left, right } from 'fp-ts/lib/Either'
+import { Either, left, right, mapLeft, map, chain, tryCatch } from 'fp-ts/lib/Either'
 import { verify } from 'jsonwebtoken'
 import * as t from 'io-ts'
-import { Task } from 'fp-ts/lib/Task'
-import { TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
-import { IO } from 'fp-ts/lib/IO'
+import * as T from 'fp-ts/lib/Task'
+import * as TE from 'fp-ts/lib/TaskEither'
+import * as IO from 'fp-ts/lib/IO'
+import { pipe } from 'fp-ts/lib/pipeable'
 import { getConfig } from '../../../config'
 import { Actions, RolesV, Roles, Enforce } from '../../rbac/types'
 import { Error } from '../../error/types'
@@ -13,11 +14,11 @@ import { getSystemLogger } from '../../logger'
 
 const resolveAuthHeader = (headers: unknown): Either<Error, [string, string]> => {
   const getAuthHeader = (headers: unknown): Either<Error, string> =>
-    t
-      .type({ authorization: t.string })
-      .decode(headers)
-      .mapLeft(() => ({ code: 'INVALID_AUTH_HEADER', message: 'invalid auth header format' }))
-      .map(({ authorization }) => authorization)
+    pipe(
+      t.type({ authorization: t.string }).decode(headers),
+      mapLeft(() => ({ code: 'INVALID_AUTH_HEADER', message: 'invalid auth header format' })),
+      map(({ authorization }) => authorization),
+    )
 
   const parseAuthHeaderParts = (parts: string[]): Either<Error, [string, string]> => {
     if (parts.length !== 2)
@@ -27,9 +28,11 @@ const resolveAuthHeader = (headers: unknown): Either<Error, [string, string]> =>
     return right([parts[0], parts[1]])
   }
 
-  return getAuthHeader(headers)
-    .map(authorization => authorization.split(' '))
-    .chain(parseAuthHeaderParts)
+  return pipe(
+    getAuthHeader(headers),
+    map(authorization => authorization.split(' ')),
+    chain(parseAuthHeaderParts),
+  )
 }
 
 const tokenV = t.type({
@@ -38,16 +41,19 @@ const tokenV = t.type({
 })
 export type Token = t.TypeOf<typeof tokenV>
 
-const verifyAndParseToken = (token: string): Either<Error, Token> => {
-  return tryCatch2v(
-    () => verify(token, getConfig().server.jwtSecret),
-    () => ({ code: 'INVALID_TOKEN', message: 'failed to decode token' }),
-  ).chain(tokenPayload =>
-    tokenV
-      .decode(tokenPayload)
-      .mapLeft(() => ({ code: 'INVALID_TOKEN', message: 'token payload format invalid' })),
+const verifyAndParseToken = (token: string): Either<Error, Token> =>
+  pipe(
+    tryCatch(
+      () => verify(token, getConfig().server.jwtSecret),
+      () => ({ code: 'INVALID_TOKEN', message: 'failed to decode token' }),
+    ),
+    chain(tokenPayload =>
+      pipe(
+        tokenV.decode(tokenPayload),
+        mapLeft(() => ({ code: 'INVALID_TOKEN', message: 'token payload format invalid' })),
+      ),
+    ),
   )
-}
 
 export const enforceWithAuthHeaderInternal = (enforcerProvider: () => Promise<Enforce>) => <
   T extends keyof Actions,
@@ -56,30 +62,41 @@ export const enforceWithAuthHeaderInternal = (enforcerProvider: () => Promise<En
   resource: T,
   actions: U[],
 ): Middleware<unknown> => async (ctx, next) => {
-  const validateRoleWithEnforcer = (role: Roles): TaskEither<Error, undefined> =>
-    new TaskEither(
-      new Task(async () => {
-        try {
-          const enforcer = await enforcerProvider()
-          const validationResult = await enforcer(role, resource, ...actions)
-          return validationResult === false ? left({ code: 'UNAUTHORIZED' }) : right(undefined)
-        } catch (e) {
-          return left({ code: 'AUTHORIZATION_FAILED' })
-        }
-      }),
-    )
-  const onUnauthorized = () =>
-    new IO(async () => {
-      ctx.status = 401
-      ctx.body = 'bad'
-    })
+  // const validateRoleWithEnforcer = (role: Roles): TE.TaskEither<Error, undefined> =>
+  const a = (role: Roles) => T.of(enforcerProvider())
+  const foo = a(Roles.Admin)()
+
+  // TE.tryCatch(
+  //   async () => {
+  //     const enforcer = await enforcerProvider()
+  //     return await enforcer(role, resource, ...actions)
+  //     // return validationResult === false ? left({ code: 'UNAUTHORIZED' }) : right(undefined)
+  //   },
+  //   () => ({ code: 'AUTHORIZATION_FAILED' }),
+  // )
+  // .fromIO(() => {
+  //   try {
+  //     const enforcer = await enforcerProvider()
+  //     const validationResult = await enforcer(role, resource, ...actions)
+  //     return validationResult === false ? left({ code: 'UNAUTHORIZED' }) : right(undefined)
+  //   } catch (e) {
+  //     return TE.left({ code: 'AUTHORIZATION_FAILED' })
+  //   }
+  // })
+  const onUnauthorized: IO.IO<void> = () => {
+    ctx.status = 401
+    ctx.body = 'bad'
+  }
   const onAuthorized = () =>
     new IO(async () => {
       await next()
     })
 
   const sideEffects = await fromEither(
-    resolveAuthHeader(ctx.headers).chain(([, credentials]) => verifyAndParseToken(credentials)),
+    pipe(
+      resolveAuthHeader(ctx.headers),
+      chain(([, credentials]) => verifyAndParseToken(credentials)),
+    ),
   )
     .chain(token => validateRoleWithEnforcer(token.role))
     .mapLeft(e => {
