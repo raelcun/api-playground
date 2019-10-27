@@ -1,1 +1,1 @@
-export { enforceWithBodyRole } from './enforcer'
+export { enforceWithBodyRole } from './enforceWithBodyRole'

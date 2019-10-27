@@ -26,8 +26,8 @@ const setErrorContext = <T>(ctx: KoaContext<T>) => (errors: t.Errors): IO.IO<voi
 
 export const withValidatedBodyInner = (logger: Logger) => <T>(type: t.Type<T, unknown>) => (
   middleware: Middleware<T>,
-): Middleware<T> => (ctx, next) =>
-  pipe(
+): Middleware<T> => async (ctx, next) =>
+  await pipe(
     type.decode(ctx.request.body),
     E.mapLeft(errors =>
       flow(

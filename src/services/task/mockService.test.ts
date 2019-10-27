@@ -1,3 +1,6 @@
+import { pipe } from 'fp-ts/lib/pipeable'
+import { mapLeft, map, chain } from 'fp-ts/lib/TaskEither'
+import { isRight } from 'fp-ts/lib/Either'
 import { mockData } from '../../models'
 import { service } from './mockService'
 
@@ -8,39 +11,63 @@ describe('mock task service', () => {
 
   test('adding/getting task works', async () => {
     const newTask = { ...mockData.tasks[0], id: 'newId' }
-    service.addTask(newTask)
-    const foundTask = await service.getTask(newTask.id).run()
-    expect(foundTask.isRight()).toBeTruthy()
-    expect(foundTask.value).toEqual(newTask)
+
+    await service.addTask(newTask)()
+
+    await pipe(
+      service.getTask(newTask.id),
+      map(foundTask => {
+        expect(foundTask).toEqual(newTask)
+      }),
+    )
   })
 
   test('editing task works', async () => {
+    expect.assertions(2)
+
     const modifiedTask = { ...mockData.tasks[0], name: 'new name' }
-    const editedTask = await service.editTask(modifiedTask.id, modifiedTask).run()
-    const foundTask = await service.getTask(modifiedTask.id).run()
-    expect(editedTask.isRight()).toBeTruthy()
-    expect(foundTask.isRight()).toBeTruthy()
-    expect(foundTask.value).toEqual(modifiedTask)
+    const editedTask = await service.editTask(modifiedTask.id, modifiedTask)()
+    expect(isRight(editedTask)).toBeTruthy()
+
+    await pipe(
+      service.getTask(modifiedTask.id),
+      map(foundTask => {
+        expect(foundTask).toEqual(modifiedTask)
+      }),
+    )()
   })
 
   test('editing nonexistent task returns error', async () => {
-    const editedTask = await service.editTask('notarealid', mockData.tasks[0]).run()
-    expect(editedTask.isLeft()).toBeTruthy()
-    expect(editedTask.value).toEqual({ code: 'TASK_NOT_FOUND' })
+    expect.assertions(1)
+    await pipe(
+      service.editTask('notarealid', mockData.tasks[0]),
+      mapLeft(value => {
+        expect(value).toEqual({ code: 'TASK_NOT_FOUND' })
+      }),
+    )()
   })
 
   test('removing task works', async () => {
+    expect.assertions(1)
     const removeId = mockData.tasks[0].id
     service.removeTask(removeId)
-    const foundTask = await service.getTask(removeId).run()
-    expect(foundTask.isLeft()).toBeTruthy()
-    expect(foundTask.value).toEqual({ code: 'TASK_NOT_FOUND' })
+    await pipe(
+      service.getTask(removeId),
+      mapLeft(value => {
+        expect(value).toEqual({ code: 'TASK_NOT_FOUND' })
+      }),
+    )()
   })
 
   test('getting all tasks works', async () => {
     const newTask = { ...mockData.tasks[0], id: 'newId' }
-    service.addTask(newTask)
-    const foundTask = await service.getAllTasks().run()
-    expect(foundTask.value).toEqual([...mockData.tasks, newTask])
+    await service.addTask(newTask)()
+
+    await pipe(
+      service.getAllTasks(),
+      map(foundTasks => {
+        expect(foundTasks).toEqual([...mockData.tasks, newTask])
+      }),
+    )
   })
 })
