@@ -42,7 +42,7 @@
     "rate-limiter-flexible": "^1.1.6"
   },
   "devDependencies": {
-    "@shopify/jest-koa-mocks": "^2.1.5",
+    "@shopify/jest-koa-mocks": "^2.1.7",
     "@types/config": "^0.0.34",
     "@types/jest": "^24.0.19",
     "@types/koa": "^2.0.48",
