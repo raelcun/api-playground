@@ -15,7 +15,8 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "import/order": ["error"],
-    "import/no-deprecated": 2
+    "import/no-deprecated": 2,
+    "import/no-unresolved": "off"
   },
   plugins: ["import"]
 };

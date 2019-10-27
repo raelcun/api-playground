@@ -16,7 +16,8 @@ describe('validateRequestBody', () => {
 
       const middleware = withValidatedBodyInner(createMockLogger())(t.number)(wrappedMiddleware)
 
-      await middleware(createMockContext({ requestBody: 5 }), jest.fn())
+      const ctx = createMockContext({ requestBody: 5 })
+      await middleware(ctx, jest.fn())
     })
   })
 

@@ -5,6 +5,7 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  modulePaths: ['<rootDir>/src'],
   testEnvironment: 'node',
   testRegex: '\\.(test|integration)\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],

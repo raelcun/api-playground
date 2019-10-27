@@ -6,9 +6,9 @@ import { getEnforcer } from '../../rbac'
 import { withValidatedBody } from '../../with-validated-body'
 import { getSystemLogger } from '../../logger'
 import { Actions, RolesV, Enforce } from '../../rbac/types'
-import { Error } from '../../error/types'
+import { Err } from '../../error/types'
 
-export const enforceWithBodyRoleInternal = (enforcerProvider: TE.TaskEither<Error, Enforce>) => <
+export const enforceWithBodyRoleInternal = (enforcerProvider: TE.TaskEither<Err, Enforce>) => <
   T extends keyof Actions,
   U extends Actions[T]
 >(

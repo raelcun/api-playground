@@ -1,4 +1,4 @@
-export interface Error {
+export interface Err {
   code: string
   message?: string
 }

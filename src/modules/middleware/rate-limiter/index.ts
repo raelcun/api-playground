@@ -1,6 +1,6 @@
 import { RLWrapperBlackAndWhite, RateLimiterMemory } from 'rate-limiter-flexible'
 
-export { rateLimitMiddleware } from './middleware'
+export { rateLimitingMiddleware, enforceRateLimiting } from './middleware'
 
 export const createLimiter = (keyPrefix: string, points = 100, duration = 10) =>
   new RLWrapperBlackAndWhite({

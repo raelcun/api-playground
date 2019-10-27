@@ -3,17 +3,17 @@ import * as TE from 'fp-ts/lib/TaskEither'
 import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { array } from 'fp-ts/lib/Array'
-import { Error } from '../error/types'
+import { Err } from '../error/types'
 import { Actions, Roles, Enforce } from './types'
 
-const wrapPromise = <T>(p: Promise<T>): TE.TaskEither<Error, T> =>
-  TE.tryCatch(() => p, (e: Error) => e)
+const wrapPromise = <T>(p: Promise<T>): TE.TaskEither<Err, T> =>
+  TE.tryCatch(() => p, (e: Err) => e)
 
 const addPolicyToEnforcer = <T extends keyof Actions, U extends Actions[T]>(
   subject: Roles,
   resource: T,
   ...actions: U[]
-) => (enforcer: Enforcer): TE.TaskEither<Error, Enforcer> => {
+) => (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> => {
   const tasks = actions.map(action => wrapPromise(enforcer.addPolicy(subject, resource, action)))
   return pipe(
     array.sequence(TE.taskEither)(tasks),
@@ -28,7 +28,7 @@ const addPolicyToEnforcer = <T extends keyof Actions, U extends Actions[T]>(
   )
 }
 
-const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Error, Enforcer> =>
+const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> =>
   TE.tryCatch(
     async () => {
       enforcer.setModel(
@@ -54,7 +54,7 @@ const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Error, Enforcer> =>
     () => ({ code: 'ENFORCER_SETMODEL_FAILED', message: 'failed to set enforcer model' }),
   )
 
-export const wrappedNewEnforcer: TE.TaskEither<Error, Enforcer> = TE.tryCatch(
+export const wrappedNewEnforcer: TE.TaskEither<Err, Enforcer> = TE.tryCatch(
   () => newEnforcer(),
   () => ({ code: 'ENFORCER_FACTORY_FAILED', message: 'failed to instantiate base enforcer' }),
 )
@@ -71,14 +71,14 @@ const wrappedEnforce = (enforcer: Enforcer): Enforce => (
   )
 }
 
-export const createEnforcer: TE.TaskEither<Error, Enforcer> = pipe(
+export const createEnforcer: TE.TaskEither<Err, Enforcer> = pipe(
   wrappedNewEnforcer,
   TE.chain(setEnforcerModel),
   TE.chain(addPolicyToEnforcer(Roles.User, 'account', 'viewOwn', 'viewAny')),
 )
 
-let enforcerInstance: Promise<E.Either<Error, Enforcer>>
-export const getEnforcer: TE.TaskEither<Error, Enforce> = async () => {
+let enforcerInstance: Promise<E.Either<Err, Enforcer>>
+export const getEnforcer: TE.TaskEither<Err, Enforce> = async () => {
   if (enforcerInstance === undefined) {
     enforcerInstance = createEnforcer()
   }
