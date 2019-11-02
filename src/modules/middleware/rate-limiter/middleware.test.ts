@@ -75,7 +75,7 @@ describe('rate-limiter middleware', () => {
     expect(mockContextReq2.response.get('X-RateLimit-Remaining')).toEqual('1')
     expect(nextMockReq2).toHaveBeenCalledTimes(1)
 
-    const a = await rateLimitingMiddleware(limiter, () => 'foo')(mockContextReq3, nextMockReq3)()
+    await rateLimitingMiddleware(limiter, () => 'foo')(mockContextReq3, nextMockReq3)()
     expect(mockContextReq3.response.get('X-RateLimit-Remaining')).toEqual('0')
     expect(nextMockReq3).toHaveBeenCalledTimes(1)
   })

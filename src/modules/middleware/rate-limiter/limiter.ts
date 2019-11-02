@@ -1,11 +1,25 @@
 import { option as O, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import HttpStatus from 'http-status-codes'
-import { RateLimiterAbstract } from 'rate-limiter-flexible'
+import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
 import { KoaContext } from '../../../types'
 import { Err } from '../../error/types'
 
-const limiterConsume = (limiter: RateLimiterAbstract)
+type LimiterConsumeError = Err & { remaining: O.Option<number>; msBeforeNext: O.Option<number> }
+
+const getRateLimiterError = (e: any): LimiterConsumeError => {
+  return {
+    code: 'LIMITER_CONSUME_FAILED',
+    remaining: O.fromNullable(e.remainingPoints),
+    msBeforeNext: O.fromNullable(e.msBeforeNext),
+  }
+}
+
+const limiterConsume = (
+  limiter: RateLimiterAbstract,
+  key: string,
+): TE.TaskEither<LimiterConsumeError, RateLimiterRes> =>
+  TE.tryCatch(() => limiter.consume(key), getRateLimiterError)
 
 const setRateLimitXHeaders = (remaining: O.Option<number>, msBeforeNext: O.Option<number>) => <T>(
   ctx: KoaContext<T>,
@@ -19,22 +33,12 @@ const setRateLimitXHeaders = (remaining: O.Option<number>, msBeforeNext: O.Optio
   return ctx
 }
 
-type RateLimiterError = Err & { remaining: O.Option<number>; msBeforeNext: O.Option<number> }
-
-const getRateLimiterError = (e: any): RateLimiterError => {
-  return {
-    code: 'LIMITER_CONSUME_FAILED',
-    remaining: O.fromNullable(e.remainingPoints),
-    msBeforeNext: O.fromNullable(e.msBeforeNext),
-  }
-}
-
 export const createRateLimiter = (
   limiter: RateLimiterAbstract,
   getKey: (ctx: KoaContext<any>) => string,
 ) => <T>(ctx: KoaContext<T>): TE.TaskEither<Err, KoaContext<T>> =>
   pipe(
-    TE.tryCatch(() => limiter.consume(getKey(ctx)), getRateLimiterError),
+    limiterConsume(limiter, getKey(ctx)),
     TE.map(result =>
       setRateLimitXHeaders(O.some(result.remainingPoints), O.some(result.remainingPoints))(ctx),
     ),
