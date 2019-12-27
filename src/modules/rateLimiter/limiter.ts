@@ -2,8 +2,8 @@ import { option as O, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import HttpStatus from 'http-status-codes'
 import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
-import { KoaContext } from '../../types'
-import { Err } from '../error/types'
+import { Err } from 'modules/error/types'
+import { KoaContext } from 'types'
 
 type LimiterConsumeError = Err & { remaining: O.Option<number>; msBeforeNext: O.Option<number> }
 

@@ -1,8 +1,8 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import helmet from 'koa-helmet'
-import { router } from './routes'
-import { getSystemLogger } from './modules/logger'
+import { getSystemLogger } from 'modules/logger'
+import { router } from 'routes'
 
 const app = new Koa()
 

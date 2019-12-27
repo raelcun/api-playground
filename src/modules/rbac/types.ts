@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
 import * as TE from 'fp-ts/lib/TaskEither'
-import { Err } from '../error/types'
+import { Err } from 'modules/error/types'
 
 export const enum Roles {
   User = 'user',

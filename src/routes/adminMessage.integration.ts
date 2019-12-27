@@ -1,6 +1,6 @@
 import request from 'supertest'
 import HttpStatus from 'http-status-codes'
-import { app } from '../app'
+import { app } from 'app'
 
 describe('adminMessage', () => {
   test('should return body when authorized', async () => {

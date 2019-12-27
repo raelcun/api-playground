@@ -7,7 +7,7 @@ import { reporter } from 'io-ts-reporters'
 import { Middleware, Context } from 'koa'
 import { Err } from 'modules/error/types'
 import { Logger, LogMethods } from 'modules/logger/types'
-import { KoaContext } from './types'
+import { KoaContext } from 'types'
 
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
