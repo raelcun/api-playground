@@ -46,9 +46,9 @@ describe('validate-response', () => {
 
   test('should call next on valid response', async () => {
     const next = createMockNext()
-    const ctx = createKoaContext({ requestBody: 5 })
+    const ctx = createKoaContext({ body: '5' })
 
-    await validateResponseMiddleware(getSystemLogger, () => false)(t.number)(ctx, next)
+    await validateResponseMiddleware(getSystemLogger, () => true)(t.string)(ctx, next)
 
     expect(next).toHaveBeenCalledTimes(1)
   })

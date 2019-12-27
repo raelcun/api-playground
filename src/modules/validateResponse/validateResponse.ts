@@ -40,6 +40,7 @@ export const validateResponseMiddleware = (
   )
 }
 
+/* istanbul ignore next */
 export const validateResponse = validateResponseMiddleware(
   getSystemLogger,
   () => !getConfig().isProduction,
