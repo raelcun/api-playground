@@ -12,6 +12,7 @@ import { KoaContext } from './types'
 
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
+/* istanbul ignore next */
 export const installStaticClock = () => {
   let clock: InstalledClock
 
@@ -30,15 +31,6 @@ export const mapErrorCode = <T extends string>(newErrorCode: T) =>
     code: newErrorCode,
   }))
 
-export const respondWithError = (ctx: Context, status: number) => <E extends Err<string>>(
-  result: E.Either<E, any>,
-) => {
-  if (E.isLeft(result)) {
-    ctx.status = status
-    ctx.body = result.left
-  }
-}
-
 export const logErrors = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
   E.mapLeft<L, L>(e => {
     logger[method](e)
@@ -53,7 +45,7 @@ export const decode = <T>(
     t.decode(v),
     E.mapLeft(errors => ({
       code: 'VALIDATION_ERROR',
-      message: reporter(E.left(errors)).join('\n'),
+      message: reporter(E.left(errors)).join(' '),
     })),
   )
 
