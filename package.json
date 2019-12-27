@@ -40,7 +40,7 @@
     "koa-router": "^7.4.0",
     "pem": "^1.14.3",
     "pino": "^5.12.2",
-    "rate-limiter-flexible": "^1.1.6"
+    "rate-limiter-flexible": "^1.2.1"
   },
   "devDependencies": {
     "@shopify/jest-koa-mocks": "^2.1.10",
@@ -50,6 +50,7 @@
     "@types/koa-bodyparser": "^4.2.2",
     "@types/koa-helmet": "^3.1.2",
     "@types/koa-router": "^7.0.40",
+    "@types/lolex": "^5.1.0",
     "@types/pem": "^1.9.5",
     "@types/pino": "^5.8.6",
     "@types/supertest": "^2.0.7",
@@ -60,6 +61,7 @@
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-prettier": "^3.0.1",
     "jest": "^24.9.0",
+    "lolex": "^5.1.2",
     "pino-pretty": "^3.2.0",
     "prettier": "^1.17.0",
     "supertest": "^4.0.2",
