@@ -1,32 +1,11 @@
-import { newEnforcer, newModel, Enforcer } from 'casbin'
+import { newModel, Enforcer } from 'casbin'
 import * as TE from 'fp-ts/lib/TaskEither'
 import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { array } from 'fp-ts/lib/Array'
+import { createVoidTE } from 'utils'
 import { Err } from '../error/types'
-import { Actions, Roles, Enforce } from './types'
-
-const wrapPromise = <T>(p: Promise<T>): TE.TaskEither<Err, T> =>
-  TE.tryCatch(() => p, (e: Err) => e)
-
-const addPolicyToEnforcer = <T extends keyof Actions, U extends Actions[T]>(
-  subject: Roles,
-  resource: T,
-  ...actions: U[]
-) => (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> => {
-  const tasks = actions.map(action => wrapPromise(enforcer.addPolicy(subject, resource, action)))
-  return pipe(
-    array.sequence(TE.taskEither)(tasks),
-    TE.chain(e => {
-      return e.every(e => e === true)
-        ? TE.right(enforcer)
-        : TE.left({
-            code: 'ENFORCER_POLICY_LOAD_FAILURE',
-            message: 'failed to load all security policies',
-          })
-    }),
-  )
-}
+import { Roles, Enforce, Actions, EnforceProvider } from './types'
+import { newEnforcer, enforce, addPoliciesToEnforcer } from './wrapper'
 
 const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> =>
   TE.tryCatch(
@@ -54,37 +33,32 @@ const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> =>
     () => ({ code: 'ENFORCER_SETMODEL_FAILED', message: 'failed to set enforcer model' }),
   )
 
-export const wrappedNewEnforcer: TE.TaskEither<Err, Enforcer> = TE.tryCatch(
-  () => newEnforcer(),
-  () => ({ code: 'ENFORCER_FACTORY_FAILED', message: 'failed to instantiate base enforcer' }),
-)
-
-const wrappedEnforce = (enforcer: Enforcer): Enforce => (
-  subject: string,
-  resource: string,
-  ...actions: string[]
-) => {
-  const tasks = actions.map(action => wrapPromise(enforcer.enforce(subject, resource, action)))
-  return pipe(
-    array.sequence(TE.taskEither)(tasks),
-    TE.map(e => e.every(e => e === true)),
-  )
-}
-
 export const createEnforcer: TE.TaskEither<Err, Enforcer> = pipe(
-  wrappedNewEnforcer,
+  newEnforcer,
   TE.chain(setEnforcerModel),
-  TE.chain(addPolicyToEnforcer(Roles.User, 'account', 'viewOwn', 'viewAny')),
+  TE.chain(addPoliciesToEnforcer(Roles.User, 'account', 'viewOwn', 'viewAny')),
 )
 
 let enforcerInstance: Promise<E.Either<Err, Enforcer>>
-export const getEnforcer: TE.TaskEither<Err, Enforce> = async () => {
+export const getEnforcer: EnforceProvider = async () => {
   if (enforcerInstance === undefined) {
     enforcerInstance = createEnforcer()
   }
 
   return pipe(
     await enforcerInstance,
-    E.map(enforcer => wrappedEnforce(enforcer)),
+    E.map(enforcer => enforce(enforcer)),
   )
 }
+
+export const enforceRole = (enforceFnProvider: TE.TaskEither<Err, Enforce>) => <
+  T extends keyof Actions,
+  U extends Actions[T]
+>(
+  resource: T,
+) => (actions: U[]) => (role: Roles): TE.TaskEither<Err, void> =>
+  pipe(
+    enforceFnProvider,
+    TE.chain(enforce => enforce(role, resource, ...actions)),
+    TE.chain(result => (result === true ? createVoidTE() : TE.left({ code: 'ROLE_REJECTED' }))),
+  )

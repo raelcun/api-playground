@@ -1,1 +1,1 @@
-export { getEnforcer } from './enforcer'
+export { getEnforcer, enforceRole } from './enforcer'

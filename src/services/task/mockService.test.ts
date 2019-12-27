@@ -1,6 +1,5 @@
 import { pipe } from 'fp-ts/lib/pipeable'
-import { mapLeft, map, chain } from 'fp-ts/lib/TaskEither'
-import { isRight } from 'fp-ts/lib/Either'
+import { either as E, taskEither as TE } from 'fp-ts'
 import { mockData } from '../../models'
 import { service } from './mockService'
 
@@ -16,7 +15,7 @@ describe('mock task service', () => {
 
     await pipe(
       service.getTask(newTask.id),
-      map(foundTask => {
+      TE.map(foundTask => {
         expect(foundTask).toEqual(newTask)
       }),
     )
@@ -27,11 +26,11 @@ describe('mock task service', () => {
 
     const modifiedTask = { ...mockData.tasks[0], name: 'new name' }
     const editedTask = await service.editTask(modifiedTask.id, modifiedTask)()
-    expect(isRight(editedTask)).toBeTruthy()
+    expect(E.isRight(editedTask)).toBeTruthy()
 
     await pipe(
       service.getTask(modifiedTask.id),
-      map(foundTask => {
+      TE.map(foundTask => {
         expect(foundTask).toEqual(modifiedTask)
       }),
     )()
@@ -41,7 +40,7 @@ describe('mock task service', () => {
     expect.assertions(1)
     await pipe(
       service.editTask('notarealid', mockData.tasks[0]),
-      mapLeft(value => {
+      TE.mapLeft(value => {
         expect(value).toEqual({ code: 'TASK_NOT_FOUND' })
       }),
     )()
@@ -53,7 +52,7 @@ describe('mock task service', () => {
     service.removeTask(removeId)
     await pipe(
       service.getTask(removeId),
-      mapLeft(value => {
+      TE.mapLeft(value => {
         expect(value).toEqual({ code: 'TASK_NOT_FOUND' })
       }),
     )()
@@ -65,7 +64,7 @@ describe('mock task service', () => {
 
     await pipe(
       service.getAllTasks(),
-      map(foundTasks => {
+      TE.map(foundTasks => {
         expect(foundTasks).toEqual([...mockData.tasks, newTask])
       }),
     )

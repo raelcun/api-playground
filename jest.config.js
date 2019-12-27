@@ -1,4 +1,4 @@
-process.env.NODE_CONFIG_DIR = './src/config'
+process.env.NODE_CONFIG_DIR = './src/configuration'
 
 module.exports = {
   roots: ['<rootDir>/src'],
@@ -9,5 +9,5 @@ module.exports = {
   testEnvironment: 'node',
   testRegex: '\\.(test|integration)\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  coveragePathIgnorePatterns: ['/node_modules/', '/index.ts', '/config/'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/index.ts', '/configuration/'],
 }

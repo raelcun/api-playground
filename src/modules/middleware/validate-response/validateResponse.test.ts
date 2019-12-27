@@ -1,44 +1,54 @@
 import * as t from 'io-ts'
-import { createMockContext } from '@shopify/jest-koa-mocks'
-import { validateResponseInner } from './validateResponse'
+import { createKoaContext, createMockNext } from 'utils'
+import { getSystemLogger } from 'modules/logger'
+import { validateResponseMiddleware } from './validateResponse'
 
 describe('validate-response', () => {
-  test('should call next on invalid response when shouldThrow is false', async () => {
-    const next = jest.fn()
-    const ctx = createMockContext()
-    ctx.body = 'foo'
+  test.each([false, true])(
+    'should log error when validation fails and shouldThrow is %s',
+    async shouldThrow => {
+      const logger = getSystemLogger()
+      const warnLoggerSpy = jest.spyOn(logger, 'warn')
+      const next = createMockNext()
+      const ctx = createKoaContext({ body: 'foo' })
 
-    await validateResponseInner(false)(t.number)(ctx, next)
+      await validateResponseMiddleware(() => logger, () => shouldThrow)(t.number)(ctx, next)
+
+      expect(warnLoggerSpy.mock.calls).toMatchSnapshot()
+    },
+  )
+
+  test('should call next on invalid response when shouldThrow is false', async () => {
+    const next = createMockNext()
+    const ctx = createKoaContext({ requestBody: 'foo' })
+
+    await validateResponseMiddleware(getSystemLogger, () => false)(t.number)(ctx, next)
 
     expect(next).toHaveBeenCalledTimes(1)
   })
 
   test('should not call next on invalid response when shouldThrow is true', async () => {
-    const next = jest.fn()
-    const ctx = createMockContext()
-    ctx.body = 'foo'
+    const next = createMockNext()
+    const ctx = createKoaContext({ requestBody: 'foo' })
 
-    await validateResponseInner(true)(t.number)(ctx, next)
+    await validateResponseMiddleware(getSystemLogger, () => true)(t.number)(ctx, next)
 
     expect(next).not.toHaveBeenCalled()
   })
 
-  test('should set error context on invalid response when shouldThrow is true', async () => {
-    const ctx = createMockContext()
-    ctx.body = 'foo'
+  test('should have 500 status code when invalid response and shouldThrow is true', async () => {
+    const ctx = createKoaContext({ requestBody: 'foo' })
 
-    await validateResponseInner(true)(t.number)(ctx, jest.fn())
+    await validateResponseMiddleware(getSystemLogger, () => true)(t.number)(ctx, createMockNext())
 
     expect(ctx.status).toEqual(500)
-    expect(ctx.body).toEqual({ errors: ['Expecting number but instead got: "foo".'] })
   })
 
   test('should call next on valid response', async () => {
-    const next = jest.fn()
-    const ctx = createMockContext()
-    ctx.body = 5
+    const next = createMockNext()
+    const ctx = createKoaContext({ requestBody: 5 })
 
-    await validateResponseInner(false)(t.number)(ctx, next)
+    await validateResponseMiddleware(getSystemLogger, () => false)(t.number)(ctx, next)
 
     expect(next).toHaveBeenCalledTimes(1)
   })

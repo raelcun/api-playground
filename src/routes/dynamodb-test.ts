@@ -1,6 +1,6 @@
 import Router from 'koa-router'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
-import { getConfig } from '../config'
+import { getConfig } from '../configuration'
 
 const router = new Router()
 

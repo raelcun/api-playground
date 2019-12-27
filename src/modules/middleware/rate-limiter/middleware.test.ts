@@ -7,10 +7,10 @@ describe('rate-limiter middleware', () => {
     const mockContext = createKoaContext()
     const nextMock = createMockNext()
     const limiter = new RateLimiterMemory({ points: 2, duration: 100 })
-    const result: Promise<any> = rateLimitingMiddleware(limiter, () => 'foo')(
+    const result: Promise<void> = rateLimitingMiddleware(limiter, () => 'foo')(
       mockContext,
       nextMock,
-    )()
+    )
 
     test('decrements and sets X-RateLimit-Remaining header', async () => {
       await result
@@ -32,10 +32,10 @@ describe('rate-limiter middleware', () => {
     const mockContext = createKoaContext()
     const nextMock = createMockNext()
     const limiter = new RateLimiterMemory({ points: 0, duration: 100 })
-    const result: Promise<any> = rateLimitingMiddleware(limiter, () => 'foo')(
+    const result: Promise<void> = rateLimitingMiddleware(limiter, () => 'foo')(
       mockContext,
       nextMock,
-    )()
+    )
 
     test('status code set to 429', async () => {
       await result
@@ -67,15 +67,15 @@ describe('rate-limiter middleware', () => {
     const mockContextReq3 = createKoaContext()
     const nextMockReq3 = createMockNext()
 
-    await rateLimitingMiddleware(limiter, () => 'foo')(mockContextReq1, nextMockReq1)()
+    await rateLimitingMiddleware(limiter, () => 'foo')(mockContextReq1, nextMockReq1)
     expect(mockContextReq1.response.get('X-RateLimit-Remaining')).toEqual('1')
     expect(nextMockReq1).toHaveBeenCalledTimes(1)
 
-    await rateLimitingMiddleware(limiter, () => 'bar')(mockContextReq2, nextMockReq2)()
+    await rateLimitingMiddleware(limiter, () => 'bar')(mockContextReq2, nextMockReq2)
     expect(mockContextReq2.response.get('X-RateLimit-Remaining')).toEqual('1')
     expect(nextMockReq2).toHaveBeenCalledTimes(1)
 
-    await rateLimitingMiddleware(limiter, () => 'foo')(mockContextReq3, nextMockReq3)()
+    await rateLimitingMiddleware(limiter, () => 'foo')(mockContextReq3, nextMockReq3)
     expect(mockContextReq3.response.get('X-RateLimit-Remaining')).toEqual('0')
     expect(nextMockReq3).toHaveBeenCalledTimes(1)
   })

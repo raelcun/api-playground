@@ -98,3 +98,45 @@ Array [
   ],
 ]
 `;
+
+exports[`enforcer validation fails for user with fake action 1`] = `
+Object {
+  "_tag": "Right",
+  "right": false,
+}
+`;
+
+exports[`enforcer validation fails for user with fake resource 1`] = `
+Object {
+  "_tag": "Right",
+  "right": false,
+}
+`;
+
+exports[`enforcer validation fails for user with insuffient priviledges 1`] = `
+Object {
+  "_tag": "Right",
+  "right": false,
+}
+`;
+
+exports[`enforcer validation passes for admin with fake action 1`] = `
+Object {
+  "_tag": "Right",
+  "right": true,
+}
+`;
+
+exports[`enforcer validation passes for admin with fake resource 1`] = `
+Object {
+  "_tag": "Right",
+  "right": true,
+}
+`;
+
+exports[`enforcer validation passes for admin with real resource and action 1`] = `
+Object {
+  "_tag": "Right",
+  "right": true,
+}
+`;

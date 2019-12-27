@@ -1,17 +1,14 @@
 import pino from 'pino'
-import { getConfig } from '../../config'
+import { FullConfig } from 'configuration/types'
+import { getConfig } from '../../configuration'
 import { Logger } from './types'
 
-export const getLogger = (name: string) => {
-  return pino({ name, level: getConfig().logging.level })
+export const getLoggerInternal = (getLoggingConfig: () => FullConfig['logging']) => (
+  name: string,
+) => {
+  return pino({ name, level: getLoggingConfig().level })
 }
+
+export const getLogger = getLoggerInternal(() => getConfig().logging)
 
 export const getSystemLogger = (): Logger => getLogger('system')
-
-export const createMockLogger = (
-  overrides: Partial<
-    Pick<pino.Logger, 'fatal' | 'trace' | 'error' | 'info' | 'debug' | 'warn' | 'child'>
-  > = {},
-): Logger => {
-  return Object.assign(pino({ name: 'mockLogger', level: 'trace' }), overrides)
-}

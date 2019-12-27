@@ -3,7 +3,7 @@ import HttpStatus from 'http-status-codes'
 import { app } from '../app'
 
 describe('adminMessage', () => {
-  test('should return correct body', async () => {
+  test('should return body when authorized', async () => {
     await request(app.callback())
       .post('/v1/adminMessage')
       .send({
@@ -13,7 +13,7 @@ describe('adminMessage', () => {
       .expect(200)
   })
 
-  test('should enforce ', async () => {
+  test('should reject unauthorized request ', async () => {
     await request(app.callback())
       .post('/v1/adminMessage')
       .send({
@@ -26,7 +26,7 @@ describe('adminMessage', () => {
   test('should validate post body', async () => {
     await request(app.callback())
       .post('/v1/adminMessage')
-      .send({})
+      .send({ role: 'admin' })
       .expect(HttpStatus.BAD_REQUEST)
   })
 })

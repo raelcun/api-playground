@@ -14,6 +14,8 @@ export interface Actions {
 
 export type Enforce = <T extends keyof Actions, U extends Actions[T]>(
   subject: string,
-  resource: string,
-  ...actions: string[]
+  resource: T,
+  ...actions: U[]
 ) => TE.TaskEither<Err, boolean>
+
+export type EnforceProvider = TE.TaskEither<Err, Enforce>

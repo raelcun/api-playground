@@ -8,6 +8,7 @@
       "es6",
       "dom"
     ],
+    "baseUrl": "./src",
     "sourceMap": true,
     "moduleResolution": "node",
     "strictNullChecks": true,

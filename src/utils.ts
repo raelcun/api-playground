@@ -1,14 +1,59 @@
 import * as t from 'io-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { task as T, taskEither as TE, either as E } from 'fp-ts'
-import createMockContext, { Options } from '@shopify/jest-koa-mocks/dist/create-mock-context'
+import { taskEither as TE, either as E, io as IO, array as A } from 'fp-ts'
+import { Options } from '@shopify/jest-koa-mocks/src/create-mock-context'
+import { createMockContext } from '@shopify/jest-koa-mocks'
+import { reporter } from 'io-ts-reporters'
+import { Middleware, Context } from 'koa'
+import { Err } from 'modules/error/types'
+import { Logger, LogMethods } from 'modules/logger/types'
 import { KoaContext } from './types'
-import { Err } from './modules/error/types'
+
+export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
+
+export const mapErrorCode = <T extends string>(newErrorCode: T) =>
+  E.mapLeft((originalError: Err<string>) => ({
+    ...originalError,
+    code: newErrorCode,
+  }))
+
+export const respondWithError = (ctx: Context, status: number) => <E extends Err<string>>(
+  result: E.Either<E, any>,
+) => {
+  if (E.isLeft(result)) {
+    ctx.status = status
+    ctx.body = result.left
+  }
+}
+
+export const logErrors = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
+  E.mapLeft<L, L>(e => {
+    logger[method](e)
+    return e
+  })
+
+export const decode = <T>(
+  t: t.Type<T, unknown>,
+  v: unknown,
+): E.Either<Err<'VALIDATION_ERROR'>, T> =>
+  pipe(
+    t.decode(v),
+    E.mapLeft(errors => ({
+      code: 'VALIDATION_ERROR',
+      message: reporter(E.left(errors)).join('\n'),
+    })),
+  )
+
+export const ioSequence = A.array.sequence(IO.io)
 
 export const createKoaContext = <T>(
-  options?: Options<object, T> & { requestBody: T },
+  options?: Options<object, T> & { requestBody?: T } & { body?: string | object },
 ): KoaContext<T> => {
-  return createMockContext(options) as KoaContext<T>
+  const context = createMockContext(options) as KoaContext<T>
+  if (options !== undefined && options.body !== undefined) {
+    context.body = options.body
+  }
+  return context
 }
 
 export const createMockNext = () => jest.fn(() => Promise.resolve())
@@ -27,20 +72,15 @@ export const DateFromString = new t.Type<Date, string, unknown>(
   a => a.toISOString(),
 )
 
-export const createMiddlewareE = <T>(f: (ctx: KoaContext<T>) => E.Either<Err, KoaContext<T>>) => (
-  ctx: KoaContext<T>,
-  next: () => Promise<void>,
-) =>
-  pipe(
-    f(ctx),
-    TE.fromEither,
-    TE.map(next),
-  )
-
 export const createMiddlewareTE = <T>(
-  f: (ctx: KoaContext<T>) => TE.TaskEither<Err, KoaContext<T>>,
-) => (ctx: KoaContext<T>, next: () => Promise<void>) =>
-  pipe(
+  f: (ctx: Context) => TE.TaskEither<unknown, unknown>,
+): Middleware<T> => async (ctx, next) => {
+  await pipe(
     f(ctx),
     TE.chain(() => TE.rightTask(next)),
-  )
+  )()
+}
+
+export const createMiddlewareE = <T>(
+  f: (ctx: Context) => E.Either<unknown, unknown>,
+): Middleware<T> => createMiddlewareTE(ctx => TE.fromEither(f(ctx)))

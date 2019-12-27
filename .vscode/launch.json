@@ -15,7 +15,7 @@
         "jest.config.js"
       ],
       "env": {
-        "NODE_CONFIG_DIR": "./src/config"
+        "NODE_CONFIG_DIR": "./src/configuration"
       },
       "console": "integratedTerminal",
       "disableOptimisticBPs": true,
@@ -26,7 +26,7 @@
       "type": "node",
       "request": "launch",
       "env": {
-        "NODE_CONFIG_DIR": "./src/config",
+        "NODE_CONFIG_DIR": "./src/configuration",
         "TS_NODE_PROJECT": "tsconfig.json"
       },
       "args": [

@@ -1,4 +1,4 @@
-export interface Err {
-  code: string
+export interface Err<Code extends string = string> {
+  code: Code
   message?: string
 }

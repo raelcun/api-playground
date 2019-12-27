@@ -1,40 +1,40 @@
 import * as t from 'io-ts'
-import * as TE from 'fp-ts/lib/TaskEither'
+import { taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
+import { Middleware } from 'koa'
 import HttpStatus from 'http-status-codes'
-import { getEnforcer } from '../../rbac'
-import { withValidatedBody } from '../../with-validated-body'
-import { getSystemLogger } from '../../logger'
-import { Actions, RolesV, Enforce } from '../../rbac/types'
+import { validateBody } from 'modules/validate-body'
+import { getEnforcer, enforceRole } from '../../rbac'
+import { Actions, RolesV, EnforceProvider } from '../../rbac/types'
 import { Err } from '../../error/types'
 
-export const enforceWithBodyRoleInternal = (enforcerProvider: TE.TaskEither<Err, Enforce>) => <
+export const enforceWithBodyRoleInternal = (enforceFnProvider: EnforceProvider) => <
   T extends keyof Actions,
   U extends Actions[T]
 >(
   resource: T,
   actions: U[],
-) =>
-  withValidatedBody(t.type({ role: RolesV }))(async (ctx, next) => {
-    await pipe(
-      enforcerProvider,
-      TE.chain(enforce => enforce(ctx.request.body.role, resource, ...actions)),
-      TE.fold(
-        () => async () => {
-          ctx.status = HttpStatus.UNAUTHORIZED
-          getSystemLogger().trace(
-            `enforcer failed for role(${ctx.request.body.role}), resource(${resource}, actions(${actions}))`,
-          )
-        },
-        result => async () => {
-          if (result === true) {
-            await next()
-          } else {
-            ctx.status = HttpStatus.UNAUTHORIZED
-          }
-        },
-      ),
-    )()
-  })
+) => (body: unknown): TE.TaskEither<Err, void> =>
+  pipe(
+    validateBody(t.type({ role: RolesV }))(body),
+    e => TE.fromEither(e),
+    TE.chain(({ role }) => enforceRole(enforceFnProvider)(resource)(actions)(role)),
+  )
 
-export const enforceWithBodyRole = enforceWithBodyRoleInternal(getEnforcer)
+export const enforceWithBodyRoleMiddleware = (enforceProvider: EnforceProvider) => <
+  T extends keyof Actions,
+  U extends Actions[T]
+>(
+  resource: T,
+  actions: U[],
+): Middleware => async (ctx, next) => {
+  await pipe(
+    enforceWithBodyRoleInternal(enforceProvider)(resource, actions)(ctx.request.body),
+    TE.mapLeft(() => {
+      ctx.status = HttpStatus.UNAUTHORIZED
+    }),
+    TE.chain(() => TE.rightTask(next)),
+  )()
+}
+
+export const enforceWithBodyRole = enforceWithBodyRoleMiddleware(getEnforcer)

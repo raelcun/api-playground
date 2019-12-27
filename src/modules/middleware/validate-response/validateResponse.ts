@@ -1,25 +1,34 @@
 import * as t from 'io-ts'
-import { reporter } from 'io-ts-reporters'
-import { left, fold } from 'fp-ts/lib/Either'
+import { either as E } from 'fp-ts'
 import HttpStatus from 'http-status-codes'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { Middleware } from '../../../types'
+import { Lazy } from 'fp-ts/lib/function'
+import { LoggerFactory } from 'modules/logger/types'
+import { decode, logErrors, mapErrorCode } from 'utils'
+import { Err } from 'modules/error/types'
+import { Middleware } from 'koa'
+import { getConfig } from 'configuration'
 import { getSystemLogger } from '../../logger'
-import { getConfig } from '../../../config'
 
-export const validateResponseInner = (shouldError: boolean) => <T>(
+export const validateResponseInternal = (createLogger: LoggerFactory) => <T>(
   type: t.Type<T, unknown>,
-): Middleware<T> => async (ctx, next) =>
+) => (response: unknown): E.Either<Err<'RESPONSE_VALIDATION_ERROR'>, T> =>
   pipe(
-    type.decode(ctx.body),
-    fold(
-      errors => {
-        getSystemLogger().warn('failed to validate response\n' + reporter(left(errors)))
-        if (shouldError) {
+    decode(type, response),
+    mapErrorCode('RESPONSE_VALIDATION_ERROR'),
+    logErrors(createLogger(), 'warn'),
+  )
+
+export const validateResponseMiddleware = (
+  createLogger: LoggerFactory,
+  shouldError: Lazy<boolean>,
+) => <T>(type: t.Type<T, unknown>): Middleware => async (ctx, next) => {
+  pipe(
+    validateResponseInternal(createLogger)(type)(ctx.body),
+    E.fold(
+      () => {
+        if (shouldError()) {
           ctx.status = HttpStatus.INTERNAL_SERVER_ERROR
-          ctx.body = {
-            errors: reporter(left(errors)),
-          }
         } else {
           next()
         }
@@ -29,5 +38,9 @@ export const validateResponseInner = (shouldError: boolean) => <T>(
       },
     ),
   )
+}
 
-export const validateResponse = validateResponseInner(!getConfig().isProduction)
+export const validateResponse = validateResponseMiddleware(
+  getSystemLogger,
+  () => !getConfig().isProduction,
+)

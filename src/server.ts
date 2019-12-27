@@ -2,7 +2,7 @@ import https from 'https'
 import http from 'http'
 import { createCertificate } from 'pem'
 import { app } from './app'
-import { getConfig } from './config'
+import { getConfig } from './configuration'
 import { getSystemLogger } from './modules/logger'
 
 const { securePort, insecurePort, enableSSL } = getConfig().server
