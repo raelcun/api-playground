@@ -7,23 +7,9 @@ import { reporter } from 'io-ts-reporters'
 import { Middleware, Context } from 'koa'
 import { Err } from 'modules/error/types'
 import { Logger, LogMethods } from 'modules/logger/types'
-import lolex, { InstalledClock } from 'lolex'
 import { KoaContext } from './types'
 
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
-
-/* istanbul ignore next */
-export const installStaticClock = () => {
-  let clock: InstalledClock
-
-  beforeAll(() => {
-    clock = lolex.install({ now: 946684800000 })
-  })
-
-  afterAll(() => {
-    clock.uninstall()
-  })
-}
 
 export const mapErrorCode = <T extends string>(newErrorCode: T) =>
   E.mapLeft((originalError: Err<string>) => ({

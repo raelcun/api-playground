@@ -1,36 +1,14 @@
-import { Context } from 'koa'
-import HttpStatus from 'http-status-codes'
 import { createKoaContext, createMockNext } from 'utils'
 import { sign } from 'jsonwebtoken'
 import { getConfig } from 'configuration'
 import { Roles, EnforceProvider } from 'modules/rbac/types'
 import { taskEither as TE } from 'fp-ts'
-import { Token } from '../types'
+import { testAuthorized, testUnauthorized } from 'testUtils'
 import { enforceWithAuthHeaderMiddleware } from './enforceAuthHeader'
 
-const testUnauthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>, []>) => {
-  test('should set status to 401', () => {
-    expect(mockContext.status).toEqual(HttpStatus.UNAUTHORIZED)
-  })
-
-  test('should not invoke next', () => {
-    expect(mockNext).not.toHaveBeenCalled()
-  })
-}
-
-const testAuthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>, []>) => {
-  test('should not set status to 401', () => {
-    expect(mockContext.status).not.toEqual(HttpStatus.UNAUTHORIZED)
-  })
-
-  test('should invoke next once', () => {
-    expect(mockNext).toHaveBeenCalledTimes(1)
-  })
-}
-
-const createMockContextAndNext = (token: Token) => ({
+const createMockContextAndNext = (authHeader: string) => ({
   mockContext: createKoaContext({
-    headers: { authorization: `Bearer ${sign(token, getConfig().server.jwtSecret)}` },
+    headers: { authorization: authHeader },
   }),
   mockNext: createMockNext(),
 })
@@ -40,8 +18,12 @@ const createExpiredTokenHeader = () =>
     notBefore: '1 day',
   })}`
 
-const createValidToken = (): Token => ({ userId: 'foo', role: Roles.User })
-const createInvalidToken = (): Token => ({ userId: 'foo' } as any)
+const createInvalidTokenSchemaHeader = () =>
+  `Bearer ${sign({ userId: 'foo' }, getConfig().server.jwtSecret)}`
+
+const createValidTokenHeader = () =>
+  `Bearer ${sign({ userId: 'foo', role: Roles.User }, getConfig().server.jwtSecret)}`
+
 const createEnforceProviderThatReturnsAuthorized = () => TE.right(() => TE.right(true))
 const createEnforceProviderThatReturnsUnauthorized = () => TE.right(() => TE.right(false))
 const createEnforceProviderThatFailsToEnforce = () =>
@@ -49,10 +31,10 @@ const createEnforceProviderThatFailsToEnforce = () =>
 const createEnforceProviderThatFails = () => TE.left({ code: 'CANNOT_GET_ENFORCER' })
 
 describe('enforceWithAuthHeader middleware', () => {
-  describe.each<[string, Token, EnforceProvider]>([
+  describe.each<[string, string, EnforceProvider]>([
     [
       'when enforcer returns authorized and token is valid',
-      createValidToken(),
+      createValidTokenHeader(),
       createEnforceProviderThatReturnsAuthorized(),
     ],
   ])('%s', (_, token, enforceProvider) => {
@@ -68,24 +50,19 @@ describe('enforceWithAuthHeader middleware', () => {
     testAuthorized(mockContext, mockNext)
   })
 
-  describe.each<[string, Token, EnforceProvider]>([
-    [
-      'when enforcer returns authorized and token schema is invalid',
-      createInvalidToken(),
-      createEnforceProviderThatReturnsAuthorized(),
-    ],
+  describe.each<[string, string, EnforceProvider]>([
     [
       'when enforcer returns unauthorized and token is valid',
-      createValidToken(),
+      createInvalidTokenSchemaHeader(),
       createEnforceProviderThatReturnsUnauthorized(),
     ],
     [
       'when enforcer returns unauthorized and token schema is invalid',
-      createInvalidToken(),
+      createInvalidTokenSchemaHeader(),
       createEnforceProviderThatReturnsUnauthorized(),
     ],
-    ['when enforcer fails', createValidToken(), createEnforceProviderThatFailsToEnforce()],
-    ['when cannot get enforcer', createValidToken(), createEnforceProviderThatFails()],
+    ['when enforcer fails', createValidTokenHeader(), createEnforceProviderThatFailsToEnforce()],
+    ['when cannot get enforcer', createValidTokenHeader(), createEnforceProviderThatFails()],
   ])('%s', (_, token, enforceProvider) => {
     const { mockNext, mockContext } = createMockContextAndNext(token)
 
@@ -102,7 +79,8 @@ describe('enforceWithAuthHeader middleware', () => {
   describe.each<[string, string]>([
     ['not using Bearer protocol', `Basic foo`],
     ['header has an invalid token format', 'Bearer foo'],
-    ['header has too many parts', `Bearer foo bar`],
+    ['token schema is invalid', createInvalidTokenSchemaHeader()],
+    ['header has too many parts', `${createValidTokenHeader()} bar`],
     ['header is missing', undefined as any],
     ['token is expired', createExpiredTokenHeader()],
   ])('when enforcer returns authorized and %s', (_, authHeader) => {

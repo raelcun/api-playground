@@ -1,7 +1,8 @@
-import { createKoaContext, installStaticClock } from 'utils'
+import { createKoaContext } from 'utils'
 import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
 import HttpStatus from 'http-status-codes'
 import { either as E } from 'fp-ts'
+import { installStaticClock } from 'testUtils'
 import { createRateLimiter } from './limiter'
 import { createLimiter } from '.'
 

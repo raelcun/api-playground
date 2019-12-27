@@ -1,29 +1,9 @@
 import { taskEither as TE } from 'fp-ts'
 import { createKoaContext, createMockNext } from 'utils'
 import HttpStatus from 'http-status-codes'
-import { Context } from 'koa'
+import { testAuthorized, testUnauthorized } from 'testUtils'
 import { Roles } from '../../types'
 import { enforceWithBodyRoleMiddleware } from './enforceWithBodyRole'
-
-const testUnauthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>, []>) => {
-  test('should set status to 401', () => {
-    expect(mockContext.status).toEqual(HttpStatus.UNAUTHORIZED)
-  })
-
-  test('should not invoke next', () => {
-    expect(mockNext).not.toHaveBeenCalled()
-  })
-}
-
-const testAuthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>, []>) => {
-  test('should not set status to 401', () => {
-    expect(mockContext.status).not.toEqual(HttpStatus.UNAUTHORIZED)
-  })
-
-  test('should invoke next once', () => {
-    expect(mockNext).toHaveBeenCalledTimes(1)
-  })
-}
 
 describe('enforcerWithBodyRole middleware', () => {
   describe('when enforcer returns authorized', () => {
