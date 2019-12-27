@@ -40,7 +40,7 @@
     "koa-router": "^7.4.0",
     "pem": "^1.14.3",
     "pino": "^5.12.2",
-    "rate-limiter-flexible": "^1.2.1"
+    "rate-limiter-flexible": "^1.2.2"
   },
   "devDependencies": {
     "@shopify/jest-koa-mocks": "^2.1.10",

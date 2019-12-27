@@ -12,16 +12,10 @@ const createMockLimiter = (consumeMock: RateLimiterAbstract['consume']) => {
 }
 
 const consumeNoPoints: RateLimiterAbstract['consume'] = () =>
-  Promise.reject({
-    remainingPoints: 0,
-    msBeforeNext: 500,
-  } as RateLimiterRes)
+  Promise.reject(new RateLimiterRes(0, 500))
 
 const consumeHasPoints: RateLimiterAbstract['consume'] = () =>
-  Promise.resolve({
-    remainingPoints: 5,
-    msBeforeNext: 500,
-  } as RateLimiterRes)
+  Promise.resolve(new RateLimiterRes(5, 500))
 
 const consumeThrows: RateLimiterAbstract['consume'] = () => Promise.reject(new Error('oh shit'))
 
