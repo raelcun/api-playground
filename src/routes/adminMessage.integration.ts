@@ -10,7 +10,7 @@ describe('adminMessage', () => {
         role: 'admin',
         message: 'foobar',
       })
-      .expect(200)
+      .expect(HttpStatus.OK, 'foobar')
   })
 
   test('should reject unauthorized request ', async () => {
@@ -20,13 +20,16 @@ describe('adminMessage', () => {
         role: 'user',
         message: 'foobar',
       })
-      .expect(401)
+      .expect(HttpStatus.UNAUTHORIZED, 'Unauthorized')
   })
 
   test('should validate post body', async () => {
     await request(app.callback())
       .post('/v1/adminMessage')
       .send({ role: 'admin' })
-      .expect(HttpStatus.BAD_REQUEST)
+      .expect(HttpStatus.BAD_REQUEST, {
+        code: 'BODY_VALIDATION_ERROR',
+        message: 'Expecting string at message but instead got: undefined.',
+      })
   })
 })
