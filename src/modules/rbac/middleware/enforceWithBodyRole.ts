@@ -4,9 +4,9 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { Middleware } from 'koa'
 import HttpStatus from 'http-status-codes'
 import { validateBody } from 'modules/validate-body'
-import { getEnforcer, enforceRole } from '../../rbac'
-import { Actions, RolesV, EnforceProvider } from '../../rbac/types'
 import { Err } from '../../error/types'
+import { Actions, RolesV, EnforceProvider } from '../types'
+import { getEnforcer, enforceRole } from '..'
 
 export const enforceWithBodyRoleInternal = (enforceFnProvider: EnforceProvider) => <
   T extends keyof Actions,
