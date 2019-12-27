@@ -3,8 +3,9 @@ import { taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Middleware } from 'koa'
 import HttpStatus from 'http-status-codes'
-import { validateBody } from 'modules/validate-body'
+import { validateBody } from 'modules/validateBody'
 import { Err } from 'modules/error/types'
+import { createMiddlewareTE } from 'utils'
 import { Actions, RolesV, EnforceProvider } from '../../types'
 import { enforceRole, getEnforcer } from '../../enforcer'
 
@@ -27,14 +28,14 @@ export const enforceWithBodyRoleMiddleware = (enforceProvider: EnforceProvider) 
 >(
   resource: T,
   actions: U[],
-): Middleware => async (ctx, next) => {
-  await pipe(
-    enforceWithBodyRoleInternal(enforceProvider)(resource, actions)(ctx.request.body),
-    TE.mapLeft(() => {
-      ctx.status = HttpStatus.UNAUTHORIZED
-    }),
-    TE.chain(() => TE.rightTask(next)),
-  )()
-}
+): Middleware =>
+  createMiddlewareTE(ctx =>
+    pipe(
+      enforceWithBodyRoleInternal(enforceProvider)(resource, actions)(ctx.request.body),
+      TE.mapLeft(() => {
+        ctx.status = HttpStatus.UNAUTHORIZED
+      }),
+    ),
+  )
 
 export const enforceWithBodyRole = enforceWithBodyRoleMiddleware(getEnforcer)

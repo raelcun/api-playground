@@ -4,7 +4,7 @@ import { option as O, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import HttpStatus from 'http-status-codes'
 import { createMiddlewareTE } from 'utils'
-import { Err } from '../../error/types'
+import { Err } from '../error/types'
 
 type LimiterConsumeError = Err & { remaining: O.Option<number>; msBeforeNext: O.Option<number> }
 

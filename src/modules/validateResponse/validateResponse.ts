@@ -8,7 +8,7 @@ import { decode, logErrors, mapErrorCode } from 'utils'
 import { Err } from 'modules/error/types'
 import { Middleware } from 'koa'
 import { getConfig } from 'configuration'
-import { getSystemLogger } from '../../logger'
+import { getSystemLogger } from '../logger'
 
 export const validateResponseInternal = (createLogger: LoggerFactory) => <T>(
   type: t.Type<T, unknown>,
