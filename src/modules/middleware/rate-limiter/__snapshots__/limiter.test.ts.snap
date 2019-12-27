@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rateLimiter should return error and not set headers on unexpected limiter rejection 1`] = `Array []`;
+
+exports[`rateLimiter should set X headers when not throttling request 1`] = `
+Array [
+  Array [
+    "X-RateLimit-Remaining",
+    "5",
+  ],
+  Array [
+    "X-RateLimit-Reset",
+    "2000-01-01T00:00:00.500Z",
+  ],
+]
+`;
+
+exports[`rateLimiter should set X headers when throttling request 1`] = `
+Array [
+  Array [
+    "X-RateLimit-Remaining",
+    "0",
+  ],
+  Array [
+    "X-RateLimit-Reset",
+    "2000-01-01T00:00:00.500Z",
+  ],
+]
+`;

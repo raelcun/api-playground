@@ -40,7 +40,7 @@ export const createRateLimiter = (
   pipe(
     limiterConsume(limiter, getKey(ctx)),
     TE.map(result =>
-      setRateLimitXHeaders(O.some(result.remainingPoints), O.some(result.remainingPoints))(ctx),
+      setRateLimitXHeaders(O.some(result.remainingPoints), O.some(result.msBeforeNext))(ctx),
     ),
     TE.mapLeft(error => {
       const { remaining, msBeforeNext, ...realError } = error
