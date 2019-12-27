@@ -39,7 +39,7 @@
     "koa-helmet": "^5.2.0",
     "koa-router": "^7.4.0",
     "pem": "^1.14.3",
-    "pino": "^5.12.2",
+    "pino": "^5.15.0",
     "rate-limiter-flexible": "^1.2.2"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@types/koa-router": "^7.0.40",
     "@types/lolex": "^5.1.0",
     "@types/pem": "^1.9.5",
-    "@types/pino": "^5.8.6",
+    "@types/pino": "^5.15.1",
     "@types/supertest": "^2.0.7",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
     "@typescript-eslint/parser": "^2.13.0",
@@ -62,7 +62,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^24.9.0",
     "lolex": "^5.1.2",
-    "pino-pretty": "^3.2.0",
+    "pino-pretty": "^3.5.0",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
     "ts-jest": "^24.2.0",
