@@ -4,11 +4,11 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { Middleware } from 'koa'
 import HttpStatus from 'http-status-codes'
 import { validateBody } from 'modules/validate-body'
-import { Err } from '../../error/types'
+import { Err } from 'modules/error/types'
 import { Actions, RolesV, EnforceProvider } from '../types'
-import { getEnforcer, enforceRole } from '..'
+import { enforceRole, getEnforcer } from '../enforcer'
 
-export const enforceWithBodyRoleInternal = (enforceFnProvider: EnforceProvider) => <
+const enforceWithBodyRoleInternal = (enforceFnProvider: EnforceProvider) => <
   T extends keyof Actions,
   U extends Actions[T]
 >(
@@ -17,7 +17,7 @@ export const enforceWithBodyRoleInternal = (enforceFnProvider: EnforceProvider) 
 ) => (body: unknown): TE.TaskEither<Err, void> =>
   pipe(
     validateBody(t.type({ role: RolesV }))(body),
-    e => TE.fromEither(e),
+    TE.fromEither,
     TE.chain(({ role }) => enforceRole(enforceFnProvider)(resource)(actions)(role)),
   )
 

@@ -1,4 +1,4 @@
-import { Level } from 'pino'
+import { LevelWithSilent } from 'pino'
 import { DeepPartial } from '../types'
 
 export interface FullConfig {
@@ -11,7 +11,7 @@ export interface FullConfig {
     enableSSL: boolean
   }
   logging: {
-    level: Level
+    level: LevelWithSilent
   }
   aws: {
     region: string
