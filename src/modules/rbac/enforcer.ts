@@ -5,7 +5,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { createVoidTE } from 'utils'
 import { Err } from '../error/types'
 import { Roles, Enforce, Actions, EnforceProvider } from './types'
-import { newEnforcer, enforce, addPoliciesToEnforcer } from './wrapper'
+import { newEnforcer, enforce, addPoliciesToEnforcer } from './casbinWrapper'
 
 const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> =>
   TE.tryCatch(

@@ -2,7 +2,7 @@ import { taskEither as TE } from 'fp-ts'
 import { createKoaContext, createMockNext } from 'utils'
 import HttpStatus from 'http-status-codes'
 import { Context } from 'koa'
-import { Roles } from '../types'
+import { Roles } from '../../types'
 import { enforceWithBodyRoleMiddleware } from './enforceWithBodyRole'
 
 const testUnauthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>, []>) => {
@@ -25,7 +25,7 @@ const testAuthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>,
   })
 }
 
-describe('enforcer middleware', () => {
+describe('enforcerWithBodyRole middleware', () => {
   describe('when enforcer returns authorized', () => {
     const mockContext = createKoaContext({ requestBody: { role: Roles.Admin } })
     const mockNext = createMockNext()

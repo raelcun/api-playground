@@ -22,3 +22,5 @@ export interface FullConfig {
   }
 }
 export type PartialConfig = DeepPartial<FullConfig>
+
+export type ConfigProvider = () => FullConfig

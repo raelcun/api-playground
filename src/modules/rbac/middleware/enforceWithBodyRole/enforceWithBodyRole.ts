@@ -5,8 +5,8 @@ import { Middleware } from 'koa'
 import HttpStatus from 'http-status-codes'
 import { validateBody } from 'modules/validate-body'
 import { Err } from 'modules/error/types'
-import { Actions, RolesV, EnforceProvider } from '../types'
-import { enforceRole, getEnforcer } from '../enforcer'
+import { Actions, RolesV, EnforceProvider } from '../../types'
+import { enforceRole, getEnforcer } from '../../enforcer'
 
 const enforceWithBodyRoleInternal = (enforceFnProvider: EnforceProvider) => <
   T extends keyof Actions,

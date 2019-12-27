@@ -1,2 +1,2 @@
 export { getEnforcer, enforceRole } from './enforcer'
-export { enforceWithBodyRole } from './middleware/enforceWithBodyRole'
+export { enforceWithBodyRole, enforceWithAuthHeader } from './middleware'
