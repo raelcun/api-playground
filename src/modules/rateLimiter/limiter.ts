@@ -1,9 +1,14 @@
 import { option as O, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import HttpStatus from 'http-status-codes'
-import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
-import { Err } from 'modules/error/types'
-import { KoaContext } from 'types'
+import {
+  RateLimiterAbstract,
+  RateLimiterRes,
+  RateLimiterMemory,
+  RLWrapperBlackAndWhite,
+} from 'rate-limiter-flexible'
+import { Err } from '@modules/error/types'
+import { KoaContext } from '@root/types'
 
 type LimiterConsumeError = Err & { remaining: O.Option<number>; msBeforeNext: O.Option<number> }
 
@@ -49,3 +54,13 @@ export const createRateLimiter = (
       return realError
     }),
   )
+
+export const createLimiter = (keyPrefix: string, points = 100, duration = 10) =>
+  new RLWrapperBlackAndWhite({
+    limiter: new RateLimiterMemory({
+      keyPrefix,
+      points,
+      duration,
+    }),
+    whiteList: ['127.0.0.1', '::ffff:127.0.0.1', '::1'],
+  })

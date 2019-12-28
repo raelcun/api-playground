@@ -1,8 +1,8 @@
 import Router from 'koa-router'
 import * as t from 'io-ts'
-import { createLimiter, rateLimitingMiddleware } from 'modules/rateLimiter'
-import { validateResponse } from 'modules/validateResponse'
-import packageJson from '../../../package.json'
+import { createLimiter, rateLimitingMiddleware } from '@modules/rateLimiter'
+import { validateResponse } from '@modules/validateResponse'
+import packageJson from '@root/../package.json'
 
 const router = new Router()
 

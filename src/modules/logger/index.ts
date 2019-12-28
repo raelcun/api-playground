@@ -1,6 +1,6 @@
 import pino from 'pino'
-import { FullConfig } from 'config/types'
-import { getConfig } from 'config'
+import { FullConfig } from '@config/types'
+import { getConfig } from '@config'
 import { Logger } from './types'
 
 export const getLoggerInternal = (getLoggingConfig: () => FullConfig['logging']) => (

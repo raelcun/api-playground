@@ -5,9 +5,9 @@ import { Options } from '@shopify/jest-koa-mocks/src/create-mock-context'
 import { createMockContext } from '@shopify/jest-koa-mocks'
 import { reporter } from 'io-ts-reporters'
 import { Middleware, Context } from 'koa'
-import { Err } from 'modules/error/types'
-import { Logger, LogMethods } from 'modules/logger/types'
-import { KoaContext } from 'types'
+import { Err } from '@modules/error/types'
+import { Logger, LogMethods } from '@modules/logger/types'
+import { KoaContext } from '@root/types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})

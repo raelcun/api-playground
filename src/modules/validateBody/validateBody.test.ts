@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { getSystemLogger } from 'modules/logger'
+import { getSystemLogger } from '@modules/logger'
 import { validateBodyInner } from './validateBody'
 
 describe('validateBody', () => {

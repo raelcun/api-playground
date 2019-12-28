@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
-import { createKoaContext, createMockNext } from 'utils'
-import { getSystemLogger } from 'modules/logger'
+import { createKoaContext, createMockNext } from '@utils'
+import { getSystemLogger } from '@modules/logger'
 import { validateResponseMiddleware } from './validateResponse'
 
 describe('validate-response', () => {

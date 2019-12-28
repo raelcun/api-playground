@@ -1,9 +1,8 @@
 import { newEnforcer as libNewEnforcer, Enforcer } from 'casbin'
-import * as TE from 'fp-ts/lib/TaskEither'
+import { taskEither as TE, array as A } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { array } from 'fp-ts/lib/Array'
-import { createVoidTE } from 'utils'
-import { Err } from '../error/types'
+import { createVoidTE } from '@utils'
+import { Err } from '@modules/error/types'
 import { Enforce, Actions, Roles } from './types'
 
 const wrapPromise = <T>(p: Promise<T>): TE.TaskEither<Err, T> =>
@@ -23,7 +22,7 @@ export const wrappedEnforce = (enforcer: Enforcer) => (subject: string) => (reso
 
 export const enforce = (enforcer: Enforcer): Enforce => (subject, resource, ...actions) =>
   pipe(
-    array.sequence(TE.taskEither)(actions.map(wrappedEnforce(enforcer)(subject)(resource))),
+    A.array.sequence(TE.taskEither)(actions.map(wrappedEnforce(enforcer)(subject)(resource))),
     TE.map(results => results.every(result => result === true)),
   )
 
@@ -48,6 +47,6 @@ export const addPoliciesToEnforcer = <T extends keyof Actions, U extends Actions
   ...actions: U[]
 ) => (enforcer: Enforcer): TE.TaskEither<Err<'ENFORCER_POLICY_LOAD_FAILURE' | string>, Enforcer> =>
   pipe(
-    array.sequence(TE.taskEither)(actions.map(addPolicyToEnforcer(enforcer)(subject)(resource))),
+    A.array.sequence(TE.taskEither)(actions.map(addPolicyToEnforcer(enforcer)(subject)(resource))),
     TE.map(() => enforcer),
   )

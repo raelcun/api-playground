@@ -1,9 +1,9 @@
 import Router from 'koa-router'
 import * as t from 'io-ts'
-import { withValidatedBody } from 'modules/validateBody'
-import { validateResponse } from 'modules/validateResponse'
-import { enforceWithBodyRole } from 'modules/rbac'
-import { createLimiter, rateLimitingMiddleware } from 'modules/rateLimiter'
+import { withValidatedBody } from '@modules/validateBody'
+import { validateResponse } from '@modules/validateResponse'
+import { enforceWithBodyRole } from '@modules/rbac'
+import { createLimiter, rateLimitingMiddleware } from '@modules/rateLimiter'
 
 const router = new Router()
 

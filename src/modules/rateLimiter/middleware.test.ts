@@ -1,5 +1,5 @@
 import { RateLimiterMemory } from 'rate-limiter-flexible'
-import { createKoaContext, createMockNext } from 'utils'
+import { createKoaContext, createMockNext } from '@utils'
 import { rateLimitingMiddleware } from './middleware'
 
 describe('rate-limiter middleware', () => {

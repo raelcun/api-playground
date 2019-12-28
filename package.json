@@ -11,6 +11,7 @@
   "main": "src/server.ts",
   "scripts": {
     "build": "webpack --config webpack.prod.ts",
+    "build:dev": "webpack --config webpack.dev.ts",
     "image:build": "docker build -t gcr.io/api-playground-245105/api-playground .",
     "image:deploy": "kubectl set image deployment/api-playground-deployment api-playground=gcr.io/api-playground-245105/api-playground",
     "image:push": "docker push gcr.io/api-playground-245105/api-playground",

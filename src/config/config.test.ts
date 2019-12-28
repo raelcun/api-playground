@@ -1,4 +1,4 @@
-import { filterObjectKeys } from 'utils'
+import { filterObjectKeys } from '@utils'
 import { ConfigMap, mergeConfig } from './config'
 
 type MockConfig = {

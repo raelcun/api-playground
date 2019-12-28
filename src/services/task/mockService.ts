@@ -1,5 +1,5 @@
 import { right, left } from 'fp-ts/lib/TaskEither'
-import { mockData } from 'models'
+import { mockData } from '@models/index'
 import { MockTaskService } from './types'
 
 let tasks = mockData.tasks

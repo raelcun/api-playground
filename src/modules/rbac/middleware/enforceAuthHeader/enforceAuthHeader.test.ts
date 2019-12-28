@@ -1,9 +1,8 @@
-import { createKoaContext, createMockNext } from 'utils'
+import { createKoaContext, createMockNext, testAuthorized, testUnauthorized } from '@utils'
 import { sign } from 'jsonwebtoken'
-import { getConfig } from 'config'
-import { Roles, EnforceProvider } from 'modules/rbac/types'
+import { getConfig } from '@config'
+import { Roles, EnforceProvider } from '@modules/rbac/types'
 import { taskEither as TE } from 'fp-ts'
-import { testAuthorized, testUnauthorized } from 'testUtils'
 import { enforceWithAuthHeaderMiddleware } from './enforceAuthHeader'
 
 const createMockContextAndNext = (authHeader: string) => ({

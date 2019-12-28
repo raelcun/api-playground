@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { DateFromString } from '../utils'
+import { DateFromString } from '@utils'
 import { ResourceV, ResourceIdV, ResourceType } from './resource'
 
 export const TaskV = t.intersection([

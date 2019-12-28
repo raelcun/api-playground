@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { DateFromString } from '../utils'
+import { DateFromString } from '@utils'
 
 export const ResourceIdV = t.string
 
