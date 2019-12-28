@@ -1,10 +1,10 @@
-import deepmerge, { Options } from 'deepmerge'
+import deepmerge from 'deepmerge'
 import { PartialConfig } from './types'
 
 export type ConfigMap<T> = { default: T; [env: string]: PartialConfig<T> | undefined }
 
 const merge = <T>(config: T, partials: PartialConfig<T>[]): T => {
-  const overwriteMerge = (destination: any[], source: any[], options: Options) => source
+  const overwriteMerge = (destination: any[], source: any[]) => source
 
   let resConfig: T = config
   partials.forEach(partial => {

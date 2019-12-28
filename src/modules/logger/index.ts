@@ -6,7 +6,11 @@ import { Logger } from './types'
 export const getLoggerInternal = (getLoggingConfig: () => FullConfig['logging']) => (
   name: string,
 ) => {
-  return pino({ name, level: getLoggingConfig().level })
+  return pino({
+    name,
+    level: getLoggingConfig().level,
+    prettyPrint: getLoggingConfig().prettyPrint,
+  })
 }
 
 export const getLogger = getLoggerInternal(() => getConfig().logging)

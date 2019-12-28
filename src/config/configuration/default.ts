@@ -12,6 +12,7 @@ const config: FullConfig = {
     enableSSL: true,
   },
   logging: {
+    prettyPrint: false,
     level: 'info',
   },
   aws: {

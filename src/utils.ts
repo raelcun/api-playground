@@ -9,6 +9,7 @@ import { Err } from 'modules/error/types'
 import { Logger, LogMethods } from 'modules/logger/types'
 import { KoaContext } from 'types'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
 export const filterObjectKeys = <T extends object, K extends keyof T>(

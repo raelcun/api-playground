@@ -12,7 +12,10 @@ describe('validate-response', () => {
       const next = createMockNext()
       const ctx = createKoaContext({ body: 'foo' })
 
-      await validateResponseMiddleware(() => logger, () => shouldThrow)(t.number)(ctx, next)
+      await validateResponseMiddleware(
+        () => logger,
+        () => shouldThrow,
+      )(t.number)(ctx, next)
 
       expect(warnLoggerSpy.mock.calls).toMatchSnapshot()
     },

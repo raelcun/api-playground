@@ -19,6 +19,15 @@
     "suppressImplicitAnyIndexErrors": true,
     "declaration": false,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings"
+    ],
+    "paths": {
+      "@modules/*": [
+        "modules/*"
+      ]
+    }
   }
 }

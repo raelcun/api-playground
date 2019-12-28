@@ -1,5 +1,4 @@
 import { LevelWithSilent } from 'pino'
-import { DeepPartial } from '../types'
 
 export interface FullConfig {
   isProduction: boolean
@@ -11,6 +10,7 @@ export interface FullConfig {
     enableSSL: boolean
   }
   logging: {
+    prettyPrint: boolean
     level: LevelWithSilent
   }
   aws: {

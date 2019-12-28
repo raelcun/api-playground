@@ -1,7 +1,8 @@
+import 'source-map-support/register'
 import https from 'https'
 import http from 'http'
 import { createCertificate } from 'pem'
-import { getSystemLogger } from 'modules/logger'
+import { getSystemLogger } from '@modules/logger'
 import { app } from 'app'
 import { getConfig } from 'config'
 

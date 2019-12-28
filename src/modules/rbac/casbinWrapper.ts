@@ -6,7 +6,11 @@ import { createVoidTE } from 'utils'
 import { Err } from '../error/types'
 import { Enforce, Actions, Roles } from './types'
 
-const wrapPromise = <T>(p: Promise<T>): TE.TaskEither<Err, T> => TE.tryCatch(() => p, (e: Err) => e)
+const wrapPromise = <T>(p: Promise<T>): TE.TaskEither<Err, T> =>
+  TE.tryCatch(
+    () => p,
+    (e: Err) => e,
+  )
 
 export const newEnforcer: TE.TaskEither<Err<'ENFORCER_FACTORY_FAILED'>, Enforcer> = TE.tryCatch(
   () => libNewEnforcer(),
