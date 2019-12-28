@@ -5,7 +5,7 @@ const config: PartialConfig<FullConfig> = {
     securePort: 4443,
   },
   logging: {
-    level: 'error',
+    level: 'info',
   },
 }
 

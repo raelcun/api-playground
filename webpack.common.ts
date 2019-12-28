@@ -1,15 +1,10 @@
 import path from 'path'
 import TSConfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import NodemonWebpackPlugin from 'nodemon-webpack-plugin'
-import CircularDependencyPlugin from 'circular-dependency-plugin'
 import { Configuration } from 'webpack'
 
 const config: Configuration = {
   entry: './src/server.ts',
   target: 'node',
-  mode: 'development',
-  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -27,19 +22,6 @@ const config: Configuration = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'server.js',
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new NodemonWebpackPlugin(),
-    new CircularDependencyPlugin({
-      exclude: /node_modules/,
-    }),
-  ],
-  stats: {
-    all: false,
-    errors: true,
-    timings: true,
-    warnings: true,
-  },
 }
 
-module.exports = config
+export default config
