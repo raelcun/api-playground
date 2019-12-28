@@ -7,7 +7,7 @@ import commonConfig from './webpack.common'
 
 const config: Configuration = merge(commonConfig, {
   mode: 'production',
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   plugins: [
     new CleanWebpackPlugin(),
     new NodemonWebpackPlugin(),
