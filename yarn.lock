@@ -1121,10 +1121,10 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-casbin@^3.0.4:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/casbin/-/casbin-3.0.5.tgz#c2376fc28bc551c5344bacd0d6cb747a11f19a3d"
-  integrity sha512-Huga78Kx8+snJaaDY3fl1G/IwEdpEnXfrzuWF1Fm0kPv7XPwp+2j4Fu579XB8HEBVqiRoWPB7+ysBLvHNYxboQ==
+casbin@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/casbin/-/casbin-3.0.8.tgz#9ec23d859e695b976fdd6c754fb1aab645fdf6d8"
+  integrity sha512-XiB2fLoDygNH6CgnxOC9mDa4aHB0M9eciFar7PGmC3ksKN4QGYUJgAZG+X64X90mhYW2j22LVx2dArFcMpwTmA==
   dependencies:
     expression-eval "^2.0.0"
     ip "^1.1.5"

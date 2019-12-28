@@ -45,6 +45,18 @@ Map {
       "value": "sub, obj, act",
     },
   },
+  "g" => Map {
+    "g" => Assertion {
+      "key": "g",
+      "policy": Array [],
+      "rm": DefaultRoleManager {
+        "allRoles": Map {},
+        "maxHierarchyLevel": 0,
+      },
+      "tokens": Array [],
+      "value": "_, _",
+    },
+  },
   "e" => Map {
     "e" => Assertion {
       "key": "e",
@@ -67,18 +79,6 @@ Map {
       },
       "tokens": Array [],
       "value": "g(r_sub, p_sub) && r_obj == p_obj && r_act == p_act || r_sub == \\"admin\\"",
-    },
-  },
-  "g" => Map {
-    "g" => Assertion {
-      "key": "g",
-      "policy": Array [],
-      "rm": DefaultRoleManager {
-        "allRoles": Map {},
-        "maxHierarchyLevel": 0,
-      },
-      "tokens": Array [],
-      "value": "_, _",
     },
   },
 }
