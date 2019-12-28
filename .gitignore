@@ -1,4 +1,4 @@
-src/config/local*
+src/configuration/local*
 node_modules
 dist
 coverage
