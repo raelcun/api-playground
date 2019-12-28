@@ -21,6 +21,20 @@ export interface FullConfig {
     }
   }
 }
-export type PartialConfig = DeepPartial<FullConfig>
+
+type Primitive = string | number | boolean | bigint | symbol | undefined | null
+export type PartialConfig<T> = {
+  [P in keyof T]?: T[P] extends Primitive
+    ? T[P]
+    : T[P] extends Function
+    ? T[P]
+    : T[P] extends Date
+    ? T[P]
+    : T[P] extends (infer U)[]
+    ? U[]
+    : T[P] extends readonly (infer U)[]
+    ? readonly U[]
+    : PartialConfig<T[P]>
+}
 
 export type ConfigProvider = () => FullConfig

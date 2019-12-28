@@ -11,6 +11,19 @@ import { KoaContext } from 'types'
 
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
+export const filterObjectKeys = <T extends object, K extends keyof T>(
+  o: T,
+  keys: K[],
+): Pick<T, K> => {
+  const res: any = {}
+
+  keys.forEach(key => {
+    res[key] = o[key]
+  })
+
+  return res
+}
+
 export const mapErrorCode = <T extends string>(newErrorCode: T) =>
   E.mapLeft((originalError: Err<string>) => ({
     ...originalError,

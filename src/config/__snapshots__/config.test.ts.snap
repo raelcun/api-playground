@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config config hierarchy defaultContext should take highest priority 1`] = `
+Object {
+  "foo": 2,
+}
+`;
+
+exports[`config config hierarchy env should take highest priority 1`] = `
+Object {
+  "foo": 3,
+}
+`;
+
+exports[`config config hierarchy envContext should take highest priority 1`] = `
+Object {
+  "foo": 5,
+}
+`;
+
+exports[`config config hierarchy localEnv should take highest priority 1`] = `
+Object {
+  "foo": 4,
+}
+`;
+
+exports[`config config hierarchy localEnvContext should take highest priority 1`] = `
+Object {
+  "foo": 6,
+}
+`;
+
+exports[`config missing partial config does not fail 1`] = `
+Object {
+  "a": 1,
+}
+`;
+
+exports[`config overrides nested object keys 1`] = `
+Object {
+  "a": Object {
+    "arr": Array [
+      Object {
+        "d": Object {
+          "e": "e",
+          "f": "f",
+        },
+      },
+      Object {
+        "d": Object {
+          "e": "e",
+        },
+      },
+    ],
+    "b": 5,
+    "c": "newC",
+  },
+  "g": 8,
+}
+`;
+
+exports[`config overrides whole array 1`] = `
+Object {
+  "a": Object {
+    "arr": Array [
+      Object {
+        "d": Object {
+          "e": "foo",
+        },
+      },
+    ],
+    "b": 5,
+    "c": "c",
+  },
+  "g": 8,
+}
+`;

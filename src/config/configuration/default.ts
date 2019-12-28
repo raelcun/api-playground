@@ -1,4 +1,4 @@
-import { FullConfig } from './types'
+import { FullConfig } from '../types'
 
 const env = process.env.NODE_ENV || 'production'
 
@@ -23,7 +23,4 @@ const config: FullConfig = {
   },
 }
 
-module.exports = {
-  ...config,
-  default: config,
-}
+export default config

@@ -3,7 +3,7 @@ import http from 'http'
 import { createCertificate } from 'pem'
 import { getSystemLogger } from 'modules/logger'
 import { app } from 'app'
-import { getConfig } from 'configuration'
+import { getConfig } from 'config'
 
 const { securePort, insecurePort, enableSSL } = getConfig().server
 

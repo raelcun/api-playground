@@ -4,7 +4,7 @@ import * as t from 'io-ts'
 import { Err } from 'modules/error/types'
 import { decode } from 'utils'
 import { verify } from 'jsonwebtoken'
-import { ConfigProvider } from 'configuration/types'
+import { ConfigProvider } from 'config/types'
 import { Token, tokenV } from '../types'
 
 export const resolveAuthHeader = (headers: unknown): E.Either<Err, string> => {

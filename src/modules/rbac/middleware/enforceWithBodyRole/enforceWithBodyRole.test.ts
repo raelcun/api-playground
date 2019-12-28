@@ -39,10 +39,9 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.right(() => TE.left({ code: 'ENFORCER_FAILED' })))(
-        'account',
-        ['viewAny'],
-      )(mockContext, mockNext)
+      await enforceWithBodyRoleMiddleware(
+        TE.right(() => TE.left({ code: 'ENFORCER_FAILED' })),
+      )('account', ['viewAny'])(mockContext, mockNext)
     })
 
     testUnauthorized(mockContext, mockNext)
