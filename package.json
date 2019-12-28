@@ -46,7 +46,7 @@
     "@shopify/jest-koa-mocks": "^2.1.10",
     "@types/config": "^0.0.36",
     "@types/jest": "^24.0.25",
-    "@types/koa": "^2.0.51",
+    "@types/koa": "^2.11.0",
     "@types/koa-bodyparser": "^4.2.2",
     "@types/koa-helmet": "^3.1.2",
     "@types/koa-router": "^7.0.40",
