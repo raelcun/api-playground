@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^8.3.5",
-    "aws-sdk": "^2.556.0",
+    "aws-sdk": "^2.596.0",
     "axios": "^0.19.0",
     "casbin": "^3.0.8",
     "config": "^3.2.4",
