@@ -27,7 +27,19 @@ const config: Configuration = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'server.js',
   },
-  plugins: [new CleanWebpackPlugin(), new NodemonWebpackPlugin(), new CircularDependencyPlugin()],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new NodemonWebpackPlugin(),
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+    }),
+  ],
+  stats: {
+    all: false,
+    errors: true,
+    timings: true,
+    warnings: true,
+  },
 }
 
 module.exports = config
