@@ -1,7 +1,7 @@
 import { taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import HttpStatus from 'http-status-codes'
-import t from 'io-ts'
+import * as t from 'io-ts'
 import { Middleware } from 'koa'
 
 import { Err } from '@modules/error/types'
