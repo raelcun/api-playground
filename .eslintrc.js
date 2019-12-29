@@ -3,6 +3,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
+  extends: ["plugin:prettier/recommended"],
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
@@ -10,7 +11,6 @@ module.exports = {
       extends: [
         'plugin:@typescript-eslint/recommended',
         'prettier/@typescript-eslint',
-        'plugin:prettier/recommended',
       ],
       plugins: ["simple-import-sort"],
       rules: {
