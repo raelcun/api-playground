@@ -1,7 +1,7 @@
-import { Tag } from './tag'
-import { User } from './user'
-import { Task } from './task'
 import { ResourceType } from './resource'
+import { Tag } from './tag'
+import { Task } from './task'
+import { User } from './user'
 
 export const tags: Tag[] = [
   {

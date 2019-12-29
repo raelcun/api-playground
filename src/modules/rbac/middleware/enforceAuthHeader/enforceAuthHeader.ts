@@ -1,13 +1,15 @@
 import { either as E, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { Err } from '@modules/error/types'
-import { ConfigProvider } from '@config/types'
-import { Middleware } from 'koa'
 import HttpStatus from 'http-status-codes'
+import { Middleware } from 'koa'
+
 import { getConfig } from '@config'
+import { ConfigProvider } from '@config/types'
+import { Err } from '@modules/error/types'
 import { createMiddlewareTE } from '@utils'
-import { EnforceProvider, Actions } from '../../types'
+
 import { enforceRole, getEnforcer } from '../../enforcer'
+import { Actions, EnforceProvider } from '../../types'
 import { resolveAuthHeader, verifyAndParseToken } from './parseAuthHeader'
 
 const enforceWithAuthHeaderInternal = (enforceProvider: EnforceProvider) => (

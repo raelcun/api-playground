@@ -1,9 +1,11 @@
-import { createKoaContext, installStaticClock } from '@utils'
-import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
-import HttpStatus from 'http-status-codes'
 import { either as E } from 'fp-ts'
-import { createRateLimiter } from './limiter'
+import HttpStatus from 'http-status-codes'
+import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
+
+import { createKoaContext, installStaticClock } from '@utils'
+
 import { createLimiter } from '.'
+import { createRateLimiter } from './limiter'
 
 const createMockLimiter = (consumeMock: RateLimiterAbstract['consume']) => {
   const limiter = createLimiter('test')

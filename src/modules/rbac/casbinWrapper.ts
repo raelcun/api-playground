@@ -1,9 +1,11 @@
-import { newEnforcer as libNewEnforcer, Enforcer } from 'casbin'
-import { taskEither as TE, array as A } from 'fp-ts'
+import { Enforcer, newEnforcer as libNewEnforcer } from 'casbin'
+import { array as A, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { createVoidTE } from '@utils'
+
 import { Err } from '@modules/error/types'
-import { Enforce, Actions, Roles } from './types'
+import { createVoidTE } from '@utils'
+
+import { Actions, Enforce, Roles } from './types'
 
 const wrapPromise = <T>(p: Promise<T>): TE.TaskEither<Err, T> =>
   TE.tryCatch(

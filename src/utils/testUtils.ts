@@ -1,6 +1,6 @@
+import * as HttpStatus from 'http-status-codes'
 import { Context } from 'koa'
-import HttpStatus from 'http-status-codes'
-import lolex, { InstalledClock } from 'lolex'
+import { install, InstalledClock } from 'lolex'
 
 export const testUnauthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>, []>) => {
   test('should set status to 401', () => {
@@ -27,7 +27,7 @@ export const installStaticClock = () => {
   let clock: InstalledClock
 
   beforeAll(() => {
-    clock = lolex.install({ now: 946684800000 })
+    clock = install({ now: 946684800000 })
   })
 
   afterAll(() => {

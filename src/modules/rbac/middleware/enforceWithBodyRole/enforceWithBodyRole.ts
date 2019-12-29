@@ -1,13 +1,15 @@
-import * as t from 'io-ts'
 import { taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { Middleware } from 'koa'
 import HttpStatus from 'http-status-codes'
-import { validateBody } from '@modules/validateBody'
+import t from 'io-ts'
+import { Middleware } from 'koa'
+
 import { Err } from '@modules/error/types'
+import { validateBody } from '@modules/validateBody'
 import { createMiddlewareTE } from '@utils'
-import { Actions, RolesV, EnforceProvider } from '../../types'
+
 import { enforceRole, getEnforcer } from '../../enforcer'
+import { Actions, EnforceProvider, RolesV } from '../../types'
 
 const enforceWithBodyRoleInternal = (enforceFnProvider: EnforceProvider) => <
   T extends keyof Actions,

@@ -1,10 +1,12 @@
-import { newModel, Enforcer } from 'casbin'
+import { Enforcer, newModel } from 'casbin'
+import { either as E, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { taskEither as TE, either as E } from 'fp-ts'
-import { createVoidTE } from '@utils'
+
 import { Err } from '@modules/error/types'
-import { Roles, Enforce, Actions, EnforceProvider } from './types'
-import { newEnforcer, enforce, addPoliciesToEnforcer } from './casbinWrapper'
+import { createVoidTE } from '@utils'
+
+import { addPoliciesToEnforcer, enforce, newEnforcer } from './casbinWrapper'
+import { Actions, Enforce, EnforceProvider, Roles } from './types'
 
 const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> =>
   TE.tryCatch(

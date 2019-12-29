@@ -1,10 +1,11 @@
 import 'source-map-support/register'
-import https from 'https'
 import http from 'http'
+import https from 'https'
 import { createCertificate } from 'pem'
+
+import { getConfig } from '@config'
 import { getSystemLogger } from '@modules/logger'
 import { app } from '@root/app'
-import { getConfig } from '@config'
 
 const { securePort, insecurePort, enableSSL } = getConfig().server
 

@@ -3,10 +3,11 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import HttpStatus from 'http-status-codes'
 import {
   RateLimiterAbstract,
-  RateLimiterRes,
   RateLimiterMemory,
+  RateLimiterRes,
   RLWrapperBlackAndWhite,
 } from 'rate-limiter-flexible'
+
 import { Err } from '@modules/error/types'
 import { KoaContext } from '@root/types'
 

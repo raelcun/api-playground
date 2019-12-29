@@ -1,4 +1,5 @@
 import deepmerge from 'deepmerge'
+
 import { PartialConfig } from './types'
 
 export type ConfigMap<T> = { default: T; [env: string]: PartialConfig<T> | undefined }

@@ -1,4 +1,5 @@
 import request from 'supertest'
+
 import { app } from '@root/app'
 
 describe('healthcheck', () => {

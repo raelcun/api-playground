@@ -1,6 +1,7 @@
 import { TaskEither } from 'fp-ts/lib/TaskEither'
-import { RequestError } from '@modules/httpClient/types'
+
 import { Task } from '@models/index'
+import { RequestError } from '@modules/httpClient/types'
 
 export type AddTaskError = RequestError
 export type RemoveTaskError = RequestError

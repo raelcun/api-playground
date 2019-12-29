@@ -1,14 +1,15 @@
-import * as t from 'io-ts'
 import { either as E } from 'fp-ts'
-import HttpStatus from 'http-status-codes'
-import { pipe } from 'fp-ts/lib/pipeable'
 import { Lazy } from 'fp-ts/lib/function'
+import { pipe } from 'fp-ts/lib/pipeable'
+import HttpStatus from 'http-status-codes'
+import * as t from 'io-ts'
+import { Middleware } from 'koa'
+
+import { getConfig } from '@config'
+import { Err } from '@modules/error/types'
+import { getSystemLogger } from '@modules/logger'
 import { LoggerFactory } from '@modules/logger/types'
 import { decode, logErrors, mapErrorCode } from '@utils'
-import { Err } from '@modules/error/types'
-import { Middleware } from 'koa'
-import { getConfig } from '@config'
-import { getSystemLogger } from '@modules/logger'
 
 export const validateResponseInternal = (createLogger: LoggerFactory) => <T>(
   type: t.Type<T, unknown>,

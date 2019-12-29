@@ -1,18 +1,20 @@
 import { either as E, taskEither as TE } from 'fp-ts'
-import { Err } from '@modules/error/types'
-import { LogMethods } from '@modules/logger/types'
-import { getSystemLogger } from '@modules/logger'
 import * as t from 'io-ts'
+
+import { Err } from '@modules/error/types'
+import { getSystemLogger } from '@modules/logger'
+import { LogMethods } from '@modules/logger/types'
 import * as KoaMocks from '@shopify/jest-koa-mocks'
+
 import {
-  DateFromString,
-  createMiddlewareTE,
   createKoaContext,
-  createMockNext,
-  mapErrorCode,
-  logErrors,
-  decode,
   createMiddlewareE,
+  createMiddlewareTE,
+  createMockNext,
+  DateFromString,
+  decode,
+  logErrors,
+  mapErrorCode,
 } from './utils'
 
 describe('DateFromString', () => {

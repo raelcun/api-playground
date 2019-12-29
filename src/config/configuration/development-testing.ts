@@ -1,4 +1,4 @@
-import { PartialConfig, FullConfig } from '../types'
+import { FullConfig, PartialConfig } from '../types'
 
 const config: PartialConfig<FullConfig> = {
   logging: {

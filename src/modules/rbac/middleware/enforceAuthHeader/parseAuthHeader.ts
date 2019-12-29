@@ -1,10 +1,12 @@
 import { either as E } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as t from 'io-ts'
+import { verify } from 'jsonwebtoken'
+
+import { ConfigProvider } from '@config/types'
 import { Err } from '@modules/error/types'
 import { decode } from '@utils'
-import { verify } from 'jsonwebtoken'
-import { ConfigProvider } from '@config/types'
+
 import { Token, tokenV } from '../types'
 
 export const resolveAuthHeader = (headers: unknown): E.Either<Err, string> => {

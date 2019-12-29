@@ -1,5 +1,6 @@
-import { pipe } from 'fp-ts/lib/pipeable'
 import { taskEither as TE } from 'fp-ts'
+import { pipe } from 'fp-ts/lib/pipeable'
+
 import { createEnforcer, getEnforcer } from './enforcer'
 import { Roles } from './types'
 

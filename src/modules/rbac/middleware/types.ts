@@ -1,4 +1,5 @@
 import * as t from 'io-ts'
+
 import { RolesV } from '../types'
 
 export const tokenV = t.type({

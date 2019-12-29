@@ -1,6 +1,8 @@
-import { pipe } from 'fp-ts/lib/pipeable'
 import { either as E, taskEither as TE } from 'fp-ts'
+import { pipe } from 'fp-ts/lib/pipeable'
+
 import { mockData } from '@models/index'
+
 import { service } from './mockService'
 
 describe('mock task service', () => {

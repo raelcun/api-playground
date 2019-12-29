@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
-import { ResourceV, ResourceType } from './resource'
+
+import { ResourceType, ResourceV } from './resource'
 
 export const TagV = t.intersection([
   ResourceV,

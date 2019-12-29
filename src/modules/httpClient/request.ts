@@ -1,5 +1,6 @@
-import { taskEither as TE } from 'fp-ts'
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { taskEither as TE } from 'fp-ts'
+
 import { BaseRequestClient, RequestError } from './types'
 
 export const request = (instance: BaseRequestClient) => <T>(
