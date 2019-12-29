@@ -1,4 +1,7 @@
+import * as t from 'io-ts'
 import { LevelWithSilent } from 'pino'
+
+import { NonEmptyString } from '@root/utils/types'
 
 export interface FullConfig {
   isProduction: boolean
@@ -38,3 +41,17 @@ export type PartialConfig<T> = {
 }
 
 export type ConfigProvider = () => FullConfig
+
+// export const envVarsV = t.type({
+//   NODE_ENV: NonEmptyString,
+//   JWT_SECRET: NonEmptyString,
+//   AWS_ACCESS_KEY_ID: NonEmptyString,
+//   AWS_SECRET_ACCESS_KEY: NonEmptyString,
+// })
+export const envVarsV = t.type({
+  NODE_ENV: t.string,
+  JWT_SECRET: t.string,
+  AWS_ACCESS_KEY_ID: t.string,
+  AWS_SECRET_ACCESS_KEY: t.string,
+})
+export type EnvVars = t.TypeOf<typeof envVarsV>

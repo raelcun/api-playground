@@ -1,3 +1,4 @@
+require('dotenv').config()
 import 'source-map-support/register'
 import http from 'http'
 import https from 'https'
