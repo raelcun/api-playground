@@ -1,20 +1,40 @@
+import { either as E } from 'fp-ts'
+
+import { getEmergencyLogger } from '@modules/emergencyLogger'
+
 import { ConfigMap, mergeConfig } from './config'
-import defaultConfig from './configuration/default'
-import developmentConfig from './configuration/development'
-import developmentTestingConfig from './configuration/development-testing'
-import productionConfig from './configuration/production'
+import getDefaultConfig from './configuration/default'
+import getDevelopmentConfig from './configuration/development'
+import getDevelopmentTestingConfig from './configuration/development-testing'
+import getProductionConfig from './configuration/production'
 import { FullConfig } from './types'
 
-const env = process.env.NODE_ENV || 'production'
-const context = process.env.NODE_APP_CONTEXT || ''
+let config: FullConfig
+const loadConfig = () => {
+  const configMap: ConfigMap<FullConfig> = {
+    default: getDefaultConfig,
+    development: getDevelopmentConfig,
+    'development-testing': getDevelopmentTestingConfig,
+    production: getProductionConfig,
+  }
 
-const configMap: ConfigMap<FullConfig> = {
-  default: defaultConfig,
-  development: developmentConfig,
-  'development-testing': developmentTestingConfig,
-  production: productionConfig,
+  const mergeResult = mergeConfig(
+    configMap,
+    process.env.NODE_ENV || '',
+    process.env.NODE_APP_CONTEXT || '',
+  )
+
+  if (E.isLeft(mergeResult)) {
+    getEmergencyLogger().fatal('CONFIG_LOAD_FAILED', mergeResult.left)
+    throw mergeResult.left
+  } else {
+    config = mergeResult.right
+  }
 }
 
-const config: FullConfig = mergeConfig(configMap, env, context)
-
-export const getConfig = (): FullConfig => config
+export const getConfig = (): FullConfig => {
+  if (config === undefined) {
+    loadConfig()
+  }
+  return config
+}

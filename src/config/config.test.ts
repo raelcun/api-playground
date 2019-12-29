@@ -1,51 +1,24 @@
+import { either as E } from 'fp-ts'
+
 import { filterObjectKeys } from '@utils'
 
 import { ConfigMap, mergeConfig } from './config'
 
 type MockConfig = {
-  a: {
-    b: number
-    c: string
-    arr: {
-      d: {
-        e: string
-        f?: string
-      }
-    }[]
-  }
+  a: { b: number; c: string; arr: { d: { e: string; f?: string } }[] }
   g: number
 }
 
 const defaultConfig: MockConfig = {
-  a: {
-    b: 5,
-    c: 'c',
-    arr: [
-      {
-        d: {
-          e: 'e',
-          f: 'f',
-        },
-      },
-      {
-        d: {
-          e: 'e',
-        },
-      },
-    ],
-  },
+  a: { b: 5, c: 'c', arr: [{ d: { e: 'e', f: 'f' } }, { d: { e: 'e' } }] },
   g: 8,
 }
 
 describe('config', () => {
   test('overrides nested object keys', () => {
     const configMap: ConfigMap<MockConfig> = {
-      default: defaultConfig,
-      'default-test': {
-        a: {
-          c: 'newC',
-        },
-      },
+      default: () => E.right(defaultConfig),
+      'default-test': () => E.right({ a: { c: 'newC' } }),
     }
 
     expect(mergeConfig(configMap, 'env', 'test')).toMatchSnapshot()
@@ -53,18 +26,8 @@ describe('config', () => {
 
   test('overrides whole array', () => {
     const configMap: ConfigMap<MockConfig> = {
-      default: defaultConfig,
-      'default-test': {
-        a: {
-          arr: [
-            {
-              d: {
-                e: 'foo',
-              },
-            },
-          ],
-        },
-      },
+      default: () => E.right(defaultConfig),
+      'default-test': () => E.right({ a: { arr: [{ d: { e: 'foo' } }] } }),
     }
 
     expect(mergeConfig(configMap, 'env', 'test')).toMatchSnapshot()
@@ -72,8 +35,8 @@ describe('config', () => {
 
   test('missing partial config does not fail', () => {
     const configMap: ConfigMap<{ a: number }> = {
-      default: { a: 1 },
-      stage: { a: 2 },
+      default: () => E.right({ a: 1 }),
+      stage: () => E.right({ a: 2 }),
     }
 
     expect(mergeConfig(configMap, '', '')).toMatchSnapshot()
@@ -90,12 +53,12 @@ describe('config', () => {
       localEnvContext: `local-${env}-${context}`,
     }
     const fullConfigMap: ConfigMap<{ foo: number }> = {
-      default: { foo: 1 },
-      [keyMap.defaultContext]: { foo: 2 },
-      [keyMap.env]: { foo: 3 },
-      [keyMap.localEnv]: { foo: 4 },
-      [keyMap.envContext]: { foo: 5 },
-      [keyMap.localEnvContext]: { foo: 6 },
+      default: () => E.right({ foo: 1 }),
+      [keyMap.defaultContext]: () => E.right({ foo: 2 }),
+      [keyMap.env]: () => E.right({ foo: 3 }),
+      [keyMap.localEnv]: () => E.right({ foo: 4 }),
+      [keyMap.envContext]: () => E.right({ foo: 5 }),
+      [keyMap.localEnvContext]: () => E.right({ foo: 6 }),
     }
 
     test.each([

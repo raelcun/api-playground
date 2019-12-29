@@ -7,4 +7,5 @@ module.exports = {
   testRegex: '\\.(test|integration)\\.tsx?$',
   moduleDirectories: ['node_modules', '.'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  setupFiles: ['dotenv/config'],
 }
