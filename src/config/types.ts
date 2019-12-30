@@ -1,8 +1,6 @@
 import * as t from 'io-ts'
 import { LevelWithSilent } from 'pino'
 
-import { NonEmptyString } from '@root/utils/types'
-
 export interface FullConfig {
   isProduction: boolean
   env: string
