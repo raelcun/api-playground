@@ -67,7 +67,7 @@ jobs:
       - name: Deploy
         run: |
           gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-          (cd ./iac/kubernetes; kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE:${GITHUB_SHA})
-          (cd ./iac/kubernetes; kustomize build .) | kubectl apply -f -
+          (cd ./iac/kubernetes; ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE:${GITHUB_SHA})
+          (cd ./iac/kubernetes; ./kustomize build .) | kubectl apply -f -
           kubectl rollout status deployment/api-playground-deployment
           kubectl get services -o wide
