@@ -60,14 +60,14 @@ jobs:
       # Set up kustomize
       - name: Set up Kustomize
         run: |
-          curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-          chmod u+x ./kustomize
+          curl -o ./iac/kubernetes/kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./iac/kubernetes/kustomize
 
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
         run: |
           gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-          ./kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
-          ./kustomize build ./iac/kubernetes | kubectl apply -f -
+          (cd ./iac/kubernetes; kustomize edit set image gcr.io/$GKE_PROJECT/$IMAGE:${GITHUB_SHA})
+          (cd ./iac/kubernetes; kustomize build .) | kubectl apply -f -
           kubectl rollout status deployment/api-playground-deployment
           kubectl get services -o wide
