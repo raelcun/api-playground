@@ -20,8 +20,8 @@ env:
   GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
   GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
   GITHUB_SHA: ${{ github.sha }}
-  GKE_ZONE: us-east4-c
-  GKE_CLUSTER: api-playground
+  GKE_ZONE: us-central1-a
+  GKE_CLUSTER: api-playground-terraform
   IMAGE: api-playground
 
 jobs:
