@@ -7,6 +7,6 @@ spec:
   selector:
     app: api-playground
   ports:
-  - protocol: TCP
-    port: 4443
-    targetPort: 4443
+    - protocol: TCP
+      port: 4080
+      targetPort: 4080

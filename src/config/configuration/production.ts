@@ -8,6 +8,7 @@ export default (): E.Either<Err, PartialConfig<FullConfig>> =>
   E.right({
     server: {
       securePort: 4443,
+      enableSSL: false,
     },
     logging: {
       level: 'info',
