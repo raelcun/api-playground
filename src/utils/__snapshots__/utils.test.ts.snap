@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createKoaContext should wrap createMockContext 1`] = `
+Array [
+  Array [
+    Object {
+      "requestBody": "foo",
+    },
+  ],
+]
+`;
+
+exports[`decode should report all errors joined together 1`] = `
+Object {
+  "_tag": "Left",
+  "left": Object {
+    "code": "VALIDATION_ERROR",
+    "message": "Expecting number at foo but instead got: \\"foo\\". Expecting string at bar but instead got: 5.",
+  },
+}
+`;
+
+exports[`decode should return validation error when invalid input 1`] = `
+Object {
+  "_tag": "Left",
+  "left": Object {
+    "code": "VALIDATION_ERROR",
+    "message": "Expecting string but instead got: 5.",
+  },
+}
+`;
+
+exports[`logErrors should invoke error method on logger with error 1`] = `
+Array [
+  Array [
+    Object {
+      "code": "foo",
+    },
+  ],
+]
+`;
+
+exports[`logErrors should invoke info method on logger with error 1`] = `
+Array [
+  Array [
+    Object {
+      "code": "foo",
+    },
+  ],
+]
+`;
+
+exports[`logErrors should invoke trace method on logger with error 1`] = `
+Array [
+  Array [
+    Object {
+      "code": "foo",
+    },
+  ],
+]
+`;
+
+exports[`mapErrorCode should return initial error with updated error code 1`] = `
+Object {
+  "_tag": "Left",
+  "left": Object {
+    "code": "newCode",
+    "message": "old message",
+  },
+}
+`;

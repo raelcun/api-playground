@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": [
+      "es2017",
+      "es6",
+      "dom"
+    ],
+    "baseUrl": ".",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "declaration": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "src/typings"
+    ],
+    "paths": {
+      "@config": [
+        "src/config"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@models/*": [
+        "src/models/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@root/*": [
+        "src/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@utils": [
+        "src/utils"
+      ]
+    }
+  }
+}

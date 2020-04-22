@@ -1,0 +1,36 @@
+{
+  "jest.pathToJest": "npm run test --",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false,
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false,
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": false,
+  },
+  "editor.rulers": [
+    100
+  ],
+  "editor.tabSize": 2,
+  "files.autoSave": "afterDelay",
+  "files.exclude": {
+    "**/node_modules": true
+  },
+  "terraform.codelens.enabled": false,
+  "terraform.telemetry.enabled": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}

@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enforcer security model matches snapshot 1`] = `
+Map {
+  "r" => Map {
+    "r" => Assertion {
+      "key": "r",
+      "policy": Array [],
+      "rm": DefaultRoleManager {
+        "allRoles": Map {},
+        "maxHierarchyLevel": 0,
+      },
+      "tokens": Array [
+        "r_sub",
+        "r_obj",
+        "r_act",
+      ],
+      "value": "sub, obj, act",
+    },
+  },
+  "p" => Map {
+    "p" => Assertion {
+      "key": "p",
+      "policy": Array [
+        Array [
+          "user",
+          "account",
+          "viewOwn",
+        ],
+        Array [
+          "user",
+          "account",
+          "viewAny",
+        ],
+      ],
+      "rm": DefaultRoleManager {
+        "allRoles": Map {},
+        "maxHierarchyLevel": 0,
+      },
+      "tokens": Array [
+        "p_sub",
+        "p_obj",
+        "p_act",
+      ],
+      "value": "sub, obj, act",
+    },
+  },
+  "g" => Map {
+    "g" => Assertion {
+      "key": "g",
+      "policy": Array [],
+      "rm": DefaultRoleManager {
+        "allRoles": Map {},
+        "maxHierarchyLevel": 0,
+      },
+      "tokens": Array [],
+      "value": "_, _",
+    },
+  },
+  "e" => Map {
+    "e" => Assertion {
+      "key": "e",
+      "policy": Array [],
+      "rm": DefaultRoleManager {
+        "allRoles": Map {},
+        "maxHierarchyLevel": 0,
+      },
+      "tokens": Array [],
+      "value": "some(where (p_eft == allow))",
+    },
+  },
+  "m" => Map {
+    "m" => Assertion {
+      "key": "m",
+      "policy": Array [],
+      "rm": DefaultRoleManager {
+        "allRoles": Map {},
+        "maxHierarchyLevel": 0,
+      },
+      "tokens": Array [],
+      "value": "g(r_sub, p_sub) && r_obj == p_obj && r_act == p_act || r_sub == \\"admin\\"",
+    },
+  },
+}
+`;
+
+exports[`enforcer security policies match snapshot 1`] = `
+Array [
+  Array [
+    "user",
+    "account",
+    "viewOwn",
+  ],
+  Array [
+    "user",
+    "account",
+    "viewAny",
+  ],
+]
+`;
+
+exports[`enforcer validation fails for user with fake action 1`] = `
+Object {
+  "_tag": "Right",
+  "right": false,
+}
+`;
+
+exports[`enforcer validation fails for user with fake resource 1`] = `
+Object {
+  "_tag": "Right",
+  "right": false,
+}
+`;
+
+exports[`enforcer validation fails for user with insuffient priviledges 1`] = `
+Object {
+  "_tag": "Right",
+  "right": false,
+}
+`;
+
+exports[`enforcer validation passes for admin with fake action 1`] = `
+Object {
+  "_tag": "Right",
+  "right": true,
+}
+`;
+
+exports[`enforcer validation passes for admin with fake resource 1`] = `
+Object {
+  "_tag": "Right",
+  "right": true,
+}
+`;
+
+exports[`enforcer validation passes for admin with real resource and action 1`] = `
+Object {
+  "_tag": "Right",
+  "right": true,
+}
+`;
