@@ -30,7 +30,6 @@
   "terraform.codelens.enabled": false,
   "terraform.telemetry.enabled": false,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.fontSize": 16,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   }
