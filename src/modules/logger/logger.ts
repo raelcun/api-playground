@@ -11,6 +11,7 @@ export const getLoggerInternal = (getLoggingConfig: () => FullConfig['logging'])
   return pino({
     name,
     level: getLoggingConfig().level,
+    useLevelLabels: true,
     prettyPrint: getLoggingConfig().prettyPrint,
   })
 }
