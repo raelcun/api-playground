@@ -10,7 +10,7 @@ env:
   GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: us-central1-a
-  GKE_CLUSTER: api-playground-backup
+  GKE_CLUSTER: api-playground
   IMAGE: api-playground
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          version: "270.0.0"
+          version: '270.0.0'
           service_account_email: ${{ secrets.GKE_EMAIL }}
           service_account_key: ${{ secrets.GKE_KEY }}
 
