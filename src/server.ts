@@ -10,6 +10,13 @@ import { app } from '@root/app'
 
 const { securePort, insecurePort, enableSSL } = getConfig().server
 
+const shutdown = (server: http.Server) => {
+  server.close(() => {
+    getSystemLogger().fatal('server shutdown')
+    process.exit(0)
+  })
+}
+
 if (enableSSL === true) {
   getSystemLogger().trace('generating ssl certificate')
   createCertificate(
@@ -36,6 +43,9 @@ if (enableSSL === true) {
       server.listen(securePort, () => {
         getSystemLogger().info(`server started at https://localhost:${securePort}`)
       })
+
+      process.on('SIGTERM', () => shutdown(server))
+      process.on('SIGINT', () => shutdown(server))
     },
   )
 } else {
@@ -46,4 +56,7 @@ if (enableSSL === true) {
   server.listen(insecurePort, () => {
     getSystemLogger().info(`server started at http://localhost:${insecurePort}`)
   })
+
+  process.on('SIGTERM', () => shutdown(server))
+  process.on('SIGINT', () => shutdown(server))
 }
