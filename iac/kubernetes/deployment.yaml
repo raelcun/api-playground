@@ -16,19 +16,19 @@ spec:
       containers:
         - name: api-playground
           image: gcr.io/api-playground-245105/api-playground
-          env:
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: api-playground
-                  key: JWT_SECRET
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: api-playground
-                  key: JWT_SECRET
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: api-playground
-                  key: AWS_ACCESS_KEY_ID
+          # env:
+          #   - name: JWT_SECRET
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: api-playground
+          #         key: JWT_SECRET
+          #   - name: AWS_SECRET_ACCESS_KEY
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: api-playground
+          #         key: JWT_SECRET
+          #   - name: AWS_ACCESS_KEY_ID
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: api-playground
+          #         key: AWS_ACCESS_KEY_ID

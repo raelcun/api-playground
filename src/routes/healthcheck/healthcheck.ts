@@ -17,7 +17,7 @@ router.get(
       sha: process.env.GITHUB_SHA,
     }
   },
-  validateResponse(t.type({ version: t.string })),
+  validateResponse(t.type({ version: t.string, sha: t.string })),
 )
 
 export { router }
