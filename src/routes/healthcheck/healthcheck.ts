@@ -14,6 +14,7 @@ router.get(
     ctx.status = 200
     ctx.body = {
       version: packageJson.version,
+      sha: process.env.GITHUB_SHA,
     }
   },
   validateResponse(t.type({ version: t.string })),

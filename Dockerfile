@@ -14,6 +14,8 @@ RUN yarn build
 
 FROM BASE
 
+ARG GITHUB_SHA
+ENV GITHUB_SHA=$GITHUB_SHA
 COPY --from=BUILD /app/dist /app/dist/
 COPY --from=BUILD /app/package.json /app/package.json
 
