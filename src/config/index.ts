@@ -1,6 +1,6 @@
 import { either as E } from 'fp-ts'
 
-import { getEmergencyLogger } from '@modules/emergencyLogger'
+import { getEmergencyLogger } from '@modules/logger'
 
 import { ConfigMap, mergeConfig } from './config'
 import getDefaultConfig from './configuration/default'

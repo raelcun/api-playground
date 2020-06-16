@@ -56,7 +56,11 @@ export const createRateLimiter = (
     }),
   )
 
-export const createLimiter = (keyPrefix: string, points = 100, duration = 10) =>
+export const createLimiter = (
+  keyPrefix: string,
+  points = 100,
+  duration = 10,
+): RateLimiterAbstract =>
   new RLWrapperBlackAndWhite({
     limiter: new RateLimiterMemory({
       keyPrefix,

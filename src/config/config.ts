@@ -1,5 +1,6 @@
 import deepmerge from 'deepmerge'
 import { array as A, either as E } from 'fp-ts'
+import { Lazy } from 'fp-ts/lib/function'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import { Err } from '@modules/error/types'
@@ -8,7 +9,7 @@ import { PartialConfig } from './types'
 
 export type ConfigMap<T> = {
   default: () => E.Either<Err, T>
-  [env: string]: (() => E.Either<Err, PartialConfig<T>>) | undefined
+  [env: string]: Lazy<E.Either<Err, PartialConfig<T>>> | undefined
 }
 
 const mergeDefaultWithPartials = <T>(defaultConfig: T) => (partialConfigs: PartialConfig<T>[]) => {

@@ -1,8 +1,8 @@
 import { either as E } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 
-import { getEmergencyLogger } from '@modules/emergencyLogger'
 import { Err } from '@modules/error/types'
+import { getEmergencyLogger } from '@modules/logger'
 
 import { EnvVars, envVarsV } from './types'
 

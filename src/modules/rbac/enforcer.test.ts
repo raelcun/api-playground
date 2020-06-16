@@ -1,4 +1,4 @@
-import { task as T, taskEither as TE } from 'fp-ts'
+import { taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import { createEnforcer, getEnforcer } from './enforcer'
