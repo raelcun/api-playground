@@ -1,3 +1,5 @@
-![Build and Deploy to GKE](https://github.com/raelcun/api-playground/workflows/Build%20and%20Deploy%20to%20GKE/badge.svg?branch=master)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/raelcun/api-playground)
+![Develop](https://github.com/raelcun/api-playground/workflows/Develop/badge.svg?branch=develop)
+![GitHub](https://img.shields.io/github/license/raelcun/api-playground)
 
 # API Playground Example for GKE
