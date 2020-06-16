@@ -6,6 +6,8 @@ import { Err } from '@modules/error/types'
 
 import { EnvVars, envVarsV } from './types'
 
+console.log(process.env.JWT_SECRET)
+
 export const getEnvVars = (): E.Either<Err, EnvVars> =>
   pipe(
     envVarsV.decode({

@@ -1,5 +1,7 @@
-require('dotenv').config()
 import 'source-map-support/register'
+import { config } from 'dotenv'
+config()
+
 import http from 'http'
 import https from 'https'
 import { createCertificate } from 'pem'

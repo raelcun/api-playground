@@ -9,3 +9,7 @@ export const NonEmptyString = t.brand(
   (s): s is t.Branded<string, NonEmptyStringBrand> => s !== undefined && s.length > 0,
   'NonEmptyString',
 )
+
+export type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>
+}

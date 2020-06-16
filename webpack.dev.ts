@@ -1,8 +1,9 @@
-import { Configuration } from 'webpack'
+import CircularDependencyPlugin from 'circular-dependency-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import NodemonWebpackPlugin from 'nodemon-webpack-plugin'
-import CircularDependencyPlugin from 'circular-dependency-plugin'
+import { Configuration } from 'webpack'
 import merge from 'webpack-merge'
+
 import commonConfig from './webpack.common'
 
 const config: Configuration = merge(commonConfig, {

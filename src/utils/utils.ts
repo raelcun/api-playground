@@ -13,7 +13,7 @@ import { Options } from '@shopify/jest-koa-mocks/dist/src/create-mock-context'
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
-export const filterObjectKeys = <T extends object, K extends keyof T>(
+export const filterObjectKeys = <T extends Record<string, unknown>, K extends keyof T>(
   o: T,
   keys: K[],
 ): Pick<T, K> => {
@@ -53,7 +53,9 @@ export const decode = <T>(
 export const ioSequence = A.array.sequence(IO.io)
 
 export const createKoaContext = <T>(
-  options?: Options<object, T> & { requestBody?: T } & { body?: string | object },
+  options?: Options<Record<string, unknown>, T> & { requestBody?: T } & {
+    body?: string | Record<string, unknown>
+  },
 ): KoaContext<T> => {
   const context = createMockContext(options) as KoaContext<T>
   if (options !== undefined && options.body !== undefined) {

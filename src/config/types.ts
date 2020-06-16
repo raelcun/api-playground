@@ -1,6 +1,8 @@
 import * as t from 'io-ts'
 import { LevelWithSilent } from 'pino'
 
+import { DeepPartial } from '@root/utils/types'
+
 export interface FullConfig {
   isProduction: boolean
   env: string
@@ -23,20 +25,7 @@ export interface FullConfig {
   }
 }
 
-type Primitive = string | number | boolean | bigint | symbol | undefined | null
-export type PartialConfig<T> = {
-  [P in keyof T]?: T[P] extends Primitive
-    ? T[P]
-    : T[P] extends Function
-    ? T[P]
-    : T[P] extends Date
-    ? T[P]
-    : T[P] extends (infer U)[]
-    ? U[]
-    : T[P] extends readonly (infer U)[]
-    ? readonly U[]
-    : PartialConfig<T[P]>
-}
+export type PartialConfig<T> = DeepPartial<FullConfig>
 
 export type ConfigProvider = () => FullConfig
 
