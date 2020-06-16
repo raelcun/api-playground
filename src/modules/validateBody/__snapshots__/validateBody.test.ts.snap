@@ -12,7 +12,7 @@ Array [
   Array [
     Object {
       "code": "BODY_VALIDATION_ERROR",
-      "message": "Expecting string but instead got: 5.",
+      "message": "Expecting string but instead got: 5",
     },
   ],
 ]
@@ -23,7 +23,7 @@ Object {
   "_tag": "Left",
   "left": Object {
     "code": "BODY_VALIDATION_ERROR",
-    "message": "Expecting string but instead got: 5.",
+    "message": "Expecting string but instead got: 5",
   },
 }
 `;

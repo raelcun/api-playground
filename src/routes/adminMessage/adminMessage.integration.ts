@@ -30,7 +30,7 @@ describe('adminMessage', () => {
       .send({ role: 'admin' })
       .expect(HttpStatus.BAD_REQUEST, {
         code: 'BODY_VALIDATION_ERROR',
-        message: 'Expecting string at message but instead got: undefined.',
+        message: 'Expecting string at message but instead got: undefined',
       })
   })
 })

@@ -15,7 +15,7 @@ Object {
   "_tag": "Left",
   "left": Object {
     "code": "VALIDATION_ERROR",
-    "message": "Expecting number at foo but instead got: \\"foo\\". Expecting string at bar but instead got: 5.",
+    "message": "Expecting string at bar but instead got: 5. Expecting number at foo but instead got: \\"foo\\"",
   },
 }
 `;
@@ -25,7 +25,7 @@ Object {
   "_tag": "Left",
   "left": Object {
     "code": "VALIDATION_ERROR",
-    "message": "Expecting string but instead got: 5.",
+    "message": "Expecting string but instead got: 5",
   },
 }
 `;

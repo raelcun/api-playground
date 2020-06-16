@@ -5,7 +5,7 @@ Array [
   Array [
     Object {
       "code": "RESPONSE_VALIDATION_ERROR",
-      "message": "Expecting number but instead got: \\"foo\\".",
+      "message": "Expecting number but instead got: \\"foo\\"",
     },
   ],
 ]
@@ -16,7 +16,7 @@ Array [
   Array [
     Object {
       "code": "RESPONSE_VALIDATION_ERROR",
-      "message": "Expecting number but instead got: \\"foo\\".",
+      "message": "Expecting number but instead got: \\"foo\\"",
     },
   ],
 ]

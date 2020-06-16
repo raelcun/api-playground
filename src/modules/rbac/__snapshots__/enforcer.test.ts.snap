@@ -8,7 +8,8 @@ Map {
       "policy": Array [],
       "rm": DefaultRoleManager {
         "allRoles": Map {},
-        "maxHierarchyLevel": 0,
+        "hasPattern": false,
+        "maxHierarchyLevel": 10,
       },
       "tokens": Array [
         "r_sub",
@@ -35,7 +36,8 @@ Map {
       ],
       "rm": DefaultRoleManager {
         "allRoles": Map {},
-        "maxHierarchyLevel": 0,
+        "hasPattern": false,
+        "maxHierarchyLevel": 10,
       },
       "tokens": Array [
         "p_sub",
@@ -51,7 +53,8 @@ Map {
       "policy": Array [],
       "rm": DefaultRoleManager {
         "allRoles": Map {},
-        "maxHierarchyLevel": 0,
+        "hasPattern": false,
+        "maxHierarchyLevel": 10,
       },
       "tokens": Array [],
       "value": "_, _",
@@ -63,7 +66,8 @@ Map {
       "policy": Array [],
       "rm": DefaultRoleManager {
         "allRoles": Map {},
-        "maxHierarchyLevel": 0,
+        "hasPattern": false,
+        "maxHierarchyLevel": 10,
       },
       "tokens": Array [],
       "value": "some(where (p_eft == allow))",
@@ -75,7 +79,8 @@ Map {
       "policy": Array [],
       "rm": DefaultRoleManager {
         "allRoles": Map {},
-        "maxHierarchyLevel": 0,
+        "hasPattern": false,
+        "maxHierarchyLevel": 10,
       },
       "tokens": Array [],
       "value": "g(r_sub, p_sub) && r_obj == p_obj && r_act == p_act || r_sub == \\"admin\\"",

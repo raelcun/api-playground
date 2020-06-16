@@ -46,7 +46,7 @@ export const decode = <T>(
     t.decode(v),
     E.mapLeft(errors => ({
       code: 'VALIDATION_ERROR',
-      message: reporter(E.left(errors)).join(' '),
+      message: reporter(E.left(errors)).join('. '),
     })),
   )
 

@@ -1,4 +1,4 @@
-import { taskEither as TE } from 'fp-ts'
+import { task as T, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import { createEnforcer, getEnforcer } from './enforcer'
@@ -10,9 +10,8 @@ describe('enforcer', () => {
 
     await pipe(
       createEnforcer,
-      TE.map(enforcer => {
-        expect(enforcer.getPolicy()).toMatchSnapshot()
-      }),
+      TE.chain(enforcer => TE.rightTask(() => enforcer.getPolicy())),
+      TE.map(policy => expect(policy).toMatchSnapshot()),
     )()
   })
 
