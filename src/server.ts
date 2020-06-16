@@ -2,9 +2,11 @@ import 'source-map-support/register'
 import { config } from 'dotenv'
 config()
 
+import { Lazy } from 'fp-ts/lib/function'
 import http from 'http'
 import https from 'https'
-import { createCertificate } from 'pem'
+import { CertificateCreationOptions, createCertificate } from 'pem'
+import { promisify } from 'util'
 
 import { getConfig } from '@config'
 import { getSystemLogger } from '@modules/logger'
