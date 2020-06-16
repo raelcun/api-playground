@@ -38,7 +38,9 @@ describe('DateFromString', () => {
   )
 
   test('should successfully encode', () => {
-    expect(DateFromString.encode(new Date('2019/1/1'))).toBe('2019-01-01T05:00:00.000Z')
+    expect(DateFromString.encode(new Date('2019-01-01T05:00:00+05:00'))).toBe(
+      '2019-01-01T00:00:00.000Z',
+    )
   })
 })
 
