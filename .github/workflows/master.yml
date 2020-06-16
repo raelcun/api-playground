@@ -2,9 +2,7 @@ name: Build and Deploy to GKE
 
 on:
   push:
-    branches: [master, develop]
-  pull_request:
-    branches: [develop]
+    branches: [master]
 
 env:
   GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
@@ -15,31 +13,8 @@ env:
   IMAGE: api-playground
 
 jobs:
-  test:
-    name: Lint and Local Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2-beta
-        with:
-          node-version: "12.4.0"
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Lint
-        run: yarn lint
-
-      - name: Test
-        run: yarn test
-
   deploy:
-    if: github.ref == 'refs/heads/master'
     name: Setup, Build, Publish, and Deploy
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
