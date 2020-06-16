@@ -42,6 +42,24 @@ describe('config', () => {
     expect(mergeConfig(configMap, '', '')).toMatchSnapshot()
   })
 
+  test('failed default config fails merge', () => {
+    const configMap: ConfigMap<{ a: number }> = {
+      default: () => E.left({ code: 'VALIDATION_FAILED' }),
+      'default-test': () => E.right({ a: 2 }),
+    }
+
+    expect(mergeConfig(configMap, 'default', 'test')).toMatchSnapshot()
+  })
+
+  test('failed partial config fails merge', () => {
+    const configMap: ConfigMap<{ a: number }> = {
+      default: () => E.right({ a: 2 }),
+      'default-test': () => E.left({ code: 'VALIDATION_FAILED' }),
+    }
+
+    expect(mergeConfig(configMap, 'default', 'test')).toMatchSnapshot()
+  })
+
   describe('config hierarchy', () => {
     const env = 'stage'
     const context = 'testing'

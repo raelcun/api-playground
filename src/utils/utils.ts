@@ -2,7 +2,7 @@ import { array as A, either as E, io as IO, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as t from 'io-ts'
 import { reporter } from 'io-ts-reporters'
-import { Context, Middleware } from 'koa'
+import { Context, Middleware, Next } from 'koa'
 
 import { Err } from '@modules/error/types'
 import { Logger, LogMethods } from '@modules/logger/types'
@@ -10,7 +10,6 @@ import { KoaContext } from '@root/types'
 import { createMockContext } from '@shopify/jest-koa-mocks'
 import { Options } from '@shopify/jest-koa-mocks/dist/src/create-mock-context'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
 export const filterObjectKeys = <T extends Record<string, unknown>, K extends keyof T>(
@@ -64,7 +63,11 @@ export const createKoaContext = <T>(
   return context
 }
 
-export const createMockNext = () => jest.fn(() => Promise.resolve())
+export const createMockNext = (impl = () => {}): jest.Mock<Promise<void>> =>
+  jest.fn(() => {
+    impl()
+    return Promise.resolve()
+  })
 
 export const DateFromString = new t.Type<Date, string, unknown>(
   'DateFromString',

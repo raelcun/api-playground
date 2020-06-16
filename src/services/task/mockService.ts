@@ -1,4 +1,5 @@
-import { left, right } from 'fp-ts/lib/TaskEither'
+import { option as O, taskEither as TE } from 'fp-ts'
+import { pipe } from 'fp-ts/lib/pipeable'
 
 import { mockData } from '@models/index'
 
@@ -8,29 +9,32 @@ let tasks = mockData.tasks
 
 const addTask: MockTaskService['addTask'] = newTask => {
   tasks = [...tasks, newTask]
-  return right(true)
+  return TE.right(true)
 }
 
 const removeTask: MockTaskService['removeTask'] = taskId => {
   tasks = tasks.filter(e => e.id !== taskId)
-  return right(true)
+  return TE.right(true)
 }
 
 const editTask: MockTaskService['editTask'] = (taskId, newTask) => {
   const taskIndex = tasks.findIndex(e => e.id === taskId)
-  if (taskIndex < 0) return left({ code: 'TASK_NOT_FOUND' })
+  if (taskIndex < 0) return TE.left({ code: 'TASK_NOT_FOUND' })
   tasks[taskIndex] = { ...newTask, id: taskId }
-  return right(true)
+  return TE.right(true)
 }
 
-const getTask: MockTaskService['getTask'] = taskId => {
-  const foundTask = tasks.find(e => e.id === taskId)
-  if (foundTask === undefined) return left({ code: 'TASK_NOT_FOUND' })
-  return right(foundTask)
-}
+const getTask: MockTaskService['getTask'] = taskId =>
+  pipe(
+    O.fromNullable(tasks.find(e => e.id === taskId)),
+    O.fold(
+      () => TE.left({ code: 'TASK_NOT_FOUND' }),
+      task => TE.right(task),
+    ),
+  )
 
 const getAllTasks: MockTaskService['getAllTasks'] = () => {
-  return right(tasks)
+  return TE.right(tasks)
 }
 
 const resetMocks = () => {

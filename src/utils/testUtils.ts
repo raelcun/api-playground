@@ -1,6 +1,7 @@
 import * as HttpStatus from 'http-status-codes'
 import { Context } from 'koa'
-import { install, InstalledClock } from 'lolex'
+
+import { install, InstalledClock } from '@sinonjs/fake-timers'
 
 export const testUnauthorized = (mockContext: Context, mockNext: jest.Mock<Promise<void>, []>) => {
   test('should set status to 401', () => {
@@ -33,4 +34,6 @@ export const installStaticClock = () => {
   afterAll(() => {
     clock.uninstall()
   })
+
+  return () => clock
 }

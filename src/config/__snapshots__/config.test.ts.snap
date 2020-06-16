@@ -45,6 +45,24 @@ Object {
 }
 `;
 
+exports[`config failed default config fails merge 1`] = `
+Object {
+  "_tag": "Left",
+  "left": Object {
+    "code": "VALIDATION_FAILED",
+  },
+}
+`;
+
+exports[`config failed partial config fails merge 1`] = `
+Object {
+  "_tag": "Left",
+  "left": Object {
+    "code": "VALIDATION_FAILED",
+  },
+}
+`;
+
 exports[`config missing partial config does not fail 1`] = `
 Object {
   "_tag": "Right",
