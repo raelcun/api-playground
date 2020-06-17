@@ -7,16 +7,29 @@ import { getConfig } from '@config'
 import { DynamoClient } from './types'
 
 export const createDynamoClientInternal = (baseClient: DocumentClient): DynamoClient<any> => ({
-  put: item =>
+  put: params =>
     TE.tryCatch(
       () =>
         baseClient
-          .put(item)
+          .put(params)
           .promise()
           .then(result => result.$response),
       (reason: AWSError) => ({
         code: reason.code || 'UNKNOWN_AWS_ERROR',
         message: reason.message || 'unknown failure while putting data',
+      }),
+    ),
+
+  delete: params =>
+    TE.tryCatch(
+      () =>
+        baseClient
+          .delete(params)
+          .promise()
+          .then(result => result.$response),
+      (reason: AWSError) => ({
+        code: reason.code || 'UNKNOWN_AWS_ERROR',
+        message: reason.message || 'unknown failure while deleting data',
       }),
     ),
 })

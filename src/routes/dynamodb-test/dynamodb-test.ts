@@ -17,6 +17,9 @@ router.get('/dynamodb-test', async ctx => {
       })
       .promise()
 
+    console.log(Object.keys(result))
+    console.log(result.$response.error)
+
     ctx.status = 200
     ctx.body = result
   } catch (e) {
