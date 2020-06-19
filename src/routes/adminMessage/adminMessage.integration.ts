@@ -3,6 +3,12 @@ import request from 'supertest'
 
 import { app } from '@root/app'
 
+const createResponseMatcher = (extra: {} = {}) => ({
+  id: expect.any(String),
+  apiVersion: expect.any(String),
+  ...extra,
+})
+
 describe('adminMessage', () => {
   test('should return body when authorized', async () => {
     await request(app.callback())
@@ -11,7 +17,8 @@ describe('adminMessage', () => {
         role: 'admin',
         message: 'foobar',
       })
-      .expect(HttpStatus.OK, 'foobar')
+      .expect(HttpStatus.OK)
+      .expect(res => expect(res.body).toMatchSnapshot(createResponseMatcher()))
   })
 
   test('should reject unauthorized request ', async () => {
@@ -28,9 +35,7 @@ describe('adminMessage', () => {
     await request(app.callback())
       .post('/v1/adminMessage')
       .send({ role: 'admin' })
-      .expect(HttpStatus.BAD_REQUEST, {
-        code: 'BODY_VALIDATION_ERROR',
-        message: 'Expecting string at message but instead got: undefined',
-      })
+      .expect(HttpStatus.BAD_REQUEST)
+      .expect(res => expect(res.body).toMatchSnapshot(createResponseMatcher()))
   })
 })

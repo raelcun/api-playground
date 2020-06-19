@@ -15,7 +15,8 @@ export const createDynamoClientInternal = (baseClient: DocumentClient): DynamoCl
           .promise()
           .then(result => result.$response),
       (reason: AWSError) => ({
-        code: reason.code || 'UNKNOWN_AWS_ERROR',
+        code: 'DYNAMO_CLIENT_ERROR',
+        subCode: reason.code || 'UNKNOWN_ERROR',
         message: reason.message || 'unknown failure while putting data',
       }),
     ),
@@ -28,7 +29,8 @@ export const createDynamoClientInternal = (baseClient: DocumentClient): DynamoCl
           .promise()
           .then(result => result.$response),
       (reason: AWSError) => ({
-        code: reason.code || 'UNKNOWN_AWS_ERROR',
+        code: 'DYNAMO_CLIENT_ERROR',
+        subCode: reason.code || 'UNKNOWN_AWS_ERROR',
         message: reason.message || 'unknown failure while deleting data',
       }),
     ),

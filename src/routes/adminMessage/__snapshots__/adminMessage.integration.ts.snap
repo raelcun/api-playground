@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`adminMessage should return body when authorized 1`] = `
+Object {
+  "apiName": "api-playground",
+  "apiVersion": Any<String>,
+  "data": "foobar",
+  "id": Any<String>,
+}
+`;
+
+exports[`adminMessage should validate post body 1`] = `
+Object {
+  "apiName": "api-playground",
+  "apiVersion": Any<String>,
+  "error": Object {
+    "code": "BODY_VALIDATION_ERROR",
+    "message": "Expecting string at message but instead got: undefined",
+  },
+  "id": Any<String>,
+}
+`;
