@@ -11,7 +11,7 @@ const router = new Router()
 router.post(
   '/adminMessage',
   rateLimitingMiddleware(createLimiter('adminMessage'), ctx => ctx.ip),
-  enforceWithBodyRole('account', ['editAny']),
+  enforceWithBodyRole('adminMessage', ['post']),
   withValidatedBody(t.type({ message: t.string }))(async ctx => {
     ctx.status = 200
     ctx.body = ctx.request.body.message

@@ -11,5 +11,6 @@ export default (): E.Either<Err, PartialConfig<FullConfig>> =>
     },
     logging: {
       prettyPrint: true,
+      level: 'trace',
     },
   })

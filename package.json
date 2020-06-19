@@ -26,13 +26,13 @@
     "test:coverage": "yarn test -- --collect-coverage"
   },
   "dependencies": {
-    "aws-sdk": "^2.697.0",
+    "aws-sdk": "^2.699.0",
     "axios": "^0.19.2",
     "casbin": "^5.0.4",
     "deepmerge": "^4.2.2",
-    "fp-ts": "^2.6.5",
+    "fp-ts": "^2.6.6",
     "http-status-codes": "^1.4.0",
-    "io-ts": "^2.2.5",
+    "io-ts": "^2.2.6",
     "io-ts-reporters": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.12.1",

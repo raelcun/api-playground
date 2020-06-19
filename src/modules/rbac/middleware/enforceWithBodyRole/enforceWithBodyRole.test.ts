@@ -12,7 +12,7 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(true)))('account', ['viewAny'])(
+      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(true)))('task', ['add'])(
         mockContext,
         mockNext,
       )
@@ -26,7 +26,7 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(false)))('account', ['viewAny'])(
+      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(false)))('task', ['add'])(
         mockContext,
         mockNext,
       )
@@ -42,7 +42,7 @@ describe('enforcerWithBodyRole middleware', () => {
     beforeAll(async () => {
       await enforceWithBodyRoleMiddleware(
         TE.right(() => TE.left({ code: 'ENFORCER_FAILED' })),
-      )('account', ['viewAny'])(mockContext, mockNext)
+      )('task', ['add'])(mockContext, mockNext)
     })
 
     testUnauthorized(mockContext, mockNext)
@@ -53,8 +53,8 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.left({ code: 'CANNOT_GET_ENFORCER' }))('account', [
-        'viewAny',
+      await enforceWithBodyRoleMiddleware(TE.left({ code: 'CANNOT_GET_ENFORCER' }))('task', [
+        'add',
       ])(mockContext, mockNext)
     })
 
@@ -66,7 +66,7 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(true)))('account', ['viewAny'])(
+      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(true)))('task', ['add'])(
         mockContext,
         mockNext,
       )
@@ -79,7 +79,7 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockEnforcer = TE.right(() => TE.right(false))
     const mockContext = createKoaContext({ requestBody: { foo: 'bar' } })
     const next = createMockNext()
-    await enforceWithBodyRoleMiddleware(mockEnforcer)('account', ['viewAny'])(mockContext, next)
+    await enforceWithBodyRoleMiddleware(mockEnforcer)('task', ['add'])(mockContext, next)
 
     expect(mockContext.status).toEqual(HttpStatus.UNAUTHORIZED)
     expect(next).not.toHaveBeenCalled()

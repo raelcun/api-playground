@@ -1,0 +1,19 @@
+Core:
+  [] standardized response format
+  [] standardized log builder
+    [] standardized log format
+
+Basic Task Management:
+  Task Service:
+    ✔ dynamo client @done(20-06-17 21:25)
+    ✔ add task @done(20-06-17 21:26)
+    ✔ remove task @done(20-06-17 21:26)
+    [] edit task
+    [] get task
+    [] get all tasks
+  Task Routes:
+    ✔ add task route
+    ✔ delete task route @started(20-06-17 22:27) @done(20-06-17 23:16) @lasted(49m14s)
+    [] edit task route
+    [] get task route
+    [] get all tasks route

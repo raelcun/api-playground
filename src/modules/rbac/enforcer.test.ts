@@ -31,7 +31,7 @@ describe('enforcer', () => {
 
     const result = await pipe(
       getEnforcer,
-      TE.chain(enforce => enforce(Roles.Admin, 'account', 'viewOwn')),
+      TE.chain(enforce => enforce(Roles.Admin, 'task', 'add')),
     )()
 
     expect(result).toMatchSnapshot()
@@ -53,7 +53,7 @@ describe('enforcer', () => {
 
     const result = await pipe(
       getEnforcer,
-      TE.chain(enforce => enforce(Roles.Admin, 'account', 'fakeAction' as any)),
+      TE.chain(enforce => enforce(Roles.Admin, 'adminMessage', 'fakeAction' as any)),
     )()
 
     expect(result).toMatchSnapshot()
@@ -64,7 +64,7 @@ describe('enforcer', () => {
 
     const result = await pipe(
       getEnforcer,
-      TE.chain(enforce => enforce(Roles.User, 'account', 'editAny')),
+      TE.chain(enforce => enforce(Roles.User, 'adminMessage', 'post')),
     )()
 
     expect(result).toMatchSnapshot()
@@ -86,7 +86,7 @@ describe('enforcer', () => {
 
     const result = await pipe(
       getEnforcer,
-      TE.chain(enforce => enforce(Roles.User, 'account', 'fakeAction' as any)),
+      TE.chain(enforce => enforce(Roles.User, 'task', 'fakeAction' as any)),
     )()
 
     expect(result).toMatchSnapshot()

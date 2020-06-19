@@ -37,7 +37,7 @@ const setEnforcerModel = (enforcer: Enforcer): TE.TaskEither<Err, Enforcer> =>
 export const createEnforcer: TE.TaskEither<Err, Enforcer> = pipe(
   newEnforcer,
   TE.chain(setEnforcerModel),
-  TE.chain(addPoliciesToEnforcer(Roles.User, 'account', 'viewOwn', 'viewAny')),
+  TE.chain(addPoliciesToEnforcer(Roles.User, 'task', 'add')),
 )
 
 let enforcerInstance: Promise<E.Either<Err, Enforcer>>

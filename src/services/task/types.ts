@@ -2,7 +2,7 @@ import { TaskEither } from 'fp-ts/lib/TaskEither'
 
 import { Task } from '@models/index'
 import { Err } from '@modules/error/types'
-  
+
 export type AddTaskError = Err
 export type RemoveTaskError = Err
 export type GetTaskError = Err | { code: 'TASK_NOT_FOUND' }

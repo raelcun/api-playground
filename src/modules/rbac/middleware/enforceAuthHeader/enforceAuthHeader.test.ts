@@ -42,7 +42,7 @@ describe('enforceWithAuthHeader middleware', () => {
     const { mockNext, mockContext } = createMockContextAndNext(token)
 
     beforeAll(async () => {
-      await enforceWithAuthHeaderMiddleware(enforceProvider)(getConfig)('account', ['viewAny'])(
+      await enforceWithAuthHeaderMiddleware(enforceProvider)(getConfig)('task', ['add'])(
         mockContext,
         mockNext,
       )
@@ -68,7 +68,7 @@ describe('enforceWithAuthHeader middleware', () => {
     const { mockNext, mockContext } = createMockContextAndNext(token)
 
     beforeAll(async () => {
-      await enforceWithAuthHeaderMiddleware(enforceProvider)(getConfig)('account', ['viewAny'])(
+      await enforceWithAuthHeaderMiddleware(enforceProvider)(getConfig)('task', ['add'])(
         mockContext,
         mockNext,
       )
@@ -93,7 +93,7 @@ describe('enforceWithAuthHeader middleware', () => {
     beforeAll(async () => {
       await enforceWithAuthHeaderMiddleware(createEnforceProviderThatReturnsAuthorized())(
         getConfig,
-      )('account', ['viewAny'])(mockContext, mockNext)
+      )('task', ['add'])(mockContext, mockNext)
     })
 
     testUnauthorized(mockContext, mockNext)

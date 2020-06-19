@@ -2,11 +2,10 @@ import 'source-map-support/register'
 import { config } from 'dotenv'
 config()
 
-import { Lazy } from 'fp-ts/lib/function'
 import http from 'http'
 import https from 'https'
-import { CertificateCreationOptions, createCertificate } from 'pem'
-import { promisify } from 'util'
+import { sign } from 'jsonwebtoken'
+import { createCertificate } from 'pem'
 
 import { getConfig } from '@config'
 import { getSystemLogger } from '@modules/logger'
@@ -63,4 +62,13 @@ if (enableSSL === true) {
 
   process.on('SIGTERM', () => shutdown(server))
   process.on('SIGINT', () => shutdown(server))
+}
+
+if (!getConfig().isProduction) {
+  getSystemLogger().info(
+    `admin token ${sign({ userId: 'raelcun', role: 'admin' }, getConfig().server.jwtSecret)}`,
+  )
+  getSystemLogger().info(
+    `user token ${sign({ userId: 'raelcun', role: 'user' }, getConfig().server.jwtSecret)}`,
+  )
 }

@@ -1,13 +1,9 @@
-import { DocumentClient, PutItemInput } from 'aws-sdk/clients/dynamodb'
-import { AWSError } from 'aws-sdk/lib/error'
 import { taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { tryCatch } from 'fp-ts/lib/TaskEither'
-import { ContextReplacementPlugin } from 'webpack'
 
 import { Task } from '@models/task'
 import { DynamoClient, getDynamoClient } from '@modules/dynamo-client'
-import { Err } from '@modules/error/types'
+import { getSystemLogger } from '@modules/logger'
 
 import { TaskService } from './types'
 
@@ -20,23 +16,36 @@ const addTaskInternal = (taskClient: DynamoClient<Task>): TaskService['addTask']
     TE.map(() => true),
   )
 
-const removeTaskInternal = (taskClient: DynamoClient<Task>): TaskService['removeTask'] => taskId =>
-  pipe(
+const removeTaskInternal = (
+  taskClient: DynamoClient<Task>,
+): TaskService['removeTask'] => taskId => {
+  getSystemLogger().debug('removing task ' + taskId)
+  return pipe(
     taskClient.delete({
       TableName: 'tasks',
       Key: {
-        id: {
-          S: taskId,
-        },
+        id: taskId,
       },
     }),
     TE.map(() => true),
   )
+}
 
-// export const service: TaskService = {
-//   addTask,
-//   removeTask,
-//   editTask,
-//   getTask,
-//   getAllTasks,
-// }
+const editTaskInternal = (taskClient: DynamoClient<Task>): TaskService['editTask'] => (
+  taskId,
+  newTask,
+) => TE.left({ code: 'NOT_IMPLEMENTED' })
+
+const getTaskInternal = (taskClient: DynamoClient<Task>): TaskService['getTask'] => taskId =>
+  TE.left({ code: 'NOT_IMPLEMENTED' })
+
+const getAllTasksInternal = (taskClient: DynamoClient<Task>): TaskService['getAllTasks'] => () =>
+  TE.left({ code: 'NOT_IMPLEMENTED' })
+
+export const createTaskService = (): TaskService => ({
+  addTask: addTaskInternal(getDynamoClient()),
+  removeTask: removeTaskInternal(getDynamoClient()),
+  editTask: editTaskInternal(getDynamoClient()),
+  getTask: getTaskInternal(getDynamoClient()),
+  getAllTasks: getAllTasksInternal(getDynamoClient()),
+})

@@ -10,7 +10,8 @@ export const enum Roles {
 export const RolesV = t.union([t.literal(Roles.User), t.literal(Roles.Admin)])
 
 export interface Actions {
-  account: 'viewAny' | 'viewOwn' | 'editOwn' | 'editAny'
+  adminMessage: 'post'
+  task: 'add' | 'remove' | 'edit' | 'get'
 }
 
 export type Enforce = <T extends keyof Actions, U extends Actions[T]>(

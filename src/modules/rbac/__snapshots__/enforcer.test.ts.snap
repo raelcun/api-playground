@@ -25,13 +25,8 @@ Map {
       "policy": Array [
         Array [
           "user",
-          "account",
-          "viewOwn",
-        ],
-        Array [
-          "user",
-          "account",
-          "viewAny",
+          "task",
+          "add",
         ],
       ],
       "rm": DefaultRoleManager {
@@ -93,13 +88,8 @@ exports[`enforcer security policies match snapshot 1`] = `
 Array [
   Array [
     "user",
-    "account",
-    "viewOwn",
-  ],
-  Array [
-    "user",
-    "account",
-    "viewAny",
+    "task",
+    "add",
   ],
 ]
 `;

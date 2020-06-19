@@ -1342,10 +1342,10 @@ await-lock@^2.0.1:
   resolved "https://registry.yarnpkg.com/await-lock/-/await-lock-2.0.1.tgz#b3f65fdf66e08f7538260f79b46c15bcfc18cadd"
   integrity sha512-ntLi9fzlMT/vWjC1wwVI11/cSRJ3nTS35qVekNc9WnaoMOP2eWH0RvIqwLQkDjX4a4YynsKEv+Ere2VONp9wxg==
 
-aws-sdk@^2.697.0:
-  version "2.697.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.697.0.tgz#37320f50449a0d048fd34664dec023fdfeeab01f"
-  integrity sha512-aNrwiPRHQyzjJxpfgLwVOevuGTOMkU5uiP4VDIngfc/k4s2kQgLSyhLSKmNTjbubHCHfs1sQQkP3RXK2Oi8Rbw==
+aws-sdk@^2.699.0:
+  version "2.699.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.699.0.tgz#e77b6ffa4c860882e2779c060b74fab33d42f554"
+  integrity sha512-EC431z/+i/cJgOgnDpOJ8Fa6+p7Oo1vIvdm/uJqP9tJX3+pxi/M/tvQavfz4yAlLBFqjQwxa8nrPisby0Mr5MQ==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -3074,10 +3074,15 @@ formidable@^1.2.0:
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.2.tgz#bf69aea2972982675f00865342b982986f6b8dd9"
   integrity sha512-V8gLm+41I/8kguQ4/o1D3RIHRmhYFG4pnNyonvua+40rqcEmT4+V71yaZ3B457xbbgCsCfjSPi65u/W6vK1U5Q==
 
-fp-ts@^2.0.2, fp-ts@^2.6.5:
+fp-ts@^2.0.2:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.6.5.tgz#da4c369626ff3f4bb1518f8459b226fc19eb8e3c"
   integrity sha512-lQNzOMJj98b623+UZLQ+tnN/8qtNXz/vRoR9k7L/9OlUIyYH3qVzSUVZBDXYsAd7nOWzzdQALCX1ZqcF70altQ==
+
+fp-ts@^2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.6.6.tgz#cfb57772a845628e56da05d8c5dc03227aedadb4"
+  integrity sha512-zYfhPNb2fwpkrJ5RpgEMsrvMv8r9x+guJptnaEBF295YtoVr3+jbGDXZqSqPcfEWas5Trj3FpbDkzmXbx0YYzQ==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -3654,10 +3659,15 @@ io-ts-reporters@^1.1.0:
     fp-ts "^2.0.2"
     io-ts "^2.0.0"
 
-io-ts@^2.0.0, io-ts@^2.2.5:
+io-ts@^2.0.0:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.5.tgz#c402baf3c1d1584561cd215a1abaccc0baf4718e"
   integrity sha512-ctkzWw78sol75+KNkCrTjjgWwLjG77LzUNaelPbcJVao7THmmTIr6hW+rGJPK2EMtG1Pkt/G1sJVYyylEaOwPw==
+
+io-ts@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.6.tgz#809305ef9af646c4edf79145671298835e321758"
+  integrity sha512-UcO9I/ptnGttBKRAF3KW0G6fiS7uqfjUSDdeq+qmMKH0k8sZrbDMnNP8I/TTSkoztPr5OZstnQxb1Vo5Ua8MOg==
 
 ip-regex@^2.1.0:
   version "2.1.0"

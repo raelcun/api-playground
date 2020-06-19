@@ -2,7 +2,7 @@ import { array as A, either as E, io as IO, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as t from 'io-ts'
 import { reporter } from 'io-ts-reporters'
-import { Context, Middleware, Next } from 'koa'
+import { Context, Middleware } from 'koa'
 
 import { Err } from '@modules/error/types'
 import { Logger, LogMethods } from '@modules/logger/types'
