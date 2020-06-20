@@ -1,7 +1,7 @@
 Core:
   ✔ standardized response format @started(20-06-18 22:02) @done(20-06-19 02:21) @lasted(4h19m21s)
-  [] standardized log builder
-    [] standardized log format
+  ✔ standardized log builder @done(20-06-20 19:17)
+    ✔ standardized log format @done(20-06-20 19:16)
 
 Basic Task Management:
   Task Service:

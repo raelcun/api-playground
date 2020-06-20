@@ -18,14 +18,11 @@
     "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types", "src/typings"],
     "paths": {
-      "@config": ["src/config"],
-      "@config/*": ["src/config/*"],
       "@lib/*": ["src/lib/*"],
       "@models/*": ["src/models/*"],
       "@modules/*": ["src/modules/*"],
       "@root/*": ["src/*"],
-      "@services/*": ["src/services/*"],
-      "@utils": ["src/modules/utils"]
+      "@services/*": ["src/services/*"]
     }
   }
 }

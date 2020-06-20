@@ -1,9 +1,10 @@
 import * as t from 'io-ts'
 import Router from 'koa-router'
 
-import { createResponseV, createSuccessResponse } from '@root/lib/api-core/response'
-import { createLimiter, rateLimitingMiddleware } from '@modules/rateLimiter'
-import { validateResponse } from '@modules/validateResponse'
+import { createLimiter } from '@lib/rate-limiter'
+import { createResponseV, createSuccessResponse } from '@modules/api-core'
+import { rateLimitingMiddleware } from '@modules/rate-limiter-middleware'
+import { validateResponse } from '@modules/response-validator-middleware'
 
 const router = new Router()
 

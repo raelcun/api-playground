@@ -1,11 +1,6 @@
-import pino from 'pino'
+import { createLogger, Logger } from '@lib/logger'
+import { getConfig } from '@modules/config'
 
-import { LoggingConfig } from './types'
+export const getLogger = createLogger(() => getConfig().logging)
 
-export const createLogger = (getLoggingConfig: () => LoggingConfig) => (name: string) => {
-  return pino({
-    name,
-    level: getLoggingConfig().level,
-    prettyPrint: getLoggingConfig().prettyPrint,
-  })
-}
+export const getSystemLogger = (): Logger => getLogger('system')

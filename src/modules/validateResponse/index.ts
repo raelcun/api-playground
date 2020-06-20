@@ -1,1 +1,0 @@
-export { validateResponse } from './validateResponse'

@@ -2,8 +2,8 @@ import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import helmet from 'koa-helmet'
 
-import { getEmergencyLogger } from '@modules/emergencyLogger'
-import { logRequest } from '@modules/logger'
+import { getEmergencyLogger } from '@lib/emergency-logger'
+import { logRequest } from '@modules/logging-middleware'
 import { router } from '@root/routes'
 
 const app = new Koa()

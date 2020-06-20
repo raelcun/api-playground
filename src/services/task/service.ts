@@ -1,8 +1,8 @@
 import { taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 
+import { DynamoClient, getDynamoClient } from '@lib/dynamo-client'
 import { Task } from '@models/task'
-import { DynamoClient, getDynamoClient } from '@modules/dynamo-client'
 import { getSystemLogger } from '@modules/logger'
 
 import { TaskService } from './types'

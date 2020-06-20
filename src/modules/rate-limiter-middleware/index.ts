@@ -1,1 +1,1 @@
-export * from './middleware'
+export { rateLimitingMiddleware } from './middleware'

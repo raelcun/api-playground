@@ -1,7 +1,7 @@
 import { TaskEither } from 'fp-ts/lib/TaskEither'
 
-import { Task } from '@models/index'
-import { Err } from '@modules/error/types'
+import { Err } from '@lib/error'
+import { Task } from '@models/task'
 
 export type AddTaskError = Err
 export type RemoveTaskError = Err

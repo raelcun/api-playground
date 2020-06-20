@@ -1,7 +1,7 @@
 import { option as O, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 
-import { mockData } from '@models/index'
+import * as mockData from '@models/mock-data'
 
 import { MockTaskService } from './types'
 

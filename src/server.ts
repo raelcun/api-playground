@@ -7,8 +7,8 @@ import https from 'https'
 import { sign } from 'jsonwebtoken'
 import { createCertificate } from 'pem'
 
-import { getConfig } from '@config'
-import { getEmergencyLogger } from '@modules/emergencyLogger'
+import { getEmergencyLogger } from '@lib/emergency-logger'
+import { getConfig } from '@modules/config'
 import { getSystemLogger } from '@modules/logger'
 import { app } from '@root/app'
 

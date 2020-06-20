@@ -3,17 +3,14 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import * as t from 'io-ts'
 import Router from 'koa-router'
 
+import { createLimiter } from '@lib/rate-limiter'
 import { TaskV } from '@models/task'
-import {
-  createErrorResponse,
-  createResponseV,
-  createSuccessResponse,
-} from '@root/lib/api-core/response'
-import { createLimiter, rateLimitingMiddleware } from '@modules/rateLimiter'
+import { createErrorResponse, createResponseV, createSuccessResponse } from '@modules/api-core'
+import { withValidatedBody } from '@modules/body-validator-middleware'
+import { rateLimitingMiddleware } from '@modules/rate-limiter-middleware'
 import { enforceWithAuthHeader } from '@modules/rbac'
-import { withValidatedBody } from '@modules/validateBody'
-import { validateResponse } from '@modules/validateResponse'
-import { createTaskService } from '@root/services/task'
+import { validateResponse } from '@modules/response-validator-middleware'
+import { createTaskService } from '@services/task'
 
 const router = new Router()
 

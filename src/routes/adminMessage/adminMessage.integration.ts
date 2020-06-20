@@ -3,7 +3,7 @@ import request from 'supertest'
 
 import { app } from '@root/app'
 
-const createResponseMatcher = (extra: {} = {}) => ({
+const createResponseMatcher = (extra: Record<string, unknown> = {}) => ({
   id: expect.any(String),
   apiVersion: expect.any(String),
   ...extra,
