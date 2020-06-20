@@ -4,12 +4,12 @@ import HttpStatus from 'http-status-codes'
 import t from 'io-ts'
 import { Middleware as KoaMiddleware } from 'koa'
 
-import { createErrorResponse } from '@modules/api-core/response'
+import { createErrorResponse } from '@root/lib/api-core/response'
 import { Err } from '@modules/error/types'
 import { getSystemLogger } from '@modules/logger'
 import { LoggerFactory } from '@modules/logger/types'
 import { KoaContext, Middleware } from '@root/types'
-import { decode, logErrors, mapErrorCode } from '@utils'
+import { decode, logErrors, mapErrorCode } from '@modules/utils'
 
 export const validateBodyInner = (createLogger: LoggerFactory) => <T>(type: t.Type<T, unknown>) => (
   body: unknown,

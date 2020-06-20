@@ -1,5 +1,6 @@
 import deepmerge from 'deepmerge'
 import { array as A, either as E } from 'fp-ts'
+import { sequenceT } from 'fp-ts/lib/Apply'
 import { Lazy } from 'fp-ts/lib/function'
 import { pipe } from 'fp-ts/lib/pipeable'
 
@@ -27,20 +28,17 @@ const mergeDefaultWithPartials = <T>(defaultConfig: T) => (partialConfigs: Parti
 const merge = <T>(
   defaultConfig: E.Either<Err, T>,
   partialConfigs: E.Either<Err, PartialConfig<T>>[],
-): E.Either<Err, T> => {
-  const composedPartialConfigs = A.array.sequence(E.either)(partialConfigs)
-
-  return pipe(
-    defaultConfig,
-    E.chain(defaultConfig =>
-      pipe(composedPartialConfigs, E.map(mergeDefaultWithPartials(defaultConfig))),
+): E.Either<Err, T> =>
+  pipe(
+    sequenceT(E.either)(defaultConfig, A.array.sequence(E.either)(partialConfigs)),
+    E.map(([defaultConfig, partialConfigs]) =>
+      mergeDefaultWithPartials(defaultConfig)(partialConfigs),
     ),
   )
-}
 
 const notUndefined = <TValue>(value: TValue | undefined): value is TValue => value !== undefined
 
-export const mergeConfig = <T>(
+export const calculateConfig = <T>(
   configMap: ConfigMap<T>,
   env: string,
   context: string,

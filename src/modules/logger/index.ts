@@ -1,2 +1,3 @@
+export * from './types'
 export * from './logger'
-export { middleware as logRequest } from './logRequestMiddleware'
+export * from './messageFactories'

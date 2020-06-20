@@ -3,9 +3,9 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import HttpStatus from 'http-status-codes'
 import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
 
-import { Err } from '@modules/error/types'
+import { Err } from '@modules/error'
+import { createMiddlewareTE } from '@modules/utils'
 import { KoaContext } from '@root/types'
-import { createMiddlewareTE } from '@utils'
 
 type LimiterConsumeError = Err & { remaining: O.Option<number>; msBeforeNext: O.Option<number> }
 

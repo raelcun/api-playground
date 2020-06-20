@@ -1,8 +1,8 @@
 import { either as E } from 'fp-ts'
 
-import { filterObjectKeys } from '@utils'
+import { filterObjectKeys } from '@modules/utils'
 
-import { ConfigMap, mergeConfig } from './config'
+import { calculateConfig, ConfigMap } from './config'
 
 type MockConfig = {
   a: { b: number; c: string; arr: { d: { e: string; f?: string } }[] }
@@ -21,7 +21,7 @@ describe('config', () => {
       'default-test': () => E.right({ a: { c: 'newC' } }),
     }
 
-    expect(mergeConfig(configMap, 'env', 'test')).toMatchSnapshot()
+    expect(calculateConfig(configMap, 'env', 'test')).toMatchSnapshot()
   })
 
   test('overrides whole array', () => {
@@ -30,7 +30,7 @@ describe('config', () => {
       'default-test': () => E.right({ a: { arr: [{ d: { e: 'foo' } }] } }),
     }
 
-    expect(mergeConfig(configMap, 'env', 'test')).toMatchSnapshot()
+    expect(calculateConfig(configMap, 'env', 'test')).toMatchSnapshot()
   })
 
   test('missing partial config does not fail', () => {
@@ -39,7 +39,7 @@ describe('config', () => {
       stage: () => E.right({ a: 2 }),
     }
 
-    expect(mergeConfig(configMap, '', '')).toMatchSnapshot()
+    expect(calculateConfig(configMap, '', '')).toMatchSnapshot()
   })
 
   test('failed default config fails merge', () => {
@@ -48,7 +48,7 @@ describe('config', () => {
       'default-test': () => E.right({ a: 2 }),
     }
 
-    expect(mergeConfig(configMap, 'default', 'test')).toMatchSnapshot()
+    expect(calculateConfig(configMap, 'default', 'test')).toMatchSnapshot()
   })
 
   test('failed partial config fails merge', () => {
@@ -57,7 +57,7 @@ describe('config', () => {
       'default-test': () => E.left({ code: 'VALIDATION_FAILED' }),
     }
 
-    expect(mergeConfig(configMap, 'default', 'test')).toMatchSnapshot()
+    expect(calculateConfig(configMap, 'default', 'test')).toMatchSnapshot()
   })
 
   describe('config hierarchy', () => {
@@ -96,7 +96,7 @@ describe('config', () => {
       ],
     ])('%s should take highest priority', (_, keys) => {
       expect(
-        mergeConfig(
+        calculateConfig(
           {
             default: fullConfigMap.default,
             ...filterObjectKeys(fullConfigMap, keys),

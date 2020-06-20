@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 
 import { getSystemLogger } from '@modules/logger'
-import { createKoaContext, createMockNext } from '@utils'
+import { createKoaContext, createMockNext } from '@modules/utils'
 
 import { validateResponseMiddleware } from './validateResponse'
 

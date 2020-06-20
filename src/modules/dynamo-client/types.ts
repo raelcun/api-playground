@@ -4,7 +4,7 @@ import { Response } from 'aws-sdk/lib/response'
 import { taskEither as TE } from 'fp-ts'
 
 import { Err } from '@modules/error/types'
-import { ChangeTypeOfKeys } from '@root/utils/types'
+import { ChangeTypeOfKeys } from '@modules/utils/types'
 
 export interface DynamoClient<T> {
   put: (

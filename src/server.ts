@@ -8,6 +8,7 @@ import { sign } from 'jsonwebtoken'
 import { createCertificate } from 'pem'
 
 import { getConfig } from '@config'
+import { getEmergencyLogger } from '@modules/emergencyLogger'
 import { getSystemLogger } from '@modules/logger'
 import { app } from '@root/app'
 
@@ -15,13 +16,13 @@ const { securePort, insecurePort, enableSSL } = getConfig().server
 
 const shutdown = (server: http.Server) => {
   server.close(() => {
-    getSystemLogger().fatal('server shutdown')
+    getSystemLogger().fatal({ payload: { message: 'server shutdown' } })
     process.exit(0)
   })
 }
 
 if (enableSSL === true) {
-  getSystemLogger().trace('generating ssl certificate')
+  getSystemLogger().trace({ payload: { message: 'generating ssl certificate' } })
   createCertificate(
     {
       selfSigned: true,
@@ -29,11 +30,13 @@ if (enableSSL === true) {
     },
     (err, keys) => {
       if (err) {
-        getSystemLogger().fatal('failed to create ssl cert', err)
+        getSystemLogger().fatal({
+          payload: { code: 'SSL_CERT_FAILED', message: 'failed to create ssl cert', meta: { err } },
+        })
         return
       }
 
-      getSystemLogger().trace('creating secure server')
+      getSystemLogger().trace({ payload: { message: 'creating secure server' } })
       const server = https.createServer(
         {
           cert: keys.certificate,
@@ -42,9 +45,14 @@ if (enableSSL === true) {
         app.callback(),
       )
 
-      getSystemLogger().trace('starting secure server')
+      getSystemLogger().trace({ payload: { message: 'starting secure server' } })
       server.listen(securePort, () => {
-        getSystemLogger().info(`server started at https://localhost:${securePort}`)
+        getSystemLogger().info({
+          payload: {
+            message: 'server started',
+            meta: { route: `https://localhost:${securePort}` },
+          },
+        })
       })
 
       process.on('SIGTERM', () => shutdown(server))
@@ -52,12 +60,14 @@ if (enableSSL === true) {
     },
   )
 } else {
-  getSystemLogger().trace('creating insecure server')
+  getSystemLogger().trace({ payload: { message: 'creating insecure server' } })
   const server = http.createServer(app.callback())
 
-  getSystemLogger().trace('starting insecure server')
+  getSystemLogger().trace({ payload: { message: 'starting insecure server' } })
   server.listen(insecurePort, () => {
-    getSystemLogger().info(`server started at http://localhost:${insecurePort}`)
+    getSystemLogger().info({
+      payload: { message: 'server started', meta: { route: `http://localhost:${insecurePort}` } },
+    })
   })
 
   process.on('SIGTERM', () => shutdown(server))
@@ -65,10 +75,10 @@ if (enableSSL === true) {
 }
 
 if (!getConfig().isProduction) {
-  getSystemLogger().info(
+  getEmergencyLogger().info(
     `admin token ${sign({ userId: 'raelcun', role: 'admin' }, getConfig().server.jwtSecret)}`,
   )
-  getSystemLogger().info(
+  getEmergencyLogger().info(
     `user token ${sign({ userId: 'raelcun', role: 'user' }, getConfig().server.jwtSecret)}`,
   )
 }

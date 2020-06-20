@@ -8,7 +8,7 @@ import {
   createErrorResponse,
   createResponseV,
   createSuccessResponse,
-} from '@modules/api-core/response'
+} from '@root/lib/api-core/response'
 import { createLimiter, rateLimitingMiddleware } from '@modules/rateLimiter'
 import { enforceWithAuthHeader } from '@modules/rbac'
 import { withValidatedBody } from '@modules/validateBody'

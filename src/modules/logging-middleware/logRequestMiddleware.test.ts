@@ -1,8 +1,8 @@
 import { Lazy } from 'fp-ts/lib/function'
 import { Next } from 'koa'
 
-import { Logger } from '@modules/logger/types'
-import { createKoaContext, createMockNext, installStaticClock } from '@root/utils'
+import { Logger } from '@modules/logger'
+import { createKoaContext, createMockNext, installStaticClock } from '@modules/utils'
 
 import { createMiddleware } from './logRequestMiddleware'
 
@@ -37,17 +37,6 @@ const createMockMiddleware = () => {
 
 describe('logRequestMiddleware', () => {
   const getClock = installStaticClock()
-
-  // let mockInfo: ReturnType<typeof jest.fn>
-  // let callMiddleware: (mockNext: Next) => Promise<void>
-
-  // beforeEach(async () => {
-  //   const mockLogger = createMockLogger()
-  //   mockInfo = mockLogger.info as ReturnType<typeof jest.fn>
-  //   const mockContext = createKoaContext({ url: 'MOCK_URL', method: 'GET' })
-
-  //   callMiddleware = mockNext => createMiddleware(() => mockLogger)(mockContext, mockNext)
-  // })
 
   test('log should match snapshot when next throws', async () => {
     const { callMiddleware, mockInfo, mockContext } = createMockMiddleware()

@@ -6,7 +6,7 @@ import { Middleware } from 'koa'
 import { getConfig } from '@config'
 import { ConfigProvider } from '@config/types'
 import { Err } from '@modules/error/types'
-import { createMiddlewareTE } from '@utils'
+import { createMiddlewareTE } from '@modules/utils'
 
 import { enforceRole, getEnforcer } from '../../enforcer'
 import { Actions, EnforceProvider } from '../../types'

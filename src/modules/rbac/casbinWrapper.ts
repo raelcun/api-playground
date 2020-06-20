@@ -3,7 +3,7 @@ import { array as A, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import { Err } from '@modules/error/types'
-import { createVoidTE } from '@utils'
+import { createVoidTE } from '@modules/utils'
 
 import { Actions, Enforce, Roles } from './types'
 

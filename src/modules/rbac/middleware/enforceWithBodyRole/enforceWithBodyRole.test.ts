@@ -1,7 +1,7 @@
 import { taskEither as TE } from 'fp-ts'
 import HttpStatus from 'http-status-codes'
 
-import { createKoaContext, createMockNext, testAuthorized, testUnauthorized } from '@utils'
+import { createKoaContext, createMockNext, testAuthorized, testUnauthorized } from '@modules/utils'
 
 import { Roles } from '../../types'
 import { enforceWithBodyRoleMiddleware } from './enforceWithBodyRole'

@@ -2,7 +2,7 @@ import { either as E } from 'fp-ts'
 import HttpStatus from 'http-status-codes'
 import { RateLimiterAbstract, RateLimiterRes } from 'rate-limiter-flexible'
 
-import { createKoaContext, installStaticClock } from '@utils'
+import { createKoaContext, installStaticClock } from '@modules/utils'
 
 import { createLimiter } from '.'
 import { createRateLimiter } from './limiter'

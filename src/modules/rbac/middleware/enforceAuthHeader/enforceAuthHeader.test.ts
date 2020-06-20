@@ -3,7 +3,7 @@ import { sign } from 'jsonwebtoken'
 
 import { getConfig } from '@config'
 import { EnforceProvider, Roles } from '@modules/rbac/types'
-import { createKoaContext, createMockNext, testAuthorized, testUnauthorized } from '@utils'
+import { createKoaContext, createMockNext, testAuthorized, testUnauthorized } from '@modules/utils'
 
 import { enforceWithAuthHeaderMiddleware } from './enforceAuthHeader'
 

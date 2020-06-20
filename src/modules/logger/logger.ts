@@ -1,20 +1,11 @@
 import pino from 'pino'
 
-import { getConfig } from '@config'
-import { FullConfig } from '@config/types'
+import { LoggingConfig } from './types'
 
-import { Logger } from './types'
-
-export const getLoggerInternal = (getLoggingConfig: () => FullConfig['logging']) => (
-  name: string,
-) => {
+export const createLogger = (getLoggingConfig: () => LoggingConfig) => (name: string) => {
   return pino({
     name,
     level: getLoggingConfig().level,
     prettyPrint: getLoggingConfig().prettyPrint,
   })
 }
-
-export const getLogger = getLoggerInternal(() => getConfig().logging)
-
-export const getSystemLogger = (): Logger => getLogger('system')

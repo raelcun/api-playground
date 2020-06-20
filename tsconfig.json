@@ -20,11 +20,12 @@
     "paths": {
       "@config": ["src/config"],
       "@config/*": ["src/config/*"],
+      "@lib/*": ["src/lib/*"],
       "@models/*": ["src/models/*"],
       "@modules/*": ["src/modules/*"],
       "@root/*": ["src/*"],
       "@services/*": ["src/services/*"],
-      "@utils": ["src/utils"]
+      "@utils": ["src/modules/utils"]
     }
   }
 }

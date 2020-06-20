@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import Router from 'koa-router'
 
-import { createResponseV, createSuccessResponse } from '@modules/api-core/response'
+import { createResponseV, createSuccessResponse } from '@root/lib/api-core/response'
 import { createLimiter, rateLimitingMiddleware } from '@modules/rateLimiter'
 import { enforceWithBodyRole } from '@modules/rbac'
 import { withValidatedBody } from '@modules/validateBody'
@@ -14,6 +14,7 @@ router.post(
   rateLimitingMiddleware(createLimiter('adminMessage'), ctx => ctx.ip),
   enforceWithBodyRole('adminMessage', ['post']),
   withValidatedBody(t.type({ message: t.string }))(async ctx => {
+    ctx.request.
     ctx.status = 200
     ctx.body = createSuccessResponse(ctx.request.body.message)
   }),

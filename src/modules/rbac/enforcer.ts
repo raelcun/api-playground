@@ -3,7 +3,7 @@ import { either as E, taskEither as TE } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import { Err } from '@modules/error/types'
-import { createVoidTE } from '@utils'
+import { createVoidTE } from '@modules/utils'
 
 import { addPoliciesToEnforcer, enforce, newEnforcer } from './casbinWrapper'
 import { Actions, Enforce, EnforceProvider, Roles } from './types'

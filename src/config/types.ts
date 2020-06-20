@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
-import { LevelWithSilent } from 'pino'
 
-import { DeepPartial } from '@root/utils/types'
+import { LoggingConfig } from '@modules/logger/types'
+import { DeepPartial, NonEmptyString } from '@modules/utils/types'
 
 export interface FullConfig {
   isProduction: boolean
@@ -12,10 +12,7 @@ export interface FullConfig {
     insecurePort: number
     enableSSL: boolean
   }
-  logging: {
-    prettyPrint: boolean
-    level: LevelWithSilent
-  }
+  logging: LoggingConfig
   aws: {
     region: string
     credentials: {
@@ -29,16 +26,10 @@ export type PartialConfig<T> = DeepPartial<T>
 
 export type ConfigProvider = () => FullConfig
 
-// export const envVarsV = t.type({
-//   NODE_ENV: NonEmptyString,
-//   JWT_SECRET: NonEmptyString,
-//   AWS_ACCESS_KEY_ID: NonEmptyString,
-//   AWS_SECRET_ACCESS_KEY: NonEmptyString,
-// })
 export const envVarsV = t.type({
-  NODE_ENV: t.string,
-  JWT_SECRET: t.string,
-  AWS_ACCESS_KEY_ID: t.string,
-  AWS_SECRET_ACCESS_KEY: t.string,
+  NODE_ENV: NonEmptyString,
+  JWT_SECRET: NonEmptyString,
+  AWS_ACCESS_KEY_ID: NonEmptyString,
+  AWS_SECRET_ACCESS_KEY: NonEmptyString,
 })
 export type EnvVars = t.TypeOf<typeof envVarsV>

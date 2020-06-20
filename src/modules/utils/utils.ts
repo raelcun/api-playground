@@ -33,7 +33,7 @@ export const mapErrorCode = <T extends string>(newErrorCode: T) =>
 
 export const logErrors = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
   E.mapLeft<L, L>(e => {
-    logger[method](e)
+    logger[method]({ payload: e })
     return e
   })
 

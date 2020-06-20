@@ -5,7 +5,7 @@ import { verify } from 'jsonwebtoken'
 
 import { ConfigProvider } from '@config/types'
 import { Err } from '@modules/error/types'
-import { decode } from '@utils'
+import { decode } from '@modules/utils'
 
 import { Token, tokenV } from '../types'
 

@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
 
-import { DateFromString } from '@utils'
+import { DateFromString } from '@modules/utils'
 
 export const ResourceIdV = t.string
 

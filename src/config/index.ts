@@ -2,7 +2,7 @@ import { either as E } from 'fp-ts'
 
 import { getEmergencyLogger } from '@modules/emergencyLogger'
 
-import { ConfigMap, mergeConfig } from './config'
+import { calculateConfig, ConfigMap } from './config'
 import getDefaultConfig from './configuration/default'
 import getDevelopmentConfig from './configuration/development'
 import getDevelopmentTestingConfig from './configuration/development-testing'
@@ -18,7 +18,7 @@ const loadConfig = () => {
     production: getProductionConfig,
   }
 
-  const mergeResult = mergeConfig(
+  const mergeResult = calculateConfig(
     configMap,
     process.env.NODE_ENV || '',
     process.env.NODE_APP_CONTEXT || '',

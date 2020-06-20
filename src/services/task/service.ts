@@ -19,7 +19,7 @@ const addTaskInternal = (taskClient: DynamoClient<Task>): TaskService['addTask']
 const removeTaskInternal = (
   taskClient: DynamoClient<Task>,
 ): TaskService['removeTask'] => taskId => {
-  getSystemLogger().debug('removing task ' + taskId)
+  getSystemLogger().debug({ payload: { message: 'removing task ' + taskId } })
   return pipe(
     taskClient.delete({
       TableName: 'tasks',

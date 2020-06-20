@@ -9,7 +9,7 @@ import { getConfig } from '@config'
 import { Err } from '@modules/error/types'
 import { getSystemLogger } from '@modules/logger'
 import { LoggerFactory } from '@modules/logger/types'
-import { decode, logErrors, mapErrorCode } from '@utils'
+import { decode, logErrors, mapErrorCode } from '@modules/utils'
 
 export const validateResponseInternal = (createLogger: LoggerFactory) => <T>(
   type: t.Type<T, unknown>,
