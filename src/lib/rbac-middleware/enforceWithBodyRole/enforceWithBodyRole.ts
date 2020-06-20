@@ -7,7 +7,7 @@ import { Middleware } from 'koa'
 import { validateBody } from '@lib/body-validator'
 import { Err } from '@lib/error'
 import { LoggerFactory } from '@lib/logger'
-import { Actions, EnforceProvider, enforceRole, getEnforcer, RolesV } from '@lib/rbac'
+import { Actions, EnforceProvider, enforceRole, RolesV } from '@lib/rbac'
 import { createMiddlewareTE } from '@lib/utils'
 
 const enforceWithBodyRoleInternal = (createLogger: LoggerFactory) => (
@@ -21,7 +21,7 @@ const enforceWithBodyRoleInternal = (createLogger: LoggerFactory) => (
     TE.chain(({ role }) => enforceRole(enforceFnProvider)(resource)(actions)(role)),
   )
 
-const enforceWithBodyRoleMiddleware = (createLogger: LoggerFactory) => (
+export const enforceWithBodyRoleMiddleware = (createLogger: LoggerFactory) => (
   enforceProvider: EnforceProvider,
 ) => <T extends keyof Actions, U extends Actions[T]>(resource: T, actions: U[]): Middleware =>
   createMiddlewareTE(ctx =>
@@ -34,6 +34,3 @@ const enforceWithBodyRoleMiddleware = (createLogger: LoggerFactory) => (
       }),
     ),
   )
-
-export const enforceWithBodyRole = (createLogger: LoggerFactory) =>
-  enforceWithBodyRoleMiddleware(getEnforcer)

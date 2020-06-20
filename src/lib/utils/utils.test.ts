@@ -3,6 +3,7 @@ import * as t from 'io-ts'
 
 import { Err } from '@lib/error'
 import { LogMethods } from '@lib/logger/types'
+import { createMockLogger } from '@lib/test-utils'
 import { createKoaContext, createMockNext } from '@modules/utils'
 import * as KoaMocks from '@shopify/jest-koa-mocks'
 
@@ -90,7 +91,7 @@ describe('logErrors', () => {
   test.each<LogMethods>(['trace', 'info', 'error'])(
     'should invoke %s method on logger with error',
     method => {
-      const logger = getSystemLogger()
+      const logger = createMockLogger()
       const spy = jest.spyOn(logger, method)
 
       logErrors(logger, method)(E.left({ code: 'foo' }))
@@ -101,11 +102,11 @@ describe('logErrors', () => {
 
   test('should pass error through', () => {
     const e = E.left({ code: 'foo' })
-    expect(logErrors(getSystemLogger())(e)).toEqual(e)
+    expect(logErrors(createMockLogger())(e)).toEqual(e)
   })
 
   test('should do nothing for E.right', () => {
-    const logger = getSystemLogger()
+    const logger = createMockLogger()
     const spy = jest.spyOn(logger, 'trace')
     logErrors(logger, 'trace')(E.right('foo'))
     expect(spy).not.toHaveBeenCalled()

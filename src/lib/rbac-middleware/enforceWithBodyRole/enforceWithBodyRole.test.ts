@@ -1,7 +1,8 @@
 import { taskEither as TE } from 'fp-ts'
 import HttpStatus from 'http-status-codes'
 
-import { createKoaContext, createMockNext, testAuthorized, testUnauthorized } from '@lib/utils'
+import { createMockLogger, testAuthorized, testUnauthorized } from '@lib/test-utils'
+import { createKoaContext, createMockNext } from '@modules/utils'
 
 import { Roles } from '../../rbac/types'
 import { enforceWithBodyRoleMiddleware } from './enforceWithBodyRole'
@@ -12,10 +13,10 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(true)))('task', ['add'])(
-        mockContext,
-        mockNext,
-      )
+      await enforceWithBodyRoleMiddleware(createMockLogger)(TE.right(() => TE.right(true)))(
+        'task',
+        ['add'],
+      )(mockContext, mockNext)
     })
 
     testAuthorized(mockContext, mockNext)
@@ -26,10 +27,10 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(false)))('task', ['add'])(
-        mockContext,
-        mockNext,
-      )
+      await enforceWithBodyRoleMiddleware(createMockLogger)(TE.right(() => TE.right(false)))(
+        'task',
+        ['add'],
+      )(mockContext, mockNext)
     })
 
     testUnauthorized(mockContext, mockNext)
@@ -40,7 +41,7 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(
+      await enforceWithBodyRoleMiddleware(createMockLogger)(
         TE.right(() => TE.left({ code: 'ENFORCER_FAILED' })),
       )('task', ['add'])(mockContext, mockNext)
     })
@@ -53,9 +54,9 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.left({ code: 'CANNOT_GET_ENFORCER' }))('task', [
-        'add',
-      ])(mockContext, mockNext)
+      await enforceWithBodyRoleMiddleware(createMockLogger)(
+        TE.left({ code: 'CANNOT_GET_ENFORCER' }),
+      )('task', ['add'])(mockContext, mockNext)
     })
 
     testUnauthorized(mockContext, mockNext)
@@ -66,10 +67,10 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await enforceWithBodyRoleMiddleware(TE.right(() => TE.right(true)))('task', ['add'])(
-        mockContext,
-        mockNext,
-      )
+      await enforceWithBodyRoleMiddleware(createMockLogger)(TE.right(() => TE.right(true)))(
+        'task',
+        ['add'],
+      )(mockContext, mockNext)
     })
 
     testUnauthorized(mockContext, mockNext)
@@ -79,7 +80,10 @@ describe('enforcerWithBodyRole middleware', () => {
     const mockEnforcer = TE.right(() => TE.right(false))
     const mockContext = createKoaContext({ requestBody: { foo: 'bar' } })
     const next = createMockNext()
-    await enforceWithBodyRoleMiddleware(mockEnforcer)('task', ['add'])(mockContext, next)
+    await enforceWithBodyRoleMiddleware(createMockLogger)(mockEnforcer)('task', ['add'])(
+      mockContext,
+      next,
+    )
 
     expect(mockContext.status).toEqual(HttpStatus.UNAUTHORIZED)
     expect(next).not.toHaveBeenCalled()

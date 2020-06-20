@@ -6,8 +6,6 @@ export const createMiddleware = (createLogger: LoggerFactory): Middleware => asy
   const startTime = new Date()
   const startNanos = process.hrtime.bigint()
 
-  createLogger().info(getMessageFromContext(ctx))
-
   let err: any = undefined
   try {
     await next()

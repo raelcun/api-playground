@@ -2,10 +2,10 @@ import * as t from 'io-ts'
 import Router from 'koa-router'
 
 import { createLimiter } from '@lib/rate-limiter'
-import { enforceWithBodyRole } from '@lib/rbac-middleware'
 import { createResponseV, createSuccessResponse } from '@modules/api-core'
 import { withValidatedBody } from '@modules/body-validator-middleware'
 import { rateLimitingMiddleware } from '@modules/rate-limiter-middleware'
+import { enforceWithBodyRole } from '@modules/rbac-middleware'
 import { validateResponse } from '@modules/response-validator-middleware'
 
 const router = new Router()

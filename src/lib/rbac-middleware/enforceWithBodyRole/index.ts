@@ -1,2 +1,2 @@
 export * from './types'
-export { enforceWithBodyRole } from './enforceWithBodyRole'
+export { enforceWithBodyRoleMiddleware } from './enforceWithBodyRole'

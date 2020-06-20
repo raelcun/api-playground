@@ -6,7 +6,7 @@ import { verify } from 'jsonwebtoken'
 import { Err } from '@lib/error'
 import { decode } from '@lib/utils'
 
-import { Token, tokenV } from '../enforceWithBodyRole/types'
+import { Token, tokenV } from '../enforceWithBodyRole'
 import { ConfigProvider } from './types'
 
 export const resolveAuthHeader = (headers: unknown): E.Either<Err, string> => {

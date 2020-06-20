@@ -8,7 +8,7 @@ import { TaskV } from '@models/task'
 import { createErrorResponse, createResponseV, createSuccessResponse } from '@modules/api-core'
 import { withValidatedBody } from '@modules/body-validator-middleware'
 import { rateLimitingMiddleware } from '@modules/rate-limiter-middleware'
-import { enforceWithAuthHeader } from '@modules/rbac'
+import { enforceWithAuthHeader } from '@modules/rbac-middleware'
 import { validateResponse } from '@modules/response-validator-middleware'
 import { createTaskService } from '@services/task'
 
