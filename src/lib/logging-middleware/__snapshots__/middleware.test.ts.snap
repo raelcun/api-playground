@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logRequestMiddleware log should match snapshot when next succeeds 1`] = `
+Object {
+  "request": Object {
+    "headers": Object {
+      "host": "test.com",
+    },
+    "method": "GET",
+    "url": "http://test.com/MOCK_URL",
+  },
+  "response": Object {
+    "body": undefined,
+    "headers": Object {},
+    "status": 200,
+  },
+  "timing": Object {
+    "duration": 1,
+    "end": "2000-01-01T00:00:00.002Z",
+    "start": "2000-01-01T00:00:00.001Z",
+    "type": "RESPONSE_TIMING",
+  },
+}
+`;
+
+exports[`logRequestMiddleware log should match snapshot when next throws 1`] = `
+Object {
+  "request": Object {
+    "headers": Object {
+      "host": "test.com",
+    },
+    "method": "GET",
+    "url": "http://test.com/MOCK_URL",
+  },
+  "response": Object {
+    "body": undefined,
+    "headers": Object {},
+    "status": 500,
+  },
+  "timing": Object {
+    "duration": 1,
+    "end": "2000-01-01T00:00:00.001Z",
+    "start": "2000-01-01T00:00:00.000Z",
+    "type": "RESPONSE_TIMING",
+  },
+}
+`;
