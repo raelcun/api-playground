@@ -2,6 +2,30 @@ Core:
   ✔ standardized response format @started(20-06-18 22:02) @done(20-06-19 02:21) @lasted(4h19m21s)
   ✔ standardized log builder @done(20-06-20 19:17)
     ✔ standardized log format @done(20-06-20 19:16)
+  Validate Core Libs:
+    Given the separation between libs and modules, validate the following
+    * libs are as simple and generic as possible
+    * proper dependencies are injected (like loggers)
+    * logging is sufficient
+    * tests fully validate libraries
+
+    Config:
+      [] rework config loading to validate config after loading from all sources (files, env vars, etc) so it doesn't fail when there aren't env vars
+    [] body validator
+    [] body validator middleware
+    [] dynamo-client
+    ✔ emergency-logger @done(20-06-20 20:40)
+    [] enforce-header-role-middleware
+    ✔ error @done(20-06-20 20:39)
+    [] http-client
+    ✔ logger @started(20-06-20 20:53) @done(20-06-20 21:34) @lasted(41m37s)
+    [] logging-middleware
+    [] rate-limiter
+    [] rbac
+    [] response-validator-middleware
+    [] test-utils
+    [] utils
+      
 
 Basic Task Management:
   Task Service:

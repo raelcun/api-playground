@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`log message factories getMessageFromContext should set message properties when options are defaulted 1`] = `
+Object {
+  "request": Object {
+    "headers": Object {
+      "foo": "bar",
+      "host": "test.com",
+    },
+    "method": "GET",
+    "url": "http://test.com/",
+  },
+  "response": Object {
+    "body": Object {
+      "fizz": "buzz",
+    },
+    "headers": Object {
+      "content-type": "application/json; charset=utf-8",
+      "fizz": "buzz",
+    },
+    "status": 200,
+  },
+}
+`;
+
+exports[`log message factories getMessageFromContext should set message properties when request and response is false 1`] = `Object {}`;
+
+exports[`log message factories getMessageFromContext should set message properties when request and response is true 1`] = `
+Object {
+  "request": Object {
+    "headers": Object {
+      "foo": "bar",
+      "host": "test.com",
+    },
+    "method": "GET",
+    "url": "http://test.com/",
+  },
+  "response": Object {
+    "body": Object {
+      "fizz": "buzz",
+    },
+    "headers": Object {
+      "content-type": "application/json; charset=utf-8",
+      "fizz": "buzz",
+    },
+    "status": 200,
+  },
+}
+`;
+
+exports[`log message factories getMessageFromContext should set message properties when request options is true 1`] = `
+Object {
+  "request": Object {
+    "headers": Object {
+      "foo": "bar",
+      "host": "test.com",
+    },
+    "method": "GET",
+    "url": "http://test.com/",
+  },
+}
+`;
+
+exports[`log message factories getMessageFromContext should set message properties when response options is true 1`] = `
+Object {
+  "response": Object {
+    "body": Object {
+      "fizz": "buzz",
+    },
+    "headers": Object {
+      "content-type": "application/json; charset=utf-8",
+      "fizz": "buzz",
+    },
+    "status": 200,
+  },
+}
+`;
