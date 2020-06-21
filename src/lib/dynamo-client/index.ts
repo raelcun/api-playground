@@ -1,2 +1,2 @@
 export * from './types'
-export { getDynamoClient } from './dynamo-client'
+export { createDynamoClient } from './dynamo-client'

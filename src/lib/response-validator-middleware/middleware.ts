@@ -6,10 +6,10 @@ import * as t from 'io-ts'
 import { Middleware } from 'koa'
 
 import { Err } from '@lib/error'
-import { LoggerFactory } from '@lib/logger'
+import { LoggerProvider } from '@lib/logger'
 import { decode, logErrorsE, mapErrorCode } from '@lib/utils'
 
-const validateResponseInternal = (createLogger: LoggerFactory) => <T>(type: t.Type<T, unknown>) => (
+const validateResponseInternal = (createLogger: LoggerProvider) => <T>(type: t.Type<T, unknown>) => (
   response: unknown,
 ): E.Either<Err<'RESPONSE_VALIDATION_ERROR'>, T> =>
   pipe(
@@ -19,7 +19,7 @@ const validateResponseInternal = (createLogger: LoggerFactory) => <T>(type: t.Ty
   )
 
 export const validateResponseMiddleware = (
-  createLogger: LoggerFactory,
+  createLogger: LoggerProvider,
   shouldError: Lazy<boolean>,
 ) => <T>(type: t.Type<T, unknown>): Middleware => async (ctx, next) => {
   pipe(

@@ -3,14 +3,10 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import t from 'io-ts'
 
 import { Err } from '@lib/error'
-import { LoggerFactory } from '@lib/logger'
-import { decode, logErrorsE, mapErrorCode } from '@lib/utils'
+import { logErrorsE, LoggerProvider } from '@lib/logger'
+import { decode, mapErrorCode } from '@lib/utils'
 
-export const validateBody = (createLogger: LoggerFactory) => <T>(type: t.Type<T, unknown>) => (
+export const validateBody = (getLogger: LoggerProvider) => <T>(type: t.Type<T, unknown>) => (
   body: unknown,
 ): E.Either<Err<'BODY_VALIDATION_ERROR'>, T> =>
-  pipe(
-    decode(type, body),
-    mapErrorCode('BODY_VALIDATION_ERROR' as const),
-    logErrorsE(createLogger()),
-  )
+  pipe(decode(type, body), logErrorsE(getLogger()), mapErrorCode('BODY_VALIDATION_ERROR' as const))

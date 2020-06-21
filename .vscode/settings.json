@@ -23,5 +23,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "editor.fontSize": 16
+  "editor.fontSize": 16,
+  "files.exclude": {
+    "**/node_modules": true
+  }
 }

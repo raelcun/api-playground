@@ -16,6 +16,7 @@
     "declaration": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "strictBindCallApply": true,
     "typeRoots": ["./node_modules/@types", "src/typings"],
     "paths": {
       "@lib/*": ["src/lib/*"],

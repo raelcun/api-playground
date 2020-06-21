@@ -22,10 +22,10 @@ describe('validateBody', () => {
 
     test('should log errors', () => {
       const logger = createMockLogger()
-      const traceLoggerSpy = jest.spyOn(logger, 'trace')
+      const logSpy = jest.spyOn(logger, 'log')
       validateBody(() => logger)(t.string)(5)
 
-      expect(traceLoggerSpy.mock.calls).toMatchSnapshot()
+      expect(logSpy.mock.calls).toMatchSnapshot()
     })
   })
 })

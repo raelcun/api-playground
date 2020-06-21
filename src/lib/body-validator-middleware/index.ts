@@ -1,1 +1,0 @@
-export { withValidatedBody } from './middleware'

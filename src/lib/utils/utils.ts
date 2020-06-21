@@ -5,8 +5,16 @@ import { reporter } from 'io-ts-reporters'
 import { Context, Middleware } from 'koa'
 
 import { Err } from '@lib/error'
-import { Logger, LogMethods } from '@lib/logger'
 
+export const tryCatchTE: typeof TE.tryCatch = (f, onRejected) =>
+  TE.tryCatch(() => {
+    try {
+      return f()
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }, onRejected)
+tryCatchTE.call
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
 export const filterObjectKeys = <T extends Record<string, unknown>, K extends keyof T>(
@@ -26,19 +34,8 @@ export const mapErrorCode = <T extends string>(newErrorCode: T) =>
   E.mapLeft((originalError: Err<string>) => ({
     ...originalError,
     code: newErrorCode,
+    subcode: originalError.code,
   }))
-
-export const logErrorsE = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
-  E.mapLeft<L, L>(e => {
-    logger[method]({ payload: e })
-    return e
-  })
-
-export const logErrorsTE = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
-  TE.mapLeft<L, L>(e => {
-    logger[method]({ payload: e })
-    return e
-  })
 
 export const decode = <T>(
   t: t.Type<T, unknown>,

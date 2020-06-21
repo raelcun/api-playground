@@ -18,6 +18,6 @@ export type ChangeTypeOfKeys<T, Keys extends keyof T, NewType> = {
   [key in keyof T]: key extends Keys ? NewType : T[key]
 }
 
-export type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never
-
-export type ReplaceReturnType<T, TNewReturn> = (...a: ArgumentTypes<T>) => TNewReturn
+export type ReplaceReturnType<T extends (...args: any) => any, TNewReturn> = (
+  ...a: Parameters<T>
+) => TNewReturn

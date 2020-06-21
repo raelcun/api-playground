@@ -5,7 +5,7 @@ import { Message } from './types'
 export const getMessageFromContext = (
   ctx: Context,
   options = { request: true, response: true },
-): Message => ({
+): Omit<Message, 'level'> => ({
   ...(options.request && {
     request: {
       url: ctx.url,

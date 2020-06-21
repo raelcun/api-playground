@@ -5,12 +5,10 @@ import { Logger } from '@lib/logger'
 import { install, InstalledClock } from '@sinonjs/fake-timers'
 
 export const createMockLogger = (): Logger => ({
-  info: jest.fn(),
-  fatal: jest.fn(),
-  trace: jest.fn(),
-  error: jest.fn(),
-  debug: jest.fn(),
-  warn: jest.fn(),
+  log: jest.fn(),
+  transform: jest.fn(),
+  defaultValues: jest.fn(),
+  pinValues: jest.fn(),
   child: jest.fn(),
 })
 

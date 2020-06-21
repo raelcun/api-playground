@@ -1,4 +1,22 @@
-import { withValidatedBody as innerMiddleware } from '@lib/body-validator-middleware'
-import { getSystemLogger } from '@modules/logger'
+import { either as E } from 'fp-ts'
+import HttpStatus from 'http-status-codes'
+import * as t from 'io-ts'
+import { Middleware as KoaMiddleware } from 'koa'
 
-export const withValidatedBody = innerMiddleware(getSystemLogger)
+import { validateBody } from '@lib/body-validator'
+import { LoggerProvider } from '@lib/logger'
+import { createErrorResponse, KoaContext, Middleware } from '@modules/api-core'
+
+export const withValidatedBody = (createLogger: LoggerProvider) => <T>(
+  type: t.Type<T, unknown>,
+) => (middleware: Middleware<T>): KoaMiddleware => async (ctx, next) => {
+  const result = validateBody(() => createLogger().child('BODY_VALIDATOR'))(type)(ctx.request.body)
+
+  if (E.isLeft(result)) {
+    ctx.status = HttpStatus.BAD_REQUEST
+    ctx.body = createErrorResponse(result.left)
+    return
+  }
+
+  await middleware(ctx as KoaContext<T>, next)
+}

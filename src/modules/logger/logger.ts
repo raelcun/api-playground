@@ -1,6 +1,4 @@
-import { createLogger, Logger } from '@lib/logger'
+import { createLogger as libCreateLogger, Logger } from '@lib/logger'
 import { getConfig } from '@modules/config'
 
-export const getLogger = createLogger(() => getConfig().logging)
-
-export const getSystemLogger = (): Logger => getLogger('system')
+export const createLogger = (): Logger => libCreateLogger(() => getConfig().logging)
