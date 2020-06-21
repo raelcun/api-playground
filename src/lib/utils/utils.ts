@@ -28,8 +28,14 @@ export const mapErrorCode = <T extends string>(newErrorCode: T) =>
     code: newErrorCode,
   }))
 
-export const logErrors = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
+export const logErrorsE = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
   E.mapLeft<L, L>(e => {
+    logger[method]({ payload: e })
+    return e
+  })
+
+export const logErrorsTE = <L extends Err<string>>(logger: Logger, method: LogMethods = 'trace') =>
+  TE.mapLeft<L, L>(e => {
     logger[method]({ payload: e })
     return e
   })

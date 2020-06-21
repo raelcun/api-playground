@@ -7,7 +7,7 @@ import { Middleware } from 'koa'
 
 import { Err } from '@lib/error'
 import { LoggerFactory } from '@lib/logger'
-import { decode, logErrors, mapErrorCode } from '@lib/utils'
+import { decode, logErrorsE, mapErrorCode } from '@lib/utils'
 
 const validateResponseInternal = (createLogger: LoggerFactory) => <T>(type: t.Type<T, unknown>) => (
   response: unknown,
@@ -15,7 +15,7 @@ const validateResponseInternal = (createLogger: LoggerFactory) => <T>(type: t.Ty
   pipe(
     decode(type, response),
     mapErrorCode('RESPONSE_VALIDATION_ERROR'),
-    logErrors(createLogger(), 'warn'),
+    logErrorsE(createLogger(), 'warn'),
   )
 
 export const validateResponseMiddleware = (

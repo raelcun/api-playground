@@ -12,7 +12,7 @@ import {
   createMiddlewareTE,
   DateFromString,
   decode,
-  logErrors,
+  logErrorsE,
   mapErrorCode,
 } from './utils'
 
@@ -94,7 +94,7 @@ describe('logErrors', () => {
       const logger = createMockLogger()
       const spy = jest.spyOn(logger, method)
 
-      logErrors(logger, method)(E.left({ code: 'foo' }))
+      logErrorsE(logger, method)(E.left({ code: 'foo' }))
 
       expect(spy.mock.calls).toMatchSnapshot()
     },
@@ -102,13 +102,13 @@ describe('logErrors', () => {
 
   test('should pass error through', () => {
     const e = E.left({ code: 'foo' })
-    expect(logErrors(createMockLogger())(e)).toEqual(e)
+    expect(logErrorsE(createMockLogger())(e)).toEqual(e)
   })
 
   test('should do nothing for E.right', () => {
     const logger = createMockLogger()
     const spy = jest.spyOn(logger, 'trace')
-    logErrors(logger, 'trace')(E.right('foo'))
+    logErrorsE(logger, 'trace')(E.right('foo'))
     expect(spy).not.toHaveBeenCalled()
   })
 })

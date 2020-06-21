@@ -34,7 +34,9 @@ exports[`logErrors should invoke error method on logger with error 1`] = `
 Array [
   Array [
     Object {
-      "code": "foo",
+      "payload": Object {
+        "code": "foo",
+      },
     },
   ],
 ]
@@ -44,7 +46,9 @@ exports[`logErrors should invoke info method on logger with error 1`] = `
 Array [
   Array [
     Object {
-      "code": "foo",
+      "payload": Object {
+        "code": "foo",
+      },
     },
   ],
 ]
@@ -54,7 +58,9 @@ exports[`logErrors should invoke trace method on logger with error 1`] = `
 Array [
   Array [
     Object {
-      "code": "foo",
+      "payload": Object {
+        "code": "foo",
+      },
     },
   ],
 ]

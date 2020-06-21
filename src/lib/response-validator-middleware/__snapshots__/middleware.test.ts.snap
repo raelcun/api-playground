@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validate-response should log error when validation fails and shouldThrow is false 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "code": "RESPONSE_VALIDATION_ERROR",
+        "message": "Expecting number but instead got: \\"foo\\"",
+      },
+    },
+  ],
+]
+`;
+
+exports[`validate-response should log error when validation fails and shouldThrow is true 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "code": "RESPONSE_VALIDATION_ERROR",
+        "message": "Expecting number but instead got: \\"foo\\"",
+      },
+    },
+  ],
+]
+`;

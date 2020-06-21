@@ -6,7 +6,6 @@ import { verify } from 'jsonwebtoken'
 import { Err } from '@lib/error'
 import { decode } from '@lib/utils'
 
-import { Token, tokenV } from '../enforceWithBodyRole'
 import { ConfigProvider } from './types'
 
 export const resolveAuthHeader = (headers: unknown): E.Either<Err, string> => {
@@ -34,9 +33,10 @@ export const resolveAuthHeader = (headers: unknown): E.Either<Err, string> => {
   )
 }
 
-export const verifyAndParseToken = (configProvider: ConfigProvider) => (
-  token: string,
-): E.Either<Err, Token> =>
+export const verifyAndParseToken = <T>(
+  configProvider: ConfigProvider,
+  tokenV: t.Type<T, unknown>,
+) => (token: string): E.Either<Err, T> =>
   pipe(
     E.tryCatch(
       () => verify(token, configProvider().jwtSecret),

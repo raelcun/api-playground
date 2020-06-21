@@ -1,6 +1,7 @@
 import HttpStatus from 'http-status-codes'
 import request from 'supertest'
 
+import { createValidAdminTokenHeader, createValidUserTokenHeader } from '@modules/test-utils'
 import { app } from '@root/app'
 
 const createResponseMatcher = (extra: Record<string, unknown> = {}) => ({
@@ -13,8 +14,8 @@ describe('adminMessage', () => {
   test('should return body when authorized', async () => {
     await request(app.callback())
       .post('/v1/adminMessage')
+      .set('Authorization', createValidAdminTokenHeader())
       .send({
-        role: 'admin',
         message: 'foobar',
       })
       .expect(HttpStatus.OK)
@@ -24,8 +25,8 @@ describe('adminMessage', () => {
   test('should reject unauthorized request ', async () => {
     await request(app.callback())
       .post('/v1/adminMessage')
+      .set('Authorization', createValidUserTokenHeader())
       .send({
-        role: 'user',
         message: 'foobar',
       })
       .expect(HttpStatus.UNAUTHORIZED, 'Unauthorized')
@@ -34,7 +35,7 @@ describe('adminMessage', () => {
   test('should validate post body', async () => {
     await request(app.callback())
       .post('/v1/adminMessage')
-      .send({ role: 'admin' })
+      .set('Authorization', createValidAdminTokenHeader())
       .expect(HttpStatus.BAD_REQUEST)
       .expect(res => expect(res.body).toMatchSnapshot(createResponseMatcher()))
   })

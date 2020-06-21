@@ -4,7 +4,7 @@ import t from 'io-ts'
 
 import { Err } from '@lib/error'
 import { LoggerFactory } from '@lib/logger'
-import { decode, logErrors, mapErrorCode } from '@lib/utils'
+import { decode, logErrorsE, mapErrorCode } from '@lib/utils'
 
 export const validateBody = (createLogger: LoggerFactory) => <T>(type: t.Type<T, unknown>) => (
   body: unknown,
@@ -12,5 +12,5 @@ export const validateBody = (createLogger: LoggerFactory) => <T>(type: t.Type<T,
   pipe(
     decode(type, body),
     mapErrorCode('BODY_VALIDATION_ERROR' as const),
-    logErrors(createLogger()),
+    logErrorsE(createLogger()),
   )

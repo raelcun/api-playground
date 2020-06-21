@@ -1,7 +1,8 @@
 import { taskEither as TE } from 'fp-ts'
+import * as t from 'io-ts'
 import { sign } from 'jsonwebtoken'
 
-import { EnforceProvider, Roles } from '@lib/rbac'
+import { EnforceProvider, Roles, RolesV } from '@lib/rbac'
 import { testAuthorized, testUnauthorized } from '@lib/test-utils'
 import { createKoaContext, createMockNext } from '@modules/utils'
 
@@ -16,16 +17,23 @@ const createMockContextAndNext = (authHeader: string) => ({
   mockNext: createMockNext(),
 })
 
+const tokenV = t.type({
+  userId: t.string,
+  role: RolesV,
+})
+type Token = t.TypeOf<typeof tokenV>
+const getRoleFromToken = (token: Token) => token.role
+
 const createExpiredTokenHeader = () =>
-  `Bearer ${sign({ userId: 'foo', role: Roles.User }, getConfig().jwtSecret, {
+  `Bearer ${sign(<Token>{ userId: 'foo', role: Roles.User }, getConfig().jwtSecret, {
     notBefore: '1 day',
   })}`
 
 const createInvalidTokenSchemaHeader = () =>
-  `Bearer ${sign({ userId: 'foo' }, getConfig().jwtSecret)}`
+  `Bearer ${sign(<Token>{ userId: 'foo' }, getConfig().jwtSecret)}`
 
 const createValidTokenHeader = () =>
-  `Bearer ${sign({ userId: 'foo', role: Roles.User }, getConfig().jwtSecret)}`
+  `Bearer ${sign(<Token>{ userId: 'foo', role: Roles.User }, getConfig().jwtSecret)}`
 
 const createEnforceProviderThatReturnsAuthorized = () => TE.right(() => TE.right(true))
 const createEnforceProviderThatReturnsUnauthorized = () => TE.right(() => TE.right(false))
@@ -44,10 +52,12 @@ describe('enforceWithAuthHeader middleware', () => {
     const { mockNext, mockContext } = createMockContextAndNext(token)
 
     beforeAll(async () => {
-      await createEnforceWithAuthHeaderMiddleware(enforceProvider)(getConfig)('task', ['add'])(
-        mockContext,
-        mockNext,
-      )
+      await createEnforceWithAuthHeaderMiddleware(
+        enforceProvider,
+        getConfig,
+        tokenV,
+        getRoleFromToken,
+      )('task', ['add'])(mockContext, mockNext)
     })
 
     testAuthorized(mockContext, mockNext)
@@ -70,10 +80,12 @@ describe('enforceWithAuthHeader middleware', () => {
     const { mockNext, mockContext } = createMockContextAndNext(token)
 
     beforeAll(async () => {
-      await createEnforceWithAuthHeaderMiddleware(enforceProvider)(getConfig)('task', ['add'])(
-        mockContext,
-        mockNext,
-      )
+      await createEnforceWithAuthHeaderMiddleware(
+        enforceProvider,
+        getConfig,
+        tokenV,
+        getRoleFromToken,
+      )('task', ['add'])(mockContext, mockNext)
     })
 
     testUnauthorized(mockContext, mockNext)
@@ -93,8 +105,11 @@ describe('enforceWithAuthHeader middleware', () => {
     const mockNext = createMockNext()
 
     beforeAll(async () => {
-      await createEnforceWithAuthHeaderMiddleware(createEnforceProviderThatReturnsAuthorized())(
+      await createEnforceWithAuthHeaderMiddleware(
+        createEnforceProviderThatReturnsAuthorized(),
         getConfig,
+        tokenV,
+        getRoleFromToken,
       )('task', ['add'])(mockContext, mockNext)
     })
 
