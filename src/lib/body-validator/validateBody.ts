@@ -9,4 +9,8 @@ import { decode, mapErrorCode } from '@lib/utils'
 export const validateBody = (getLogger: LoggerProvider) => <T>(type: t.Type<T, unknown>) => (
   body: unknown,
 ): E.Either<Err<'BODY_VALIDATION_ERROR'>, T> =>
-  pipe(decode(type, body), logErrorsE(getLogger()), mapErrorCode('BODY_VALIDATION_ERROR' as const))
+  pipe(
+    decode(type, body),
+    logErrorsE(getLogger(), 'error'),
+    mapErrorCode('BODY_VALIDATION_ERROR' as const),
+  )

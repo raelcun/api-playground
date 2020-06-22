@@ -8,7 +8,7 @@ const JWT_SECRET = getConfig().server.jwtSecret
 
 export const createExpiredTokenHeader = () =>
   `Bearer ${sign(<Token>{ userId: 'foo', role: Roles.User }, JWT_SECRET, {
-    notBefore: '1 day',
+    expiresIn: '-10s',
   })}`
 
 export const createInvalidTokenSchemaHeader = () => `Bearer ${sign({ userId: 'foo' }, JWT_SECRET)}`

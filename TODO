@@ -7,18 +7,6 @@ Core:
         [] ensure dependencies are injected
         [] ensure sufficient logging
         [] ensure full test suite
-    Enforce Header Role Middleware:
-      Basic Validation:
-        [] ensure generic usage
-        [] ensure dependencies are injected
-        [] ensure sufficient logging
-        [] ensure full test suite
-    Http Client:
-      Basic Validation:
-        [] ensure generic usage
-        [] ensure dependencies are injected
-        [] ensure sufficient logging
-        [] ensure full test suite
     Logging Middleware:
       Basic Validation:
         [] ensure generic usage
@@ -66,6 +54,14 @@ Basic Task Management:
     [] get task route
     [] get all tasks route
 Archive:
+  ✔ ensure generic usage @done(20-06-21 23:39) @project(Core.Libs.Http Client.Basic Validation)
+  ✔ ensure dependencies are injected @done(20-06-21 23:39) @project(Core.Libs.Http Client.Basic Validation)
+  ✔ ensure sufficient logging @done(20-06-21 23:39) @project(Core.Libs.Http Client.Basic Validation)
+  ✔ ensure full test suite @done(20-06-21 23:39) @project(Core.Libs.Http Client.Basic Validation)
+  ✔ ensure generic usage @done(20-06-21 23:09) @project(Core.Libs.Enforce Header Role Middleware.Basic Validation)
+  ✔ ensure dependencies are injected @done(20-06-21 23:09) @project(Core.Libs.Enforce Header Role Middleware.Basic Validation)
+  ✔ ensure sufficient logging @done(20-06-21 23:09) @project(Core.Libs.Enforce Header Role Middleware.Basic Validation)
+  ✔ ensure full test suite @done(20-06-21 23:09) @project(Core.Libs.Enforce Header Role Middleware.Basic Validation)
   ✔ ensure generic usage @started(20-06-21 15:13) @done(20-06-21 15:14) @lasted(1m31s) @project(Core.Libs.Dynamo Client.Basic Validation)
   ✔ ensure dependencies are injected @done(20-06-21 15:14) @project(Core.Libs.Dynamo Client.Basic Validation)
   ✔ ensure full test suite @done(20-06-21 19:44) @project(Core.Libs.Dynamo Client.Basic Validation)

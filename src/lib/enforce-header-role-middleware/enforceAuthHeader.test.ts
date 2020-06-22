@@ -1,9 +1,11 @@
 import { taskEither as TE } from 'fp-ts'
+import HttpStatus from 'http-status-codes'
 import * as t from 'io-ts'
 import { sign } from 'jsonwebtoken'
+import { Context } from 'koa'
 
 import { EnforceProvider, Roles, RolesV } from '@lib/rbac'
-import { testAuthorized, testUnauthorized } from '@lib/test-utils'
+import { createMockLogger } from '@lib/test-utils'
 import { createKoaContext, createMockNext } from '@modules/utils'
 
 import { createEnforceWithAuthHeaderMiddleware } from './enforceAuthHeader'
@@ -17,23 +19,23 @@ const createMockContextAndNext = (authHeader: string) => ({
   mockNext: createMockNext(),
 })
 
-const tokenV = t.type({
+const mockTokenV = t.type({
   userId: t.string,
   role: RolesV,
 })
-type Token = t.TypeOf<typeof tokenV>
-const getRoleFromToken = (token: Token) => token.role
+type MockToken = t.TypeOf<typeof mockTokenV>
+const getRoleFromToken = (token: MockToken) => token.role
 
 const createExpiredTokenHeader = () =>
-  `Bearer ${sign(<Token>{ userId: 'foo', role: Roles.User }, getConfig().jwtSecret, {
-    notBefore: '1 day',
+  `Bearer ${sign(<MockToken>{ userId: 'foo', role: Roles.User }, getConfig().jwtSecret, {
+    expiresIn: '-10s',
   })}`
 
 const createInvalidTokenSchemaHeader = () =>
-  `Bearer ${sign(<Token>{ userId: 'foo' }, getConfig().jwtSecret)}`
+  `Bearer ${sign(<MockToken>{ userId: 'foo' }, getConfig().jwtSecret)}`
 
 const createValidTokenHeader = () =>
-  `Bearer ${sign(<Token>{ userId: 'foo', role: Roles.User }, getConfig().jwtSecret)}`
+  `Bearer ${sign(<MockToken>{ userId: 'foo', role: Roles.User }, getConfig().jwtSecret)}`
 
 const createEnforceProviderThatReturnsAuthorized = () => TE.right(() => TE.right(true))
 const createEnforceProviderThatReturnsUnauthorized = () => TE.right(() => TE.right(false))
@@ -50,23 +52,37 @@ describe('enforceWithAuthHeader middleware', () => {
     ],
   ])('%s', (_, token, enforceProvider) => {
     const { mockNext, mockContext } = createMockContextAndNext(token)
+    let logSpy: jest.SpyInstance
 
     beforeAll(async () => {
+      const logger = createMockLogger()
+      logSpy = jest.spyOn(logger, 'log')
       await createEnforceWithAuthHeaderMiddleware(
         enforceProvider,
         getConfig,
-        tokenV,
+        () => logger,
+        mockTokenV,
         getRoleFromToken,
       )('task', ['add'])(mockContext, mockNext)
     })
 
-    testAuthorized(mockContext, mockNext)
+    test('should not set status to 401', () => {
+      expect(mockContext.status).not.toEqual(HttpStatus.UNAUTHORIZED)
+    })
+
+    test('should invoke next once', () => {
+      expect(mockNext).toHaveBeenCalledTimes(1)
+    })
+
+    test('should log error', () => {
+      expect(logSpy.mock.calls).toMatchSnapshot()
+    })
   })
 
   describe.each<[string, string, EnforceProvider]>([
     [
       'when enforcer returns unauthorized and token is valid',
-      createInvalidTokenSchemaHeader(),
+      createValidTokenHeader(),
       createEnforceProviderThatReturnsUnauthorized(),
     ],
     [
@@ -78,17 +94,31 @@ describe('enforceWithAuthHeader middleware', () => {
     ['when cannot get enforcer', createValidTokenHeader(), createEnforceProviderThatFails()],
   ])('%s', (_, token, enforceProvider) => {
     const { mockNext, mockContext } = createMockContextAndNext(token)
+    let logSpy: jest.SpyInstance
 
     beforeAll(async () => {
+      const logger = createMockLogger()
+      logSpy = jest.spyOn(logger, 'log')
       await createEnforceWithAuthHeaderMiddleware(
         enforceProvider,
         getConfig,
-        tokenV,
+        () => logger,
+        mockTokenV,
         getRoleFromToken,
       )('task', ['add'])(mockContext, mockNext)
     })
 
-    testUnauthorized(mockContext, mockNext)
+    test('should set status to 401', () => {
+      expect(mockContext.status).toEqual(HttpStatus.UNAUTHORIZED)
+    })
+
+    test('should not invoke next', () => {
+      expect(mockNext).not.toHaveBeenCalled()
+    })
+
+    test('should log error', () => {
+      expect(logSpy.mock.calls).toMatchSnapshot()
+    })
   })
 
   describe.each<[string, string]>([
@@ -103,16 +133,30 @@ describe('enforceWithAuthHeader middleware', () => {
       headers: { authorization: authHeader },
     })
     const mockNext = createMockNext()
+    let logSpy: jest.SpyInstance
 
     beforeAll(async () => {
+      const logger = createMockLogger()
+      logSpy = jest.spyOn(logger, 'log')
       await createEnforceWithAuthHeaderMiddleware(
         createEnforceProviderThatReturnsAuthorized(),
         getConfig,
-        tokenV,
+        () => logger,
+        mockTokenV,
         getRoleFromToken,
       )('task', ['add'])(mockContext, mockNext)
     })
 
-    testUnauthorized(mockContext, mockNext)
+    test('should set status to 401', () => {
+      expect(mockContext.status).toEqual(HttpStatus.UNAUTHORIZED)
+    })
+
+    test('should not invoke next', () => {
+      expect(mockNext).not.toHaveBeenCalled()
+    })
+
+    test('should log error', () => {
+      expect(logSpy.mock.calls).toMatchSnapshot()
+    })
   })
 })

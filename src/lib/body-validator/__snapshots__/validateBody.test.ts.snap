@@ -11,7 +11,7 @@ exports[`validateBody when validation is unsuccessful should log errors 1`] = `
 Array [
   Array [
     Object {
-      "level": "trace",
+      "level": "error",
       "payload": Object {
         "code": "VALIDATION_ERROR",
         "message": "Expecting string but instead got: 5",

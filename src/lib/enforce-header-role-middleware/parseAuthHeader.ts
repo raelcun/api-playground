@@ -40,7 +40,7 @@ export const verifyAndParseToken = <T>(
   pipe(
     E.tryCatch(
       () => verify(token, configProvider().jwtSecret),
-      () => ({ code: 'INVALID_TOKEN', message: 'failed to decode token' }),
+      (e: Err) => ({ code: 'INVALID_TOKEN', message: e.message }),
     ),
     E.chain(tokenPayload =>
       pipe(

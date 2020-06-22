@@ -14,7 +14,7 @@ export const tryCatchTE: typeof TE.tryCatch = (f, onRejected) =>
       return Promise.reject(err)
     }
   }, onRejected)
-tryCatchTE.call
+
 export const createVoidTE = <L>() => TE.rightTask<L, void>(async () => {})
 
 export const filterObjectKeys = <T extends Record<string, unknown>, K extends keyof T>(

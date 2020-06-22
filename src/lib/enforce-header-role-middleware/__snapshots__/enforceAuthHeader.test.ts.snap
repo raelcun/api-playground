@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enforceWithAuthHeader middleware when cannot get enforcer should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "CANNOT_GET_ENFORCER",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer fails should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "ENFORCER_FAILED",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns authorized and header has an invalid token format should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "INVALID_TOKEN",
+        "message": "jwt malformed",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns authorized and header has too many parts should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "INVALID_AUTH_HEADER",
+        "message": "requires two parts",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns authorized and header is missing should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "INVALID_AUTH_HEADER",
+        "message": "invalid auth header format",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns authorized and not using Bearer protocol should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "INVALID_AUTH_HEADER",
+        "message": "first part must be \\"Bearer\\"",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns authorized and token is expired should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "INVALID_TOKEN",
+        "message": "jwt expired",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns authorized and token is valid should log error 1`] = `Array []`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns authorized and token schema is invalid should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "INVALID_TOKEN",
+        "message": "token payload format invalid",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns unauthorized and token is valid should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "ROLE_REJECTED",
+      },
+    },
+  ],
+]
+`;
+
+exports[`enforceWithAuthHeader middleware when enforcer returns unauthorized and token schema is invalid should log error 1`] = `
+Array [
+  Array [
+    Object {
+      "level": "error",
+      "payload": Object {
+        "code": "INVALID_TOKEN",
+        "message": "token payload format invalid",
+      },
+    },
+  ],
+]
+`;
