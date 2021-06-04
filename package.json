@@ -41,7 +41,7 @@
     "koa-helmet": "^5.2.0",
     "koa-router": "^9.0.1",
     "pem": "^1.14.4",
-    "pino": "^6.3.2",
+    "pino": "^6.11.3",
     "rate-limiter-flexible": "^2.1.7",
     "stack-trace": "^0.0.10",
     "uuid": "^8.1.0"
