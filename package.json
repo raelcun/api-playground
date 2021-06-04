@@ -26,7 +26,7 @@
     "test:coverage": "yarn test -- --collect-coverage"
   },
   "dependencies": {
-    "aws-sdk": "^2.699.0",
+    "aws-sdk": "^2.906.0",
     "axios": "^0.19.2",
     "callsites": "^3.1.0",
     "casbin": "^5.0.4",

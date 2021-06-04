@@ -1366,10 +1366,10 @@ await-lock@^2.0.1:
   resolved "https://registry.yarnpkg.com/await-lock/-/await-lock-2.0.1.tgz#b3f65fdf66e08f7538260f79b46c15bcfc18cadd"
   integrity sha512-ntLi9fzlMT/vWjC1wwVI11/cSRJ3nTS35qVekNc9WnaoMOP2eWH0RvIqwLQkDjX4a4YynsKEv+Ere2VONp9wxg==
 
-aws-sdk@^2.699.0:
-  version "2.699.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.699.0.tgz#e77b6ffa4c860882e2779c060b74fab33d42f554"
-  integrity sha512-EC431z/+i/cJgOgnDpOJ8Fa6+p7Oo1vIvdm/uJqP9tJX3+pxi/M/tvQavfz4yAlLBFqjQwxa8nrPisby0Mr5MQ==
+aws-sdk@^2.906.0:
+  version "2.921.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.921.0.tgz#37bb60630d5ae17e0c61c0052078a766b372fcea"
+  integrity sha512-Xi6MGx0oZByTzKN4WP15RjKejyf/mIxXU0Do8L1wf/Oz5USirjzLXFBPVEt25A43nOQVwXagZ2Ayt81ItcbTXg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
