@@ -39,7 +39,7 @@
     "koa": "^2.12.1",
     "koa-bodyparser": "^4.3.0",
     "koa-helmet": "^5.2.0",
-    "koa-router": "^9.0.1",
+    "koa-router": "^11.0.2",
     "pem": "^1.14.4",
     "pino": "^6.3.2",
     "rate-limiter-flexible": "^2.1.7",
