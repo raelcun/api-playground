@@ -1,4 +1,4 @@
-FROM alpine:3.11 AS BASE
+FROM alpine:3.21.2 AS BASE
 RUN apk --no-cache --update add nodejs yarn openssl
 WORKDIR /app
 
